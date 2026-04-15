@@ -1,9 +1,9 @@
 import React from 'react';
 
 interface ButtonProps {
-    variant?: 'primary' | 'danger' | 'success'; 
-    onClick?: () => void;
-    children: React.ReactNode; 
+  variant?: 'primary' | 'danger' | 'success';
+  onClick?: () => void;
+  children: React.ReactNode;
 }
 
 export const Button = ({ children, variant = 'primary', onClick }: ButtonProps) => {
@@ -14,7 +14,7 @@ export const Button = ({ children, variant = 'primary', onClick }: ButtonProps) 
   };
 
   return (
-    <button 
+    <button
       onClick={onClick}
       className={`px-4 py-2 rounded shadow-md transition-colors ${styles[variant]}`}
     >
