@@ -13,18 +13,19 @@ type Props = {
 function CartList({ carrito }: Props) {
   return (
     <div>
-      <h2>Lista del carrito</h2>
-
       {carrito.length === 0 ? (
         <p>El carrito está vacío</p>
       ) : (
-        <ul>
+        <div className="flex flex-col gap-4 flex-wrap">
           {carrito.map((producto) => (
-            <CartItem key={producto.id} producto={producto} />
+            <CartItem
+              key={producto.id}
+              nombre={producto.nombre}
+              precio={producto.precio}
+            />
           ))}
-        </ul>
+        </div>
       )}
-
     </div>
   );
 }
