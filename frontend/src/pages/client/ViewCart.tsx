@@ -1,7 +1,10 @@
+import { useNavigate } from "react-router-dom";
 import  CartList  from "../../cart/CartList";
 import { Button } from "../../components/Button";
 
 export const ViewCart = () => {
+  const navigate=useNavigate()
+
   return (
     <div className="flex flex-col items-center gap-10 mt-10">
       <CartList
@@ -25,7 +28,7 @@ export const ViewCart = () => {
       />
 
       <div className="mt-6 flex flex-col gap-5">
-        <Button>Añadir Producto</Button>
+        <Button onClick={()=>{navigate("/scan")}}>Añadir Producto</Button>
         <Button>Pagar</Button>
       </div>
     </div>
