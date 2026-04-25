@@ -1,15 +1,8 @@
-import Button from "../../components/Button";
+import {Button} from "../../components/Button";
 
 const ViewHome = () => {
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "100vh",
-      }}
-    >
+    <div className="flex justify-center items-center h-full">
       <Button>
         Añadir producto
       </Button>
