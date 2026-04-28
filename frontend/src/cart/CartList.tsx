@@ -12,11 +12,12 @@ type Props = {
 
 function CartList({ carrito }: Props) {
   return (
-    <div>
+    <div className="flex flex-col h-[80vh]">
+      
       {carrito.length === 0 ? (
         <p>El carrito está vacío</p>
       ) : (
-        <div className="flex flex-col gap-4 flex-wrap">
+        <div className="flex-1 overflow-y-auto flex flex-col gap-3 pb-10">
           {carrito.map((producto) => (
             <CartItem
               key={producto.id}
@@ -26,6 +27,11 @@ function CartList({ carrito }: Props) {
           ))}
         </div>
       )}
+
+      <p className="border-b border-t border-black/30 p-2 pl-8 shadow-lg">
+        total:
+      </p>
+
     </div>
   );
 }

@@ -6,7 +6,7 @@ export const ViewCart = () => {
   const navigate=useNavigate()
 
   return (
-    <div className="flex flex-col items-center gap-10 mt-10">
+    <div className="flex flex-col items-center">
       <CartList
         carrito={[
           {
@@ -24,12 +24,32 @@ export const ViewCart = () => {
             nombre: "Papas Lays",
             precio: 1100,
           },
-        ]}
-      />
+          {
+            id: 3,
+            nombre: "Papas Lays",
+            precio: 1100,
+          },
+          {
+            id: 3,
+            nombre: "Papas Lays",
+            precio: 1100,
+          },
+          {
+            id: 3,
+            nombre: "Papas Lays",
+            precio: 1100,
+          },
+          {
+            id: 3,
+            nombre: "Papas Lays",
+            precio: 1100,
+          },
+          
+        ]}/>
 
-      <div className="mt-6 flex flex-col gap-5">
-        <Button onClick={()=>{navigate("/scan")}}>Añadir Producto</Button>
-        <Button>Pagar</Button>
+      <div className="flex flex-col gap-3 mt-5">
+        <Button variant="secundario" onClick={()=>{navigate("/scan")}}>Añadir Producto</Button>
+        <Button >Pagar</Button>
       </div>
     </div>
   );
