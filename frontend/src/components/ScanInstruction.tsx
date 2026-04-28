@@ -6,14 +6,14 @@ export const ScanInstruction = () => {
 
   return (
     <div onClick={()=>{navigate("/product")}} 
-    className="flex flex-col items-center justify-center p-8 bg-gray-50 dark:bg-slate-900 rounded-2xl shadow-lg max-w-sm mx-auto border border-gray-200 dark:border-slate-800">
+    className="flex flex-col items-center justify-center p-8 rounded-2xl shadow-xl max-w-sm mx-auto border border-gray-200 bg-white">
       
       {/* Cuadro del Scanner */}
-      <div className="relative w-56 h-56 bg-white dark:bg-slate-800 rounded-xl flex items-center justify-center overflow-hidden border-2 border-dashed border-gray-300 dark:border-slate-600">
+      <div className="relative w-56 h-56 bg-orange-300 rounded-xl flex items-center justify-center overflow-hidden border-2 border-dashed border-black/20 ">
         
         {/* Simulación codigo de Barrras */}
         <svg 
-          className="w-40 h-40 text-gray-800 dark:text-gray-200" 
+          className="w-40 h-40 text-orange-500" 
           fill="currentColor" 
           viewBox="0 0 100 50"
         >
@@ -31,33 +31,20 @@ export const ScanInstruction = () => {
         </svg>
 
         {/* Laser con animación */}
-        <div 
-          className="absolute left-0 w-full h-1.5 bg-red-500 shadow-[0_0_12px_rgba(239,68,68,0.9)]"
-          style={{ animation: 'scan 2.5s ease-in-out infinite' }}
-        ></div>
+        <div className="absolute left-0 w-full h-1.5 bg-red-500 shadow-[0_0_12px_rgba(239,68,68,0.9)]"></div>
         
         {/* Bordes del scanner en cada esquina*/}
-        <div className="absolute top-2 left-2 w-6 h-6 border-t-4 border-l-4 border-gray-400 dark:border-slate-500 rounded-tl-lg"></div>
-        <div className="absolute top-2 right-2 w-6 h-6 border-t-4 border-r-4 border-gray-400 dark:border-slate-500 rounded-tr-lg"></div>
-        <div className="absolute bottom-2 left-2 w-6 h-6 border-b-4 border-l-4 border-gray-400 dark:border-slate-500 rounded-bl-lg"></div>
-        <div className="absolute bottom-2 right-2 w-6 h-6 border-b-4 border-r-4 border-gray-400 dark:border-slate-500 rounded-br-lg"></div>
+        <div className="absolute top-2 left-2 w-6 h-6 border-t-4 border-l-4 border-orange-500 rounded-tl-lg"></div>
+        <div className="absolute top-2 right-2 w-6 h-6 border-t-4 border-r-4 border-orange-500 rounded-tr-lg"></div>
+        <div className="absolute bottom-2 left-2 w-6 h-6 border-b-4 border-l-4 border-orange-500 rounded-bl-lg"></div>
+        <div className="absolute bottom-2 right-2 w-6 h-6 border-b-4 border-r-4 border-orange-500 rounded-br-lg"></div>
       </div>
 
-      {/* Estilos de animación embebidos para no tocar el tailwind.config */}
-      <style>{`
-        @keyframes scan {
-          0%, 100% { top: 10%; opacity: 0; }
-          10%, 90% { opacity: 1; }
-          50% { top: 90%; }
-        }
-      `}</style>
-
-
-      <h3 className="mt-6 text-xl font-bold text-gray-800 dark:text-gray-100">
+      <h3 className="mt-6 text-xl font-bold text-orange-500">
         Escaneá el producto
       </h3>
-      <p className="mt-2 text-sm text-center text-gray-500 dark:text-gray-400">
-        Centrá el código de barras dentro del recuadro para leerlo correctamente.
+      <p className="mt-2 text-sm text-center text-gray-500">
+        Centrá el código de barra con la linea roja.
       </p>
     </div>
   );

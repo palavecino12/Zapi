@@ -1,5 +1,6 @@
 import React from 'react';
 
+
 interface ButtonProps {
   variant?: 'primario' | 'secundario';
   onClick?: () => void;
@@ -10,14 +11,14 @@ export const Button = ({children, variant = 'primario', onClick,}: ButtonProps) 
 
   const styles = {
     primario:
-      "text-white bg-gradient-to-r from-orange-400 to-orange-600",
+      "text-white bg-gradient-to-r from-orange-400 to-orange-500",
     secundario:
-      "text-white bg-gradient-to-r from-red-500 to-red-700 active:bg-gray-200",
+      "text-orange-500 border border-orange-500",
   };
 
   return (
     <button onClick={onClick}
-      className={`relative max-w-sm mx-auto px-12 py-3 text-lg font-bold rounded-2xl shadow-lg transition-all duration-150
+      className={`h-12 w-70 relative text-lg font-bold rounded-xl shadow-lg transition-all duration-150
         transform active:scale-95 ${styles[variant]}`}>
     {children}
     </button>

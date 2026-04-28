@@ -5,12 +5,15 @@ type ProductDetailsProps = {
 
 const ProductDetails = ({ nombre, precio }: ProductDetailsProps) => {
   return (
-    <div className="border rounded-xl p-4 w-52 text-center shadow-md">
-      <h2 className="text-lg font-semibold mb-2">{nombre}</h2>
-      <p className="text-white font-bold text-xl bg-orange-500">
-        ${precio.toLocaleString()}
-      </p>
+    <div className="p-6 bg-orange-200 rounded-2xl">
+      <div className="border-2 border-dashed border-orange-600 rounded-xl p-10 text-center shadow-xl">
+        <h2 className="text-xl font-semibold mb-2">{nombre}</h2>
+        <p className="text-orange-500 font-semibold text-4xl">
+          ${precio.toLocaleString()}
+        </p>
+      </div>
     </div>
+
   );
 };
 

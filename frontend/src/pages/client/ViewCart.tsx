@@ -1,12 +1,17 @@
 import { useNavigate } from "react-router-dom";
 import  CartList  from "../../cart/CartList";
 import { Button } from "../../components/Button";
+import { Plus } from 'lucide-react';
+import Header from "../../components/Header";
 
 export const ViewCart = () => {
   const navigate=useNavigate()
 
   return (
     <div className="flex flex-col items-center">
+
+      <Header title="Mi Carrito"/>
+      
       <CartList
         carrito={[
           {
@@ -48,7 +53,7 @@ export const ViewCart = () => {
         ]}/>
 
       <div className="flex flex-col gap-3 mt-5">
-        <Button variant="secundario" onClick={()=>{navigate("/scan")}}>Añadir Producto</Button>
+        <Button variant="secundario" onClick={()=>{navigate("/scan")}}><div className="flex justify-center gap-2"><Plus />Añadir Producto</div></Button>
         <Button >Pagar</Button>
       </div>
     </div>

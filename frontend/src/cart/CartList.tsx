@@ -12,7 +12,7 @@ type Props = {
 
 function CartList({ carrito }: Props) {
   return (
-    <div className="flex flex-col h-[80vh]">
+    <div className="flex flex-col h-[75vh]">
       
       {carrito.length === 0 ? (
         <p>El carrito está vacío</p>

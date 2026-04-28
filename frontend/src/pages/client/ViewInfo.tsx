@@ -6,17 +6,16 @@ const ViewInfo = () => {
   const navigate=useNavigate()
 
   return (
-  <div className="flex flex-col items-center mt-20 gap-6">
+  <div className="flex flex-col items-center mt-50 gap-6">
 
     {/* Card */}
-    <ProductDetails nombre="Oreo" precio={1000} />
+    <ProductDetails nombre="galletas Oreo" precio={1000} />
 
     {/* Botones */}
-    <div className="flex gap-1 mt-50">
-
-        <Button onClick={()=>{navigate("/")}} variant="secundario">Cancelar</Button>
+    <div className="flex flex-col gap-3 mt-50">
 
         <Button onClick={()=>{navigate("/cart")}} variant="primario">Añadir</Button>
+        <Button onClick={()=>{navigate("/")}} variant="secundario">Cancelar</Button>
 
     </div>
 
