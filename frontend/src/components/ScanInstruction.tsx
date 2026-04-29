@@ -13,7 +13,7 @@ export const ScanInstruction = () => {
         
         {/* Simulación codigo de Barrras */}
         <svg 
-          className="w-40 h-40 text-orange-500" 
+          className="w-40 h-40 text-black" 
           fill="currentColor" 
           viewBox="0 0 100 50"
         >
@@ -34,16 +34,16 @@ export const ScanInstruction = () => {
         <div className="absolute left-0 w-full h-1.5 bg-red-500 shadow-[0_0_12px_rgba(239,68,68,0.9)]"></div>
         
         {/* Bordes del scanner en cada esquina*/}
-        <div className="absolute top-2 left-2 w-6 h-6 border-t-4 border-l-4 border-orange-500 rounded-tl-lg"></div>
-        <div className="absolute top-2 right-2 w-6 h-6 border-t-4 border-r-4 border-orange-500 rounded-tr-lg"></div>
-        <div className="absolute bottom-2 left-2 w-6 h-6 border-b-4 border-l-4 border-orange-500 rounded-bl-lg"></div>
-        <div className="absolute bottom-2 right-2 w-6 h-6 border-b-4 border-r-4 border-orange-500 rounded-br-lg"></div>
+        <div className="absolute top-2 left-2 w-6 h-6 border-t-4 border-l-4 border-black/50 rounded-tl-lg"></div>
+        <div className="absolute top-2 right-2 w-6 h-6 border-t-4 border-r-4 border-black/50 rounded-tr-lg"></div>
+        <div className="absolute bottom-2 left-2 w-6 h-6 border-b-4 border-l-4 border-black/50 rounded-bl-lg"></div>
+        <div className="absolute bottom-2 right-2 w-6 h-6 border-b-4 border-r-4 border-black/50 rounded-br-lg"></div>
       </div>
 
       <h3 className="mt-6 text-xl font-bold text-orange-500">
         Escaneá el producto
       </h3>
-      <p className="mt-2 text-sm text-center text-gray-500">
+      <p className="mt-2 text-sm text-center text-black">
         Centrá el código de barra con la linea roja.
       </p>
     </div>
