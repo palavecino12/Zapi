@@ -6,6 +6,7 @@ import Header from "../../components/Header";
 import type { Product } from "../../types/product.types";
 
 export const ViewCart = () => {
+  
   const navigate = useNavigate()
 
   //Funcion para consumir el endpoint para pagar

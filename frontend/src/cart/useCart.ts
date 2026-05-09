@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { deleteProductByCode, getProductByCode } from "../services/api.service"
+import { deleteProductByCode } from "../services/api.service"
 import type { Product } from "../types/product.types"
 
 export const useCart = () => {
@@ -9,12 +9,9 @@ export const useCart = () => {
     const [loading, setLoading] = useState<boolean>(false)
 
     //Funcion para añadir producto
-    const addItem = async (code: string) => {
+    const addItem = async (product:Product) => {
         try {
             setError(null)
-            setLoading(true)
-
-            const product = await getProductByCode(code) //esto se tendria que usar en la camara, no aca
 
             //Añadimos el producto al carrito
             setItems((prevItems) => [...prevItems, product]);
