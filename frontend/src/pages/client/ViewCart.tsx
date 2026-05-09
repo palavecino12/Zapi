@@ -3,7 +3,7 @@ import CartList from "../../cart/CartList";
 import { Button } from "../../components/Button";
 import { Plus } from 'lucide-react';
 import Header from "../../components/Header";
-import type { Producto } from "../../types/product.types";
+import type { Product } from "../../types/product.types";
 
 export const ViewCart = () => {
   const navigate = useNavigate()
@@ -20,39 +20,55 @@ export const ViewCart = () => {
   };
 
   //Variable de simulacion hasta que se complete el back
-  const carrito: Producto[] = [
+  const carrito: Product[] = [
     {
       id: 1,
-      nombre: "Coca Cola 500ml",
-      precio: 1200,
+      code: "779089500001",
+      name: "Coca Cola 500ml",
+      price: 1200,
+      stock: 1,
+      createdAt: "2026-05-09T00:00:00.000Z",
     },
     {
       id: 2,
-      nombre: "Galletas Oreo",
-      precio: 950,
+      code: "779089500002",
+      name: "Galletas Oreo",
+      price: 950,
+      stock: 1,
+      createdAt: "2026-05-09T00:00:00.000Z",
     },
     {
       id: 3,
-      nombre: "Papas Lays",
-      precio: 1100,
+      code: "779089500003",
+      name: "Papas Lays",
+      price: 1100,
+      stock: 1,
+      createdAt: "2026-05-09T00:00:00.000Z",
     },
     {
       id: 4,
-      nombre: "Papas Lays",
-      precio: 1100,
+      code: "779089500004",
+      name: "Papas Lays",
+      price: 1100,
+      stock: 1,
+      createdAt: "2026-05-09T00:00:00.000Z",
     },
     {
       id: 5,
-      nombre: "Papas Lays",
-      precio: 1100,
+      code: "779089500005",
+      name: "Papas Lays",
+      price: 1100,
+      stock: 1,
+      createdAt: "2026-05-09T00:00:00.000Z",
     },
     {
       id: 6,
-      nombre: "Papas Lays",
-      precio: 1100,
+      code: "779089500006",
+      name: "Papas Lays",
+      price: 1100,
+      stock: 1,
+      createdAt: "2026-05-09T00:00:00.000Z",
     },
-
-
   ]
 
   return (
@@ -66,7 +82,7 @@ export const ViewCart = () => {
       <div className="flex flex-col gap-3 mt-5">
         <Button variant="secundario" onClick={() => { navigate("/scan") }}><div className="flex justify-center gap-2"><Plus />Añadir Producto</div></Button>
         {carrito.length !== 0 &&
-        <Button onClick={pagar}>Pagar</Button>
+          <Button onClick={pagar}>Pagar</Button>
         }
       </div>
     </div>

@@ -2,9 +2,10 @@
 
 import {Request,Response} from "express";
 import {getProductByCodeService,deleteProductService} from "./service";
+import { Product } from "@prisma/client";
 
 //GET /products/:code
-export const getProductByCodeController = async (req: Request, res: Response) => {
+export const getProductByCodeController = async (req: Request, res: Response):Promise<Response> => {
 
     try {
         const { code } = req.params;
@@ -32,7 +33,7 @@ export const getProductByCodeController = async (req: Request, res: Response) =>
 };
 
 //DELETE /products/:code
-export const deleteProductController = async (req: Request,res: Response) => {
+export const deleteProductController = async (req: Request,res: Response):Promise<Response>  => {
     try {
         
         const { code } = req.params;

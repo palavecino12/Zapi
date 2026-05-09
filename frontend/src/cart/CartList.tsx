@@ -1,15 +1,15 @@
 import CartItem from "./CartItem";
 import { ShoppingCart } from "lucide-react";
-import type { Producto } from "../types/product.types";
+import type { Product } from "../types/product.types";
 
 type Props = {
-  carrito: Producto[];
+  carrito: Product[];
 };
 
 function CartList({ carrito }: Props) {
 
   const total = carrito.reduce(
-    (acumulador, producto) => acumulador + producto.precio,0
+    (acumulador, producto) => acumulador + producto.price,0
   );
 
   return (
@@ -25,8 +25,8 @@ function CartList({ carrito }: Props) {
             {carrito.map((producto) => (
               <CartItem
                 key={producto.id}
-                nombre={producto.nombre}
-                precio={producto.precio}
+                nombre={producto.name}
+                precio={producto.price}
               />
             ))}
           </div>
