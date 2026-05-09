@@ -22,3 +22,6 @@ npm-debug.log*
 # Archivos temporales
 *.tmp
 *.swp
+/src/generated/prisma
+
+/src/generated/prisma
