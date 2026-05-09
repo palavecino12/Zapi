@@ -1,4 +1,4 @@
-//En este archivo validamos reglas, orquestamos el repository, aplicamos logica de negocio y decidimos que devolver
+//En este archivo solo creamos la logica de negocio, vemos si existe o no el producto y lanzamos los errores
 
 import { deleteProduct, findProductByCode } from "./repository"
 import { Product } from "@prisma/client";//type del producto
@@ -23,5 +23,5 @@ export const deleteProductService = async (code: string): Promise<Product> => {
         throw new Error("El producto no existe")
     }
 
-    return await deleteProduct(code)
+    return await deleteProduct(code)//retorna el producto eliminado
 };
