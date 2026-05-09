@@ -31,7 +31,7 @@ export const startScanner = async (
           onResult(result.getText())
         }
 
-        // ignoramos errores normales de escaneo
+        //ignoramos errores normales de escaneo
         if (err) return
       }
     )

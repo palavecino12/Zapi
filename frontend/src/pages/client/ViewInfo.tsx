@@ -1,15 +1,20 @@
 import ProductDetails from "./components/ProductDetails";
 import { Button } from "../../components/Button";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import type { Product } from "../../types/product.types";
 
 const ViewInfo = () => {
   const navigate=useNavigate()
+
+  const location = useLocation();
+
+    const product = location.state?.product as Product;
 
   return (
   <div className="flex flex-col items-center mt-50 gap-6">
 
     {/* Card */}
-    <ProductDetails nombre="galletas Oreo" precio={1000} />
+    <ProductDetails nombre={product.name} precio={product.price} />
 
     {/* Botones */}
     <div className="flex flex-col gap-3 mt-50">
