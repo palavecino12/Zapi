@@ -1,3 +1,4 @@
+//Controlador encargado de crear una preferencia de pagoy devolver la URL de checkout de Mercado Pago al frontend
 import { Request, Response } from "express";
 import { createPaymentPreference } from "./service";
 
