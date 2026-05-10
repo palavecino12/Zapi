@@ -35,7 +35,7 @@ export const CameraView = () => {
 
                 {/* Línea de escaneo (horizontal) */}
                 <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-[90%] h-[2px] bg-red-500 opacity-80" />
+                    <div className="w-[90%] h-[2px] bg-violet-600 opacity-80" />
                 </div>
             </div>
         </div>

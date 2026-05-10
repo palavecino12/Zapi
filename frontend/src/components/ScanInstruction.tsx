@@ -9,7 +9,7 @@ export const ScanInstruction = () => {
     className="flex flex-col items-center justify-center p-8 rounded-2xl shadow-xl max-w-sm mx-auto border border-gray-200 bg-white">
       
       {/* Cuadro del Scanner */}
-      <div className="relative w-56 h-56 bg-orange-300 rounded-xl flex items-center justify-center overflow-hidden border-2 border-dashed border-black/20 ">
+      <div className="relative w-56 h-56 bg-white rounded-xl flex items-center justify-center overflow-hidden border-2 border-dashed border-black/20 ">
         
         {/* Simulación codigo de Barrras */}
         <svg 
@@ -31,7 +31,7 @@ export const ScanInstruction = () => {
         </svg>
 
         {/* Laser con animación */}
-        <div className="absolute left-0 w-full h-1.5 bg-red-500 shadow-[0_0_12px_rgba(239,68,68,0.9)]"></div>
+        <div className="absolute left-0 w-full h-1.5 bg-violet-600 shadow-[0_0_12px_rgba(239,68,68,0.9)]"></div>
         
         {/* Bordes del scanner en cada esquina*/}
         <div className="absolute top-2 left-2 w-6 h-6 border-t-4 border-l-4 border-black/50 rounded-tl-lg"></div>
@@ -40,7 +40,7 @@ export const ScanInstruction = () => {
         <div className="absolute bottom-2 right-2 w-6 h-6 border-b-4 border-r-4 border-black/50 rounded-br-lg"></div>
       </div>
 
-      <h3 className="mt-6 text-xl font-bold text-orange-500">
+      <h3 className="mt-6 text-xl font-bold text-black">
         Escaneá el producto
       </h3>
       <p className="mt-2 text-sm text-center text-black">
