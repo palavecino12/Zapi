@@ -1,6 +1,11 @@
 import { CheckCircle } from "lucide-react";
 
-const Success = () => {
+interface SuccessProps{
+    text?: string
+    onClick?: ()=> void 
+}
+
+const Success = ({text="Todo salio correctamente", onClick}:SuccessProps) => {
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-green-500 text-white p-6">
 
@@ -11,10 +16,10 @@ const Success = () => {
       </h1>
 
       <p className="mt-2 text-center">
-        Todo salió correctamente.
+        {text}
       </p>
 
-      <button className="mt-6 bg-white text-green-500 px-4 py-2 rounded-lg font-semibold">
+      <button onClick={onClick} className="mt-6 bg-white text-green-500 px-4 py-2 rounded-lg font-semibold">
         Continuar
       </button>
 

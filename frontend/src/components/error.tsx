@@ -1,6 +1,11 @@
 import { XCircle } from "lucide-react";
 
-const Error = () => {
+interface ErrorProps{
+    text?: string
+    onClick?: ()=> void 
+}
+
+const Error = ({text="Algo salio mal, intente de nuevo", onClick}:ErrorProps) => {
     return (
     <div className="flex flex-col items-center justify-center h-screen bg-red-500 text-white p-6">
 
@@ -11,10 +16,10 @@ const Error = () => {
         </h1>
 
         <p className="mt-2 text-center">
-        Algo salió mal. Intentá nuevamente.
+        {text}
         </p>
 
-        <button className="mt-6 bg-white text-red-500 px-4 py-2 rounded-lg font-semibold">
+        <button onClick={onClick} className="mt-6 bg-white text-red-500 px-4 py-2 rounded-lg font-semibold">
         Reintentar
         </button>
 
