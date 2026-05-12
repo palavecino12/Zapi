@@ -2,11 +2,13 @@ import ProductDetails from "./components/ProductDetails";
 import { Button } from "../../components/Button";
 import { useLocation, useNavigate } from "react-router-dom";
 import type { Product } from "../../types/product.types";
+import { useCart } from "../../cart/useCart";
 
 const ViewInfo = () => {
 
   const navigate = useNavigate()
   const location = useLocation();
+  const { addItem } = useCart();
 
   const product = location.state?.product as Product;
 
@@ -20,7 +22,7 @@ const ViewInfo = () => {
       {/* Botones */}
       <div className="flex flex-col gap-3 mt-50">
 
-        <Button onClick={() => { navigate("/cart") }} variant="primario">Añadir</Button>
+        <Button onClick={() => { navigate("/cart"); addItem(product)}} variant="primario">Añadir</Button>
         <Button onClick={() => { navigate("/") }} variant="secundario">Cancelar</Button>
 
       </div>

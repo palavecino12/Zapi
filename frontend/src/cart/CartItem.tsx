@@ -1,26 +1,14 @@
-import { useState } from "react";
 import { Trash2 } from 'lucide-react';
+import { useCart } from "./useCart";
+import type { CartItemType } from "../types/product.types";
 
 type CartItemProps = {
-  nombre: string;
-  precio: number;
+  product: CartItemType
 };
 
-const Cartitem = ({ nombre, precio }: CartItemProps) => {
+const Cartitem = ({ product }: CartItemProps) => {
 
-  const [contador, setContador] = useState(1);
-
-  function aumentarCant(): void {
-    setContador(prev => prev + 1);
-  }
-
-  function disminuirCant(): void {
-    if (1 >= contador) {
-      setContador(1);
-    } else {
-      setContador(prev => prev - 1);
-    }
-  }
+  const { removeItem, updateQuantity } = useCart()
 
   return (
     <div className="w-screen px-2">
@@ -31,11 +19,12 @@ const Cartitem = ({ nombre, precio }: CartItemProps) => {
         <div className="bg-gray-100 p-2 flex items-center justify-between">
 
           <h2 className="text-orange-500 text-2xl font-semibold ml-4">
-            {nombre}
+            {product.name}
           </h2>
 
           {/* boton para eliminar producto */}
-          <button className="h-10 w-10 mr-2 flex items-center justify-center bg-linear-to-r from-orange-500 to-orange-700 border 
+          <button onClick={() => removeItem(product.id)}
+            className="h-10 w-10 mr-2 flex items-center justify-center bg-linear-to-r from-orange-500 to-orange-700 border 
                   border-black/10 rounded-lg shadow-xl active:scale-95 active:shadow-none">
             <Trash2 color="white" />
           </button>
@@ -46,7 +35,7 @@ const Cartitem = ({ nombre, precio }: CartItemProps) => {
         <div className="bg-gray-100 p-2 flex items-center justify-between">
 
           <p className="text-black/70 text-xl font-bold ml-4">
-            Precio: ${precio.toLocaleString()}
+            Precio: ${(product.price * product.quantity).toLocaleString()}
           </p>
 
           {/* Controles */}
@@ -54,15 +43,15 @@ const Cartitem = ({ nombre, precio }: CartItemProps) => {
 
             <div className="flex items-center gap-3 mr-2">
               <button
-                onClick={disminuirCant}
+                onClick={()=>updateQuantity(product.id,"decrement")}
                 className="text-orange-500 h-10 w-10 flex items-center justify-center text-xl font-bold border 
                   border-orange-500 rounded-lg  shadow-lg active:scale-95 active:shadow-none">-
               </button>
 
-              <p className="text-black text-lg">{contador}</p>
+              <p className="text-black text-lg">{product.quantity}</p>
 
               <button
-                onClick={aumentarCant}
+                onClick={()=>updateQuantity(product.id,"increment")}
                 className="h-10 w-10 flex items-center justify-center text-xl font-bold bg-linear-to-r from-orange-400 to-orange-600 border 
                   text-white border-black/10 rounded-lg shadow-lg active:scale-95 active:shadow-none">+
               </button>
