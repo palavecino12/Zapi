@@ -13,16 +13,16 @@ function App() {
             duration: 800,
             once: true,
         });
-  }, []);
+    }, []);
 
 
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<ViewCart/>}/>
-                <Route path="/scan" element={<ViewScan/>}/>
-                <Route path="/product" element={<ViewInfo/>}/>
-                <Route path="/cart" element={<ViewCart/>}/>
+                <Route path="/" element={<ViewCart />} />
+                <Route path="/scan" element={<ViewScan />} />
+                <Route path="/product" element={<ViewInfo />} />
+                <Route path="/cart" element={<ViewCart />} />
             </Routes>
         </BrowserRouter>
     )
