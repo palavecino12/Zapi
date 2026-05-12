@@ -7,20 +7,21 @@ interface ButtonProps {
   children: React.ReactNode;
 }
 
-export const Button = ({children, variant = 'primario', onClick,}: ButtonProps) => {
+export const Button = ({
+  children,
+  variant = 'primario',
+  onClick,
+}: ButtonProps) => {
 
   const styles = {
-    primario:
-      "text-white bg-gradient-to-r from-orange-400 to-orange-500",
-    secundario:
-      "text-orange-500 border border-orange-500",
-  };
-
+    primario:` text-white bg-violet-600 hover:bg-violet-700 active:bg-violet-800`,
+    secundario:`text-violet-600 border border-violet-600 bg-white hover:bg-violet-50 active:bg-violet-100`,};
   return (
-    <button onClick={onClick}
-      className={`h-12 w-70 relative text-lg font-bold rounded-xl shadow-lg transition-all duration-150
-        transform active:scale-95 ${styles[variant]}`}>
-    {children}
+
+    <button
+      onClick={onClick} className={`h-12 w-70 relative text-lg font-bold rounded-xl shadow-lg transition-all duration-150 active:scale-95 active:shadow-md hover:scale-[1.02] ${styles[variant]}`}>
+        {children}
     </button>
+
   );
 };
