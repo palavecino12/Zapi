@@ -1,7 +1,19 @@
-import { CameraView } from './scanner/CameraView'
+import { BrowserRouter, Route, Routes } from "react-router-dom"
+import { ViewScan } from "./pages/client/ViewScan"
+import ViewInfo from "./pages/client/ViewInfo"
+import { ViewCart } from "./pages/client/ViewCart"
 
 function App() {
-  return <CameraView/>
+    return (
+        <BrowserRouter>
+            <Routes>
+                <Route path="/" element={<ViewCart/>}/>
+                <Route path="/scan" element={<ViewScan/>}/>
+                <Route path="/product" element={<ViewInfo/>}/>
+                <Route path="/cart" element={<ViewCart/>}/>
+            </Routes>
+        </BrowserRouter>
+    )
 }
 
 export default App
