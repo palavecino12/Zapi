@@ -25,10 +25,10 @@ const Cartitem = ({ nombre, precio }: CartItemProps) => {
   return (
     <div className="w-screen px-2">
 
-      <div className="rounded-2xl overflow-hidden shadow-2xl border border-black/20 w-full">
+      <div className="rounded-2xl overflow-hidden shadow-2xl border border-slate-200 w-full">
 
         {/* Parte superior */}
-        <div className="bg-gray-100 p-2 flex items-center justify-between">
+        <div className="bg-slate-800 p-2 flex items-center justify-between">
 
           <h2 className="text-orange-500 text-2xl font-semibold ml-4">
             {nombre}
@@ -43,9 +43,9 @@ const Cartitem = ({ nombre, precio }: CartItemProps) => {
         </div>
 
         {/* Parte inferior */}
-        <div className="bg-gray-100 p-2 flex items-center justify-between">
+        <div className="bg-slate-800 p-2 flex items-center justify-between">
 
-          <p className="text-black/70 text-xl font-bold ml-4">
+          <p className="text-slate-200 text-xl font-bold ml-4">
             Precio: ${precio.toLocaleString()}
           </p>
 
@@ -59,7 +59,7 @@ const Cartitem = ({ nombre, precio }: CartItemProps) => {
                   border-orange-500 rounded-lg  shadow-lg active:scale-95 active:shadow-none">-
               </button>
 
-              <p className="text-black text-lg">{contador}</p>
+              <p className="text-slate-200 text-lg">{contador}</p>
 
               <button
                 onClick={aumentarCant}

@@ -11,7 +11,7 @@ export const Button = ({children, variant = 'primario', onClick,}: ButtonProps) 
 
   const styles = {
     primario:
-      "text-white bg-gradient-to-r from-orange-400 to-orange-500",
+      "text-white bg-gradient-to-r from-orange-500 to-orange-600",
     secundario:
       "text-orange-500 border border-orange-500",
   };
