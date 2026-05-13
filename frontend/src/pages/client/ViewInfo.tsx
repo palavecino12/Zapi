@@ -1,7 +1,7 @@
 import ProductDetails from "./components/ProductDetails";
 import { Button } from "../../components/Button";
 import { useLocation, useNavigate } from "react-router-dom";
-import type { Product } from "../../types/product.types";
+import type { CartItemType} from "../../types/product.types";
 import { useCart } from "../../cart/useCart";
 
 const ViewInfo = () => {
@@ -10,8 +10,7 @@ const ViewInfo = () => {
   const location = useLocation();
   const { addItem } = useCart();
 
-  const product = location.state?.product as Product;
-
+  const product = location.state?.product as CartItemType;
 
   return (
     <div className="flex flex-col items-center mt-50 gap-6">

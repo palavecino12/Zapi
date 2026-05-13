@@ -1,5 +1,4 @@
 import CartItem from "./CartItem";
-import { ShoppingCart } from "lucide-react";
 import type { CartItemType } from "../types/product.types";
 
 type Props = {
@@ -16,8 +15,8 @@ function CartList({ carrito }: Props) {
     <div className="flex flex-col h-[75vh]">
       {carrito.length === 0 ? (
         <div className="flex flex-col justify-center h-full items-center">
-          <ShoppingCart size={170} strokeWidth={0.8} />
-          <h2>El carrito esta vacio</h2>
+          <img src="/cart-empty.png" alt="Carrito"/>
+          <h2 className="font-medium text-2xl">Tu carrito está vacío</h2>
         </div>
       ) : (
         <>

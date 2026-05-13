@@ -1,12 +1,8 @@
-import { useNavigate } from "react-router-dom";
 
 export const ScanInstruction = () => {
 
-  const navigate=useNavigate()
-
   return (
-    <div onClick={()=>{navigate("/product")}} 
-    className="flex flex-col items-center justify-center p-8 rounded-2xl shadow-xl max-w-sm mx-auto border border-gray-200 bg-white">
+    <div className="flex flex-col items-center justify-center p-8 rounded-2xl shadow-xl max-w-sm mx-auto border border-gray-200 bg-white">
       
       {/* Cuadro del Scanner */}
       <div className="relative w-56 h-56 bg-white rounded-xl flex items-center justify-center overflow-hidden border-2 border-dashed border-black/20 ">
@@ -44,7 +40,7 @@ export const ScanInstruction = () => {
         Escaneá el producto
       </h3>
       <p className="mt-2 text-sm text-center text-black">
-        Centrá el código de barra con la linea roja.
+        Centrá el código de barra del prudcto con la linea roja.
       </p>
     </div>
   );

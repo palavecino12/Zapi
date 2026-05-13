@@ -15,7 +15,7 @@ export const startScanner = async (
   { onResult, onError }: ScannerCallbacks
 ) => {
   try {
-    // evita múltiples instancias activas
+    //evita múltiples instancias activas
     stopScanner()
 
     const devices = await BrowserMultiFormatReader.listVideoInputDevices()
