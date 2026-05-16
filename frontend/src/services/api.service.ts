@@ -2,7 +2,7 @@
 
 import type { Product } from "../types/product.types"
 const apiUrl = import.meta.env.VITE_API_URL
-if (apiUrl) {
+if (!apiUrl) {
     console.error("La variable de entorno VITE_API_URL no está definida");
 }
 
