@@ -20,8 +20,11 @@ export const startScanner = async (
 
     const devices = await BrowserMultiFormatReader.listVideoInputDevices()
 
-    const backCamera =
-      devices.find(d => d.label.toLowerCase().includes('back')) || devices[0]
+    //Buscamos la cámara trasera incluyendo términos en español para que el celular no use la frontal
+    const backCamera = devices.find(d => {
+      const label = d.label.toLowerCase();
+      return label.includes('back') || label.includes('trasera') || label.includes('environment');
+    }) || devices[0];
 
     controls = await codeReader.decodeFromVideoDevice(
       backCamera.deviceId,
