@@ -13,10 +13,10 @@ const Cartitem = ({ product }: CartItemProps) => {
 
   return (
     <div className="w-screen px-2" data-aos="zoom-in" >
-      <div className="rounded-2xl overflow-hidden shadow-2xl border border-black/20 w-full">
+      <div className="rounded-2xl overflow-hidden bg-gray-200 border border-black/20 w-full">
 
         {/* Parte superior */}
-        <div className="bg-gray-100 p-2 flex items-center justify-between">
+        <div className="bg-gray-200 p-2 flex items-center justify-between">
 
           {/* Nombre del producto */}
           <h2 className="text-black/90 text-2xl font-semibold ml-4">
@@ -33,7 +33,7 @@ const Cartitem = ({ product }: CartItemProps) => {
         </div >
 
         {/* Parte inferior */}
-        < div className="bg-gray-100 p-2 flex items-center justify-between" >
+        < div className="bg-gray-200 p-2 flex items-center justify-between" >
 
           {/* Precio del producto */}
           <p className="text-black/70 text-xl font-bold ml-4">
