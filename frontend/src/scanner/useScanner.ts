@@ -21,8 +21,10 @@ export const useScanner = () => {
       onResult: async (text) => {
         try {
           setCode(text);
+          console.log(text)//Mostramos el codigo por consola 
 
           const foundProduct = await getProductByCode(text);
+          console.log("Codigo enviado a backend")//Para ver cuanto tarda en responder el back
 
           setProduct(foundProduct);
 
