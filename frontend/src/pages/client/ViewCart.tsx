@@ -4,6 +4,10 @@ import { Button } from "../../components/Button";
 import { Plus } from 'lucide-react';
 import Header from "../../components/Header";
 import { useCart } from "../../cart/useCart";
+const apiUrl = import.meta.env.VITE_API_URL
+if (!apiUrl) {
+    console.error("La variable de entorno VITE_API_URL no está definida");
+}
 
 export const ViewCart = () => {
 
@@ -12,7 +16,7 @@ export const ViewCart = () => {
 
   //Funcion para consumir el endpoint para pagar
   const pagar = async () => {
-    const res = await fetch("http://localhost:3000/payment/create", {
+    const res = await fetch(`${apiUrl}/payment/create`, {
       method: "POST",
     });
 
