@@ -1,6 +1,7 @@
+//Segundo paso del context, creamos un estado que va a ser el carrito y las funciones para interactuar con el mismo.
 import { useState, type ReactNode } from "react";
 import { CartContext } from "./cart.context";
-import type { Product, CartItemType } from "../types/product.types"; // Importa ambos
+import type { Product, CartItemType } from "../types/product.types";
 
 interface Props {
     children: ReactNode;
@@ -8,7 +9,7 @@ interface Props {
 
 export const CartProvider = ({ children }: Props) => {
 
-    const [items, setItems] = useState<CartItemType[]>([]);
+    const [items, setItems] = useState<CartItemType[]>([]); //Este seria el carrito
 
     //Función para añadir producto
     const addItem = (product: Product) => {
@@ -45,10 +46,12 @@ export const CartProvider = ({ children }: Props) => {
         );
     };
 
+    //Funcion para eliminar un producto del carrito
     const removeItem = (id: number) => {
         setItems((prev) => prev.filter((item) => item.id !== id));
     };
 
+    //Aca estamos compartiendo (usando el contexto) el carrito con las funciones a todos los componentes hijos.
     return (
         <CartContext.Provider
             value={{ items, addItem, removeItem, updateQuantity }}>
