@@ -4,6 +4,7 @@ import { ViewScan } from "./pages/client/ViewScan"
 import ViewInfo from "./pages/client/ViewInfo"
 import { ViewCart } from "./pages/client/ViewCart"
 import { useEffect } from "react";
+import { ViewProductList } from "./pages/client/ViewProductList";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
@@ -13,7 +14,7 @@ import "@fontsource/poppins/700.css";
 
 import Success from "./components/success"
 import Error from "./components/error"
-import Home  from "./components/Home";
+import Home from "./components/Home";
 
 function App() {
 
@@ -24,22 +25,23 @@ function App() {
         });
     }, []);
 
-    
+
 
     return (
-    <BrowserRouter>
-    <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/cart" element={<ViewCart />} />
-        <Route path="/scan" element={<ViewScan />} />
-        <Route path="/product" element={<ViewInfo />} />
-        
+        <BrowserRouter>
+            <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/cart" element={<ViewCart />} />
+                <Route path="/scan" element={<ViewScan />} />
+                <Route path="/product" element={<ViewInfo />} />
 
-        <Route path="/success" element={<Success />} />
-        <Route path="/error" element={<Error />} />
-        </Routes>
+                <Route path="/success" element={<Success />} />
+                <Route path="/error" element={<Error />} />
+
+                <Route path="/test" element={<ViewProductList />} />
+            </Routes>
         </BrowserRouter>
-        )
+    )
 }
 
 export default App
