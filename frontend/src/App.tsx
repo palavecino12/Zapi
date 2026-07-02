@@ -34,6 +34,7 @@ function App() {
                 <Route path="/cart" element={<ViewCart />} />
                 <Route path="/scan" element={<ViewScan />} />
                 <Route path="/product" element={<ViewInfo />} />
+                <Route path="/list" element={<ViewProductList />} />
 
                 <Route path="/success" element={<Success />} />
                 <Route path="/error" element={<Error />} />

@@ -1,3 +1,5 @@
+//Este componente se va a usar para mostrar la informacion del producto cuando un usuario escanee uno.
+
 type ProductDetailsProps = {
   name: string;
   price: number;

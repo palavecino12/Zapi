@@ -34,7 +34,8 @@ export const ViewCart = () => {
         carrito={items} />
 
       <div className="flex flex-col gap-3 mt-5">
-        <Button variant="secundario" onClick={() => { navigate("/scan") }}><div className="flex justify-center gap-2"><Plus />Añadir Producto</div></Button>
+        <Button variant="primario" onClick={() => { navigate("/scan") }}><div className="flex justify-center gap-2"><Plus />Añadir Producto</div></Button>
+        <Button variant="secundario" onClick={() => { navigate("/list") }}><div className="flex justify-center gap-2">Ver Lista</div></Button>
         {items.length !== 0 &&
           <Button onClick={pagar}>Pagar</Button>
         }
