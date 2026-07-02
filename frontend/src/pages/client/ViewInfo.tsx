@@ -18,7 +18,7 @@ const ViewInfo = () => {
         nombre={product.name} 
         precio={product.price} 
       />
-      <div className=" flex flex-col gap-3 w-full max-w-sm">
+      <div className="flex flex-col items-center gap-3 w-full max-w-sm">
         <Button 
           onClick={() => {addItem(product)
             navigate("/cart")}} variant="primario">
