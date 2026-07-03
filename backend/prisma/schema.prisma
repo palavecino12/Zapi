@@ -11,6 +11,7 @@ model Product {
   id        Int      @id @default(autoincrement())
   code      String   @unique
   name      String
+  category  String
   price     Float
   stock     Int
   createdAt DateTime @default(now())
