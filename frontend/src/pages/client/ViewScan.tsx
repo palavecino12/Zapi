@@ -3,7 +3,7 @@ import { ScanInstruction } from "../../components/ScanInstruction";
 
 export const ViewScan = () => {
   return (
-    <div className="min-h-screen flex flex-col ">
+    <div className="h-dvh flex flex-col overflow-hidden">
 
       {/* Cámara */}
       <div className="w-full flex justify-center p-4">

@@ -13,19 +13,22 @@ const ViewInfo = () => {
   const product = location.state?.product as CartItemType;
 
   return (
-    <div className="flex flex-col items-center mt-50 gap-6">
-
-      {/* Card */}
-      <ProductDetails nombre={product.name} precio={product.price} />
-
-      {/* Botones */}
-      <div className="flex flex-col gap-3 mt-50">
-
-        <Button onClick={() => { navigate("/cart"); addItem(product)}} variant="primario">Añadir</Button>
-        <Button onClick={() => { navigate("/") }} variant="secundario">Cancelar</Button>
-
+    <div className="h-dvh flex flex-col items-center justify-center gap-6 px-4 ">
+      <ProductDetails 
+        nombre={product.name} 
+        precio={product.price} 
+      />
+      <div className=" flex flex-col gap-3 w-full max-w-sm">
+        <Button 
+          onClick={() => {addItem(product)
+            navigate("/cart")}} variant="primario">
+          Añadir
+        </Button>
+        <Button 
+          onClick={() => navigate("/")} variant="secundario">
+          Cancelar
+        </Button>
       </div>
-
     </div>
   );
 };
