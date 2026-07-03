@@ -6,7 +6,7 @@ import Header from "../../components/Header";
 import { useCart } from "../../cart/useCart";
 const apiUrl = import.meta.env.VITE_API_URL
 if (!apiUrl) {
-    console.error("La variable de entorno VITE_API_URL no está definida");
+  console.error("La variable de entorno VITE_API_URL no está definida");
 }
 
 export const ViewCart = () => {
@@ -27,26 +27,24 @@ export const ViewCart = () => {
   return (
     <div className="h-dvh flex flex-col items-center overflow-hidden">
       <Header title="Mi Carrito" />
+
       <CartList carrito={items} />
-      <div className="w-full flex justify-center flex-col items-center gap-3 py-4 shrink-0">
-        <Button 
-        variant="secundario" 
-          onClick={() => navigate("/scan")}
-        >
-          <div className="flex justify-center gap-2">
-            <Plus />
-            Añadir Producto
-          </div>
+
+      <div className="w-full flex flex-col items-center gap-3 py-4 shrink-0">
+        <Button variant="primario" onClick={() => navigate("/scan")}>
+          <div className="flex justify-center gap-2"><Plus />Añadir Producto</div>
         </Button>
 
-        {items.length !== 0 &&
+        <Button variant="secundario" onClick={() => navigate("/list")}>
+          Ver Lista
+        </Button>
+
+        {items.length !== 0 && (
           <Button onClick={pagar}>
             Pagar
           </Button>
-        }
-
+        )}
       </div>
-
     </div>
   );
 };
