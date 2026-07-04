@@ -12,14 +12,13 @@ export const ProductFilterButtons = ({ setSelected, selected }: props) => {
         <div className="flex">
             {filters.map((filter) => {
             
-                
                 return (
                     <button
                         key={filter}
                         onClick={() => setSelected(filter)}
                         className={`transition-all duration-200 w-29 h-11 
                             ${selected === filter
-                                ? "bg-black text-white"
+                                ? "bg-violet-600 text-white"
                                 : "bg-white border border-black/20 text-black shadow-lg"
                             }
                         active:scale-95 active:shadow-inner`}>

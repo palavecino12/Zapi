@@ -13,7 +13,7 @@ const products: Product[] = [
         id: 1,
         code: "P001",
         name: "Coca Cola 2.25L",
-        category:"Bebida",
+        category:"Bebidas",
         price: 3500,
         stock: 25,
         createdAt: "2026-07-01T10:30:00.000Z"
@@ -31,7 +31,7 @@ const products: Product[] = [
         id: 3,
         code: "P003",
         name: "Agua Mineral 1.5L",
-        category:"Bebida",
+        category:"Bebidas",
         price: 1200,
         stock: 40,
         createdAt: "2026-07-01T10:40:00.000Z"
@@ -40,7 +40,8 @@ const products: Product[] = [
 
 
 export const ViewProductList = () => {
-
+    
+    //Carrito
     const { items, addItem, removeItem } = useCart();
     const navigate = useNavigate();
 
@@ -51,9 +52,7 @@ export const ViewProductList = () => {
     //Almacenamos el filtro que aplica el usuario
     const [selected, setSelected] = useState("Todos");
     
-
-   // Acá calculamos qué productos deben mostrarse
-    // utilizando el texto buscado y el filtro seleccionado
+    //Calculamos qué productos deben mostrarse utilizando el texto buscado y el filtro seleccionado
     const filteredProducts = products.filter(product => {
 
         const matchesSearch =
@@ -71,10 +70,13 @@ export const ViewProductList = () => {
 
     return (
         <>
+            {/* Buscador */}
             <ProductSearch setProductSearch={setProductSearch}/>
+            {/* Botones de filtrado */}
             <ProductFilterButtons selected={selected} setSelected={setSelected}/> 
+            {/* Lista de productos */}
             <ProductList products={filteredProducts} items={items} onAdd={addItem} onRemove={removeItem}/>
-
+            {/* Boton para continuar */}
             <Button onClick={()=>navigate("/cart")}>Continuar</Button>
         </>
     )
