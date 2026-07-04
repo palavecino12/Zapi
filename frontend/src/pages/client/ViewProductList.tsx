@@ -3,6 +3,8 @@ import { ProductList } from "../../product/ProductList";
 import type { Product } from "../../types/product.types";
 import { Button } from "../../components/Button";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { ProductSearch } from "../../product/ProductSearch";
 
 //Mas adelante esta variable se va a crear en base a los productos del backend.
 const products: Product[] = [
@@ -43,12 +45,17 @@ export const ViewProductList = () => {
 
     //Aca tendria que ir el hook para traer todos los productos del back y guardarlo en la variable products
 
-    //Aca deben ir los state para los filtros y el buscador (almacenamos ambos valores)
+    //Almacenamos lo que ingresa el usuario
+    const [productSearch, setProductSearch] = useState("")
+    //Almacenamos el filtro que aplica el usuario
+    const [selected, setSelected] = useState("Todos");
+    
 
     //Tambien una funcion que filtre todos los productos segun los filtros y este resultado se lo pasamos a la lista
 
     return (
         <>
+            <ProductSearch setProductSearch={setProductSearch}/>
             <ProductList products={products} items={items} onAdd={addItem} onRemove={removeItem}/>
 
             <Button onClick={()=>navigate("/cart")}>Continuar</Button>
