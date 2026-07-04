@@ -5,6 +5,7 @@ import { Button } from "../../components/Button";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { ProductSearch } from "../../product/ProductSearch";
+import { ProductFilterButtons } from "../../product/ProductFilterButtons";
 
 //Mas adelante esta variable se va a crear en base a los productos del backend.
 const products: Product[] = [
@@ -51,12 +52,28 @@ export const ViewProductList = () => {
     const [selected, setSelected] = useState("Todos");
     
 
-    //Tambien una funcion que filtre todos los productos segun los filtros y este resultado se lo pasamos a la lista
+   // Acá calculamos qué productos deben mostrarse
+    // utilizando el texto buscado y el filtro seleccionado
+    const filteredProducts = products.filter(product => {
+
+        const matchesSearch =
+            product.name
+                .toLowerCase()
+                .includes(productSearch.toLowerCase());
+
+        const matchesFilter =
+            selected === "Todos"
+                ? true
+                : product.category === selected
+
+        return matchesSearch && matchesFilter;
+    });
 
     return (
         <>
             <ProductSearch setProductSearch={setProductSearch}/>
-            <ProductList products={products} items={items} onAdd={addItem} onRemove={removeItem}/>
+            <ProductFilterButtons selected={selected} setSelected={setSelected}/> 
+            <ProductList products={filteredProducts} items={items} onAdd={addItem} onRemove={removeItem}/>
 
             <Button onClick={()=>navigate("/cart")}>Continuar</Button>
         </>
