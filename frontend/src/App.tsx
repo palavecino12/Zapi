@@ -39,7 +39,7 @@ function App() {
                 <Route path="/success" element={<Success />} />
                 <Route path="/error" element={<Error />} />
 
-                <Route path="/test" element={<Error />} />
+                <Route path="/test" element={<Home />} />
             </Routes>
         </BrowserRouter>
     )
