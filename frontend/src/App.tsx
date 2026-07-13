@@ -39,7 +39,7 @@ function App() {
                 <Route path="/success" element={<Success />} />
                 <Route path="/error" element={<Error />} />
 
-                <Route path="/test" element={<ViewProductList />} />
+                <Route path="/test" element={<Error />} />
             </Routes>
         </BrowserRouter>
     )
