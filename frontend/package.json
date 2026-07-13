@@ -12,6 +12,7 @@
   "dependencies": {
     "@fontsource/inter": "^5.2.8",
     "@fontsource/poppins": "^5.2.7",
+    "@react-spring/web": "^10.1.2",
     "@zxing/browser": "^0.1.5",
     "aos": "^2.3.4",
     "html5-qrcode": "^2.3.8",
