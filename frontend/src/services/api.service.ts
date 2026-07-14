@@ -1,13 +1,11 @@
 //Servicios encargados de comunicarse con la API del backend
-
 import type { Product } from "../types/product.types"
 const apiUrl = import.meta.env.VITE_API_URL
 if (!apiUrl) {
     console.error("La variable de entorno VITE_API_URL no está definida");
 }
 
-
-//type de lo que retorna el back al momento de eliminar un ususario con exito
+//type de lo que retorna el back al momento de eliminar un producto con exito
 type DeleteProductResponse = {
     message: string;
     product: Product;
