@@ -1,5 +1,4 @@
 //Servicio encargado de crear una preferencia de pago utilizando la SDK de Mercado Pago
-
 import client from "../../config/mercadopago";
 import { Preference } from "mercadopago";
 
@@ -19,8 +18,8 @@ export const createPaymentPreference = async () => {
                     },
                 ],
                 back_urls: {
-                    success: "http://localhost:5173/",
-                    failure: "http://localhost:5173/",
+                    success: `${process.env.FRONTEND_URL}/success`,
+                    failure: `${process.env.FRONTEND_URL}/error`,
                     pending: "http://localhost:5173/",
                 },
                 auto_return: undefined,//A futuro colocar "approved" para que cuando el pago sea exitoso redirija automaticamente a la app (pero es mucho mas estricto)
