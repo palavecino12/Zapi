@@ -1,7 +1,13 @@
 //En este archivo solo creamos la logica de negocio, vemos si existe o no el producto y lanzamos los errores
-
-import { deleteProduct, findProductByCode } from "./repository"
+import { deleteProduct, findProductByCode, findProducts } from "./repository"
 import { Product } from "@prisma/client";//type del producto
+
+//Service para traer todos los productos
+export const getProducts = async () => {
+
+    //Retornamos directamente ya que si no hay productos, prisma retorna un array vacio
+    return await findProducts()
+}
 
 //Service para buscar prodcuto por code
 export const getProductByCodeService = async (code: string): Promise<Product> => {
@@ -16,6 +22,7 @@ export const getProductByCodeService = async (code: string): Promise<Product> =>
 
 //Service para eliminar un producto
 export const deleteProductService = async (code: string): Promise<Product> => {
+    
     //Primero validamos si el producto que quiere eliminar el usuario existe
     const product = await findProductByCode(code)
 
