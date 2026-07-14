@@ -1,5 +1,5 @@
-//Servicios encargados de comunicarse con la API del backend
-import type { Product } from "../types/product.types"
+//Servicios de los productos encargados de comunicarse con la API del backend
+import type { Product } from "../types/productType"
 const apiUrl = import.meta.env.VITE_API_URL
 if (!apiUrl) {
     console.error("La variable de entorno VITE_API_URL no está definida");
@@ -54,3 +54,4 @@ export const deleteProductByCode = async (code: string): Promise<DeleteProductRe
         throw error;
     }
 }
+

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { startScanner, stopScanner } from './scanner.service'
-import { getProductByCode } from '../services/api.service'
-import type { Product } from '../types/product.types'
+import { getProductByCode } from '../services/productServices'
+import type { Product } from '../types/productType'
 
 export const useScanner = () => {
   const videoRef = useRef<HTMLVideoElement | null>(null)

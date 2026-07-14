@@ -1,7 +1,7 @@
 import ProductDetails from "../../product/ProductDetails";
 import { Button } from "../../components/Button";
 import { useLocation, useNavigate } from "react-router-dom";
-import type { CartItemType } from "../../types/product.types";
+import type { CartItemType } from "../../types/productType";
 import { useCart } from "../../cart/useCart";
 
 const ViewInfo = () => {

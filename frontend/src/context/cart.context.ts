@@ -1,6 +1,6 @@
 //Este es el primer paso del context, es como crear un canal por donde vamos a compartir informacion.
 import { createContext } from "react";
-import type { Product, CartItemType } from "../types/product.types";
+import type { Product, CartItemType } from "../types/productType";
 
 export interface CartContextType {
     items: CartItemType[];

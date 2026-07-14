@@ -1,5 +1,5 @@
 import CartItem from "./CartItem";
-import type { CartItemType } from "../types/product.types";
+import type { CartItemType } from "../types/productType";
 
 type Props = {
   carrito: CartItemType[];

@@ -4,10 +4,7 @@ import { Button } from "../../components/Button";
 import { Plus } from 'lucide-react';
 import Header from "../../components/Header";
 import { useCart } from "../../cart/useCart";
-const apiUrl = import.meta.env.VITE_API_URL
-if (!apiUrl) {
-  console.error("La variable de entorno VITE_API_URL no está definida");
-}
+import { createPayment } from "../../services/paymentServices";
 
 export const ViewCart = () => {
 
@@ -15,13 +12,24 @@ export const ViewCart = () => {
   const { items } = useCart();
 
   const pagar = async () => {
-    const res = await fetch(`${apiUrl}/payment/create`, {
-      method: "POST",
-    });
+    try {
 
-    const data = await res.json();
+      //Solo pasamos los atributos que necesita el service
+      const paymentItems = items.map(item => {
+        return {
+          id: item.id,
+          quantity: item.quantity
+        }
+      })
+      const { url } = await createPayment(paymentItems);
+      window.location.href = url;
 
-    window.location.href = data.url;
+    } catch (error) {
+
+      console.log(error)
+      //Cuando esten los hooks usamos los estados
+    }
+
   };
 
   return (

@@ -1,6 +1,6 @@
 import { useCart } from "../../cart/useCart";
 import { ProductList } from "../../product/ProductList";
-import type { Product } from "../../types/product.types";
+import type { Product } from "../../types/productType";
 import { Button } from "../../components/Button";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
@@ -10,29 +10,29 @@ import { ProductFilterButtons } from "../../product/ProductFilterButtons";
 //Mas adelante esta variable se va a crear en base a los productos del backend.
 const products: Product[] = [
     {
-        id: 1,
+        id: 180001,
         code: "P001",
         name: "Coca Cola 2.25L",
         category:"Bebidas",
-        price: 3500,
+        price: 1800,
         stock: 25,
         createdAt: "2026-07-01T10:30:00.000Z"
     },
     {
-        id: 2,
+        id: 180002,
         code: "P002",
         name: "Papas Lays Clásicas",
         category:"Snacks",
-        price: 1800,
+        price: 1700,
         stock: 15,
         createdAt: "2026-07-01T10:35:00.000Z"
     },
     {
-        id: 3,
+        id: 180003,
         code: "P003",
         name: "Agua Mineral 1.5L",
         category:"Bebidas",
-        price: 1200,
+        price: 2200,
         stock: 40,
         createdAt: "2026-07-01T10:40:00.000Z"
     },

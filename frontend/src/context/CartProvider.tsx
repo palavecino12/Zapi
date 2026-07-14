@@ -1,7 +1,7 @@
 //Segundo paso del context, creamos un estado que va a ser el carrito y las funciones para interactuar con el mismo.
 import { useState, type ReactNode } from "react";
 import { CartContext } from "./cart.context";
-import type { Product, CartItemType } from "../types/product.types";
+import type { Product, CartItemType } from "../types/productType";
 
 interface Props {
     children: ReactNode;

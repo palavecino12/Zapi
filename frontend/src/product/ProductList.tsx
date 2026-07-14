@@ -1,6 +1,6 @@
 //Este componente se va a usar para listar los productos de la base de datos.
 
-import type { CartItemType, Product } from "../types/product.types"
+import type { CartItemType, Product } from "../types/productType"
 import { ProductListItem } from "./ProductListItem"
 
 type ProductListProp = {
