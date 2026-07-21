@@ -3,13 +3,13 @@ import {getProductByCodeController,deleteProductController, getProductsControlle
 
 const router = Router();
 
-//GET /products/
+//GET/products/
 router.get("/", getProductsController);
 
-//GET /products/:code
+//GET/products/:code
 router.get("/:code", getProductByCodeController);
 
-//DELETE /products/:code
+//DELETE/products/:code
 router.delete("/:code", deleteProductController);
 
 export default router;
