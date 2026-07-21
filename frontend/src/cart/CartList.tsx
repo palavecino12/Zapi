@@ -34,7 +34,7 @@ function CartList({ carrito }: Props) {
             ))}
 
           </div>
-          <p className=" border-y border-black/30 p-3 shadow-lg ">
+          <p className=" border-y border-black/30 p-3 font-bold shadow-lg ">  
             Total: ${total}
           </p>
         </>
