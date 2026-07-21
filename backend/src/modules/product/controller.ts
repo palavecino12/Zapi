@@ -2,6 +2,7 @@
 import { Request, Response } from "express";
 import { getProductByCodeService, deleteProductService, getProducts } from "./service";
 
+//GET /products/
 export const getProductsController = async (req: Request, res: Response): Promise<Response> => {
     try {
 
@@ -17,7 +18,7 @@ export const getProductsController = async (req: Request, res: Response): Promis
     }
 }
 
-//GET /products/:code
+//GET/products/:code
 export const getProductByCodeController = async (req: Request, res: Response): Promise<Response> => {
 
     try {
@@ -49,7 +50,7 @@ export const getProductByCodeController = async (req: Request, res: Response): P
     }
 };
 
-//DELETE /products/:code
+//DELETE/products/:code
 export const deleteProductController = async (req: Request, res: Response): Promise<Response> => {
     try {
 

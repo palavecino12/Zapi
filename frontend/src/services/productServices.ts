@@ -11,6 +11,27 @@ type DeleteProductResponse = {
     product: Product;
 };
 
+//Service para traer todos los productos
+export const getProducts = async () => {
+    try {
+        const url = `${apiUrl}/products`
+
+        const response = await fetch(url)
+
+        if (!response.ok) {
+            const errorResponse = await response.json()
+            throw new Error(errorResponse.message || "Error desconocido al obtener productos")
+        }
+
+        const products: Product[] = await response.json()
+
+        return products;
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+}
+
 //service para traer un producto segun su codigo
 export const getProductByCode = async (code: string): Promise<Product> => {
     try {
