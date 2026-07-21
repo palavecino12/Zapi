@@ -16,10 +16,10 @@ const Cartitem = ({ product }: CartItemProps) => {
       <div className="rounded-2xl overflow-hidden bg-gray-200 border border-black/20 w-full">
 
         {/* Parte superior */}
-        <div className="bg-gray-200 p-2 flex items-center justify-between">
+        <div className="bg-white p-1 flex items-center justify-between">
 
           {/* Nombre del producto */}
-          <h2 className="text-black/90 text-2xl font-semibold ml-4">
+          <h2 className="text-black/90 text-xl font-bold ml-2">
             {product.name}
           </h2>
 
@@ -33,10 +33,10 @@ const Cartitem = ({ product }: CartItemProps) => {
         </div >
 
         {/* Parte inferior */}
-        < div className="bg-gray-200 p-2 flex items-center justify-between" >
+        < div className="bg-white p-2 flex items-center justify-between" >
 
           {/* Precio del producto */}
-          <p className="text-black/70 text-xl font-bold ml-4">
+          <p className="text-violet-600 text-lg font-bold ml-2">
             Precio: ${(product.price * product.quantity).toLocaleString()}
           </p>
 
