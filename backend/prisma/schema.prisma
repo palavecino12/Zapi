@@ -7,12 +7,58 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+//Solo el administrador debe poder crear productos.
 model Product {
-  id        Int      @id @default(autoincrement())
-  code      String   @unique
+  id        Int        @id @default(autoincrement())
+  code      String     @unique
   name      String
-  price     Float
+  price     Decimal    @db.Decimal(10, 2)
   stock     Int
-  createdAt DateTime @default(now())
+  createdAt DateTime   @default(now())
   category  String
+
+  saleItems SaleItem[]
+}
+
+enum SaleStatus {
+  PENDING
+  PAID
+  CANCELLED
+  EXPIRED
+}
+
+//Representa una compra. Se crea antes de redirigir al usuario a Mercado Pago.
+model Sale {
+  id        Int        @id @default(autoincrement())
+  total     Decimal    @db.Decimal(10, 2)
+  status    SaleStatus @default(PENDING)
+  createdAt DateTime   @default(now())
+
+  items     SaleItem[]
+  payment   Payment?//Se crea únicamente cuando Mercado Pago confirma el pago.
+}
+
+//Se crea junto con la venta. Cada registro representa un producto del carrito
+//y conserva el precio que tenía en el momento de la compra.
+model SaleItem {
+  id          Int     @id @default(autoincrement())
+  quantity    Int
+  priceAtSale Decimal @db.Decimal(10, 2)
+  saleId      Int
+  productId   Int
+
+  sale    Sale    @relation(fields: [saleId], references: [id])
+  product Product @relation(fields: [productId], references: [id])
+}
+
+//Solo cuando el pago fue exitoso se crea el payment.
+model Payment {
+  id                Int           @id @default(autoincrement())
+  providerPaymentId String        @unique
+  amount            Decimal       @db.Decimal(10, 2)
+  paymentMethod     String?
+  saleId            Int           @unique
+
+  sale      Sale     @relation(fields: [saleId], references: [id])
+  createdAt DateTime @default(now())
 }

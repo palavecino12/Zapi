@@ -11,7 +11,6 @@ import "aos/dist/aos.css";
 import "@fontsource/poppins/600.css";
 import "@fontsource/poppins/700.css";
 
-
 import Success from "./components/success"
 import Error from "./components/error"
 import Home from "./components/Home";
@@ -24,8 +23,6 @@ function App() {
             once: true,
         });
     }, []);
-
-
 
     return (
         <BrowserRouter>

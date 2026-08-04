@@ -41,7 +41,7 @@ export const createPaymentPreference = async (items: PaymentItem[]) => {
                 back_urls: {
                     success: `${process.env.FRONTEND_URL}/success`,
                     failure: `${process.env.FRONTEND_URL}/error`,
-                    pending: "http://localhost:5173/",
+                    pending: "",//Por el momento no lo usariamos
                 },
                 auto_return: undefined,//A futuro colocar "approved" para que cuando el pago sea exitoso redirija automaticamente a la app (pero es mucho mas estricto)
             },
