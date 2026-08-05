@@ -2,12 +2,12 @@
 import client from "../../config/mercadopago";
 import { Preference } from "mercadopago";
 import { type PaymentItem } from "./types"
-import { getProductsByIds } from "./repository";
+import { findProductsByIds } from "../product/repository";
 
 export const createPaymentPreference = async (items: PaymentItem[]) => {
     try {
         //Buscamos los productos por id
-        const products = await getProductsByIds(
+        const products = await findProductsByIds(
             items.map(item => item.id)
         );
 
