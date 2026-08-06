@@ -1,9 +1,7 @@
-export interface PaymentItem {
-    id: number;
+export interface MercadoPagoItem {
+    id: string;
+    title: string;
     quantity: number;
-}
-
-//Este es el type del carrito que vamos a recibir del front cuando querramos crear el pago
-export interface CreatePaymentBody {
-    items: PaymentItem[];
+    unit_price: number;
+    currency_id: "ARS";
 }
