@@ -4,7 +4,7 @@ import { Button } from "../../components/Button";
 import { Plus } from 'lucide-react';
 import Header from "../../components/Header";
 import { useCart } from "../../cart/useCart";
-import { createPayment } from "../../services/paymentServices";
+import { createCheckout } from "../../services/saleServices";
 
 export const ViewCart = () => {
 
@@ -15,13 +15,13 @@ export const ViewCart = () => {
     try {
 
       //Solo pasamos los atributos que necesita el service
-      const paymentItems = items.map(item => {
+      const cartItems = items.map(item => {
         return {
-          id: item.id,
+          productId: item.id,
           quantity: item.quantity
         }
       })
-      const { url } = await createPayment(paymentItems);
+      const { url } = await createCheckout(cartItems);
       window.location.href = url;
 
     } catch (error) {

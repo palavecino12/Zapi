@@ -1,8 +1,8 @@
 import { Router } from "express";
-import { createPayment } from "./controller";
+import { Webhook } from "./controller";
 
-const router = Router();
+const router = Router()
 
-router.post("/create", createPayment);
+router.post("webhook", Webhook)
 
 export default router;
