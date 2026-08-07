@@ -1,9 +1,10 @@
-// Servicio encargado de crear una preferencia de pago utilizando la SDK de Mercado Pago
+//Servicio encargado de crear una preferencia de pago utilizando la SDK de Mercado Pago
 import client from "../../config/mercadopago";
+import { Payment } from "mercadopago";
 import { Preference } from "mercadopago";
 import { MercadoPagoItem } from "./types";
 
-export const createPaymentPreference = async (saleId: number,items: MercadoPagoItem[]) => {
+export const createPaymentPreference = async (saleId: number, items: MercadoPagoItem[]) => {
 
     const preference = new Preference(client);
 
@@ -22,4 +23,13 @@ export const createPaymentPreference = async (saleId: number,items: MercadoPagoI
     });
 
     return response;
+};
+
+export const getPayment = async (paymentId: string) => {
+
+    const payment = new Payment(client);
+
+    return await payment.get({
+        id: paymentId
+    });
 };
