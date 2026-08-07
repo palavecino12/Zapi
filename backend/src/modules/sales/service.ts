@@ -94,6 +94,6 @@ export const createCheckout = async (cart: CartItemDTO[]) => {
 
     //Crea la preferencia.
     const preference = await paymentService.createPaymentPreference(sale.id, mercadoPagoItems);
-
+    
     return preference.init_point
 }
