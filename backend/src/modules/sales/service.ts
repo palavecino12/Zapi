@@ -61,11 +61,7 @@ export const createCheckout = async (cart: CartItemDTO[]) => {
     const products = await productRepository.findProductsByIds(
         cart.map(item => item.productId)
     );
-    //
-    //El problema es que recibe esto [ { id: 180001, quantity: 1 }, { id: 180002, quantity: 1 } ]
-    //y nosotros buscamos productId
-    //
-
+    
     //Valida el stock de los productos.
     productService.validateStock(cart, products)
 
