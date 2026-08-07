@@ -7,9 +7,9 @@ if (!apiUrl) {
 }
 
 //Service para pasar los productos del carrito al back
-export const createPayment = async (items: PaymentItem[]) => {
+export const createCheckout = async (items: PaymentItem[]) => {
     try {
-        const url = `${apiUrl}/payment/create`
+        const url = `${apiUrl}/sales/checkout`
 
         const response = await fetch(url, {
             method: "POST",

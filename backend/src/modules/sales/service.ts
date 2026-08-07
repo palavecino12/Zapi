@@ -5,6 +5,7 @@ import * as paymentService from "../payment/service"
 import * as productService from "../product/service";
 import { CartItemDTO } from "./types";
 
+//Funcion util.
 const calculateTotal = (cart: CartItemDTO[], products: Product[]): number => {
 
     return cart.reduce((total, item) => {
@@ -22,25 +23,15 @@ const calculateTotal = (cart: CartItemDTO[], products: Product[]): number => {
     }, 0);
 };
 
-export const createCheckout = async (cart: CartItemDTO[]) => {
+//Funcion para crear el sale y los saleItems.
+const createSale = async (cart: CartItemDTO[], products: Product[], total: number) => {
 
-    //Busca los productos por id.
-    const products = await productRepository.findProductsByIds(
-        cart.map(item => item.productId)
-    );
-
-    //Valida el stock de los productos.
-    productService.validateStock(cart, products)
-
-    //Calcula el total.
-    const total = calculateTotal(cart, products)
-
-    //Crea el sale. (retorna el id)
+    //Crea el sale.
     const sale = await saleRepository.createSale({
         total: new Prisma.Decimal(total)
     });
 
-    //Crea los saleItems
+    //Crea los saleItems.
     await saleRepository.createSaleItems(cart.map(item => {
 
         const product = products.find(
@@ -59,6 +50,30 @@ export const createCheckout = async (cart: CartItemDTO[]) => {
         };
     })
     );
+
+    return sale
+}
+
+//Funcion para comenzar la compra. (PRINCIPAL)
+export const createCheckout = async (cart: CartItemDTO[]) => {
+
+    //Busca los productos por id.
+    const products = await productRepository.findProductsByIds(
+        cart.map(item => item.productId)
+    );
+    //
+    //El problema es que recibe esto [ { id: 180001, quantity: 1 }, { id: 180002, quantity: 1 } ]
+    //y nosotros buscamos productId
+    //
+
+    //Valida el stock de los productos.
+    productService.validateStock(cart, products)
+
+    //Calcula el total.
+    const total = calculateTotal(cart, products)
+
+    //Crea el sale y los saleItems.
+    const sale = await createSale(cart, products, total);
 
     //Crea el item de mercado pago para pasarcelo.
     const mercadoPagoItems = cart.map(item => {

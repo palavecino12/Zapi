@@ -2,7 +2,7 @@ import "dotenv/config";
 import express from "express";
 import cors from "cors";
 
-import paymentRoutes from "./modules/payment/routes";
+import saleRoutes from "./modules/sales/routes";
 import productRouter from "./modules/product/routes"
 
 const app = express();
@@ -13,7 +13,7 @@ app.use(cors())
 app.use(express.json());
 
 //Routes
-app.use("/payment", paymentRoutes);
+app.use("/sales", saleRoutes);
 app.use("/products", productRouter)
 
 

@@ -17,7 +17,7 @@ export const createPaymentPreference = async (saleId: number,items: MercadoPagoI
                 pending: "",
             },
             auto_return: undefined,
-            //Lo agregaremos después
+            //Falta agregar:
             //notification_url: `${process.env.BACKEND_URL}/payments/webhook`
         },
     });

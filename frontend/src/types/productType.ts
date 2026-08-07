@@ -19,6 +19,6 @@ export type CartItemType = Product & {
 
 //Type que usamos para el carrito al back para generar el pago
 export interface PaymentItem {
-    id: number;
+    productId: number;
     quantity: number;
 }
