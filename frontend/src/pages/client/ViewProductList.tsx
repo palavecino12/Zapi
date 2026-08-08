@@ -14,7 +14,7 @@ const products: Product[] = [
         code: "P001",
         name: "Coca Cola 2.25L",
         category:"Bebidas",
-        price: 1800,
+        price: 100,
         stock: 25,
         createdAt: "2026-07-01T10:30:00.000Z"
     },
