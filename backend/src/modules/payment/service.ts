@@ -5,6 +5,7 @@ import { Preference } from "mercadopago";
 import { MercadoPagoItem } from "./types";
 
 export const createPaymentPreference = async (saleId: number, items: MercadoPagoItem[]) => {
+    console.log(items)
 
     const preference = new Preference(client);
 
