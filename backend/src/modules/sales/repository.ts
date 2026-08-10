@@ -1,5 +1,5 @@
 import prisma from "../../config/prisma";
-import { SaleStatus } from "@prisma/client";
+import { Prisma, SaleStatus } from "@prisma/client";
 import { CreateSaleDTO, CreateSaleItemDTO } from "./types";
 
 export const createSale = (sale: CreateSaleDTO) => {
@@ -20,8 +20,8 @@ export const findSaleById = (id: number) => {
     })
 }
 
-export const updateSaleStatus = (id: number, status: SaleStatus) => {
-    return prisma.sale.update({
+export const updateSaleStatus = (id: number, status: SaleStatus, tx: Prisma.TransactionClient = prisma) => {
+    return tx.sale.update({
         where: { id },
         data: { status }
     })

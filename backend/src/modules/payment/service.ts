@@ -7,6 +7,7 @@ import * as saleRepository from "../sales/repository"
 import * as paymentRepository from "./repository"
 import { SaleStatus } from "@prisma/client";
 import { Decimal } from "@prisma/client/runtime/library";
+import prisma from "../../config/prisma";
 
 export const createPaymentPreference = async (saleId: number, items: MercadoPagoItem[]) => {
 
@@ -41,54 +42,76 @@ export const getPayment = async (paymentId: string) => {
 
 //Funcion para completar el pago.
 export const processPayment = async (paymentId: string) => {
-    //Trae el payment con el id del pago que nos dio mp.
+
+    //Trae el payment desde mercado pago.
     const payment = await getPayment(paymentId);
 
+    //Valida que el pago este aprobado para continuar.
     if (payment.status !== "approved") {
-        return
+        return;
     }
 
-    //Verificamos si este pago ya fue procesado.
-    const existingPayment = await paymentRepository.findPaymentByProviderId(String(payment.id));
+    //Verifica si este pago ya fue procesado para no almacenar dos pagos iguales.
+    const existingPayment = await paymentRepository.findPaymentByProviderId(
+        String(payment.id)
+    );
     if (existingPayment) {
         return;
     }
 
-    //Obtiene nuestro sale que creamos al momento de la venta.
-    const saleId = Number(payment.external_reference)
-    const sale = await saleRepository.findSaleById(saleId)
+    //Obtiene nuestra Sale.
+    const saleId = Number(payment.external_reference);
+    const sale = await saleRepository.findSaleById(saleId);
 
     if (!sale) {
         throw new Error("Venta no encontrada");
     }
 
-    //Verificamos si la venta ya fue pagada.
     if (sale.status === SaleStatus.PAID) {
         return;
     }
 
-    //Verificamos que el monto pagado coincida con el total de la venta. (seria muy raro que aca haya un problema)
     if (
         payment.transaction_amount === undefined ||
         payment.transaction_amount !== sale.total.toNumber()
     ) {
-        console.error(
-            `Monto incorrecto para Sale ${sale.id}. ` +
-            `Esperado: ${sale.total.toNumber()}, ` +
-            `Recibido: ${payment.transaction_amount}`
+        throw new Error(
+            "El monto del pago no coincide con el total de la venta"
         );
-
-        return;
     }
 
-    //Actualiza el estado de la venta a aprovado
-    await saleRepository.updateSaleStatus(sale.id, SaleStatus.PAID)
 
-    //Adaptamos los datos de mp a los tipos del schema de prisma para crear el payment.
-    await paymentRepository.createPayment({
-        providerPaymentId: String(payment.id),
-        amount: new Decimal(payment.transaction_amount!),
-        paymentMethod: payment.payment_method_id ?? null,
-        saleId: saleId
-    })
-}
+    try {
+        //Creamos una transaccion para garantizar que la actualizacion de la sale
+        //y la creacion del payment se realicen de forma atomica.
+        //Si alguna operacion falla se revierten los cambios realizados.
+        await prisma.$transaction(async (tx) => {
+
+            await saleRepository.updateSaleStatus(
+                sale.id,
+                SaleStatus.PAID,
+                tx
+            );
+
+            await paymentRepository.createPayment(
+                {
+                    providerPaymentId: String(payment.id),
+                    amount: new Decimal(payment.transaction_amount!),
+                    paymentMethod: payment.payment_method_id ?? null,
+                    saleId: saleId
+                },
+                tx
+            );
+
+        });
+
+    } catch (error: any) {
+        //Prisma devuelve el error P2002 cuando se intenta insertar un providerPaymentId que ya existe. En ese caso, significa
+        //que otro webhook ya procesó este pago, por lo que simplemente ignoramos el error.
+        if (error.code === "P2002") {
+            return;
+        }
+
+        throw error;
+    }
+};
