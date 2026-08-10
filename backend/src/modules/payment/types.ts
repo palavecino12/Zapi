@@ -1,3 +1,5 @@
+import { Payment } from "@prisma/client"
+
 export interface MercadoPagoItem {
     id: string;
     title: string;
@@ -5,3 +7,5 @@ export interface MercadoPagoItem {
     unit_price: number;
     currency_id: "ARS";
 }
+
+export type CreatePaymentDTO = Omit<Payment, "id"| "createdAt">
