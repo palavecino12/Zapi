@@ -5,6 +5,7 @@ import cors from "cors";
 import saleRoutes from "./modules/sales/routes";
 import productRouter from "./modules/product/routes"
 import paymentRouter from "./modules/payment/routes"
+import { errorHandler } from "./middlewares/errorHandlerMiddleware";
 
 
 const app = express();
@@ -19,6 +20,7 @@ app.use("/sales", saleRoutes);
 app.use("/products", productRouter)
 app.use("/payments", paymentRouter)
 
+app.use(errorHandler)
 
 
 app.listen(PORT, () => {

@@ -7,18 +7,19 @@ if (!apiUrl) {
 }
 
 //Service para pasar los productos del carrito al back
-export const createCheckout = async (items: PaymentItem[]) => {
+export const createCheckout = async (cart: PaymentItem[]) => {
     try {
         const url = `${apiUrl}/sales/checkout`
 
         const response = await fetch(url, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ items })
+            body: JSON.stringify({ cart })
         });
 
         if (!response.ok) {
             const errorResponse = await response.json()
+            console.log(errorResponse)
             throw new Error(errorResponse.message || "Error desconocido al crear pago")//retornamos el mensaje de error que creo el back
         }
 

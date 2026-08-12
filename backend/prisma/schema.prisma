@@ -35,7 +35,7 @@ model Sale {
   createdAt DateTime   @default(now())
 
   items     SaleItem[]
-  payment   Payment?//Se crea únicamente cuando Mercado Pago confirma el pago.
+  payment   Payment?//Se crea únicamente cuando mercado pago confirma el pago.
 }
 
 //Se crea junto con la venta. Cada registro representa un producto del carrito
