@@ -1,27 +1,27 @@
 //En este archivo solo creamos la logica de negocio, vemos si existe o no el producto y lanzamos los errores
-import { CartItemDTO } from "../sales/types";
-import { deleteProduct, findProductByCode, findProducts, findProductsByIds } from "./repository"
+import { AppError } from "../../errors/AppError";
+import { CartItemDTO } from "../../schemas/checkoutSchema";
+import { deleteProduct, findProductByCode, findProducts } from "./repository"
 import { Product } from "@prisma/client";//type del producto
 
 //Service para traer todos los productos.
 export const getProducts = async () => {
-
     //Retornamos directamente ya que si no hay productos, prisma retorna un array vacio
     return await findProducts()
 }
 
 //Service para buscar prodcuto por code.
-export const getProductByCodeService = async (code: string): Promise<Product> => {
+export const getProductByCode = async (code: string): Promise<Product> => {
     const product = await findProductByCode(code)
 
     if (!product) {
-        throw new Error("El producto no fue encontrado")
+        throw new AppError("El producto no fue encontrado", 404)
     }
 
     return product
 }
 
-//Service para validar el  stock de ciertos productos.
+//Service para validar el stock de ciertos productos.
 export const validateStock = (cart: CartItemDTO[], products: Product[]) => {
 
     for (const item of cart) {
@@ -31,11 +31,11 @@ export const validateStock = (cart: CartItemDTO[], products: Product[]) => {
         )
 
         if (!product) {
-            throw new Error("Producto inexistente");
+            throw new AppError("Producto inexistente", 404);
         }
 
         if (product.stock < item.quantity) {
-            throw new Error(`Stock insuficiente para ${product.name}`);
+            throw new AppError(`Stock insuficiente para ${product.name}`, 409);
         }
     }
 }
@@ -49,7 +49,7 @@ export const deleteProductService = async (code: string): Promise<Product> => {
     const product = await findProductByCode(code)
 
     if (!product) {
-        throw new Error("El producto no existe")
+        throw new AppError("El producto no existe", 404)
     }
 
     return await deleteProduct(code)//retorna el producto eliminado

@@ -1,5 +1,7 @@
 import { Router } from "express";
-import {getProductByCodeController,deleteProductController, getProductsController} from "./controller";
+import { getProductByCodeController, deleteProductController, getProductsController } from "./controller";
+import { validate } from "../../middlewares/validateZodSchema";
+import { productCodeSchema } from "../../schemas/productCodeSchema";
 
 const router = Router();
 
@@ -7,9 +9,9 @@ const router = Router();
 router.get("/", getProductsController);
 
 //GET/products/:code
-router.get("/:code", getProductByCodeController);
+router.get("/:code", validate(productCodeSchema, "params"), getProductByCodeController);
 
 //DELETE/products/:code
-router.delete("/:code", deleteProductController);
+router.delete("/:code", validate(productCodeSchema, "params"), deleteProductController);
 
 export default router;

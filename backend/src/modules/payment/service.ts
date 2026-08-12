@@ -1,14 +1,16 @@
-//Servicio encargado de crear una preferencia de pago utilizando la SDK de Mercado Pago
 import client from "../../config/mercadopago";
 import { Payment } from "mercadopago";
 import { Preference } from "mercadopago";
 import { MercadoPagoItem } from "./types";
 import * as saleRepository from "../sales/repository"
 import * as paymentRepository from "./repository"
+import * as productRepository from "../product/repository"
 import { SaleStatus } from "@prisma/client";
 import { Decimal } from "@prisma/client/runtime/library";
 import prisma from "../../config/prisma";
+import { AppError } from "../../errors/AppError";
 
+//Crea una preferencia donde usamos la url que nos devuelve para redirigir al usuario.
 export const createPaymentPreference = async (saleId: number, items: MercadoPagoItem[]) => {
 
     const preference = new Preference(client);
@@ -24,7 +26,7 @@ export const createPaymentPreference = async (saleId: number, items: MercadoPago
                 pending: "",
             },
             auto_return: undefined,
-            //Mercado pago enviará las notificaciones de los eventos del pago a este endpoint.
+            //Mercado pago enviara las notificaciones de los eventos del pago a este endpoint.
             notification_url: `${process.env.BACKEND_URL}/payments/webhook`
         },
     });
@@ -32,15 +34,14 @@ export const createPaymentPreference = async (saleId: number, items: MercadoPago
     return response;
 };
 
+//Consulta a mercado pago la información completa del pago
 export const getPayment = async (paymentId: string) => {
 
     const payment = new Payment(client);
-
-    //Consulta a mercado pago la información completa del pago
     return await payment.get({ id: paymentId });
 };
 
-//Funcion para completar el pago.
+//Funcion para completar el pago. (PRINCIPAL)
 export const processPayment = async (paymentId: string) => {
 
     //Trae el payment desde mercado pago.
@@ -59,27 +60,25 @@ export const processPayment = async (paymentId: string) => {
         return;
     }
 
-    //Obtiene nuestra Sale.
+    //Obtiene nuestra Sale para poder modificar el estado.
+    //En el sale tambien obtenemos los items.
     const saleId = Number(payment.external_reference);
     const sale = await saleRepository.findSaleById(saleId);
-
     if (!sale) {
-        throw new Error("Venta no encontrada");
+        throw new AppError("Venta no encontrada", 404);
     }
 
     if (sale.status === SaleStatus.PAID) {
         return;
     }
 
+    //Asegura que el monto que pago el usuario es el mismo que tenia el sale. (seria raro que falle)
     if (
         payment.transaction_amount === undefined ||
         payment.transaction_amount !== sale.total.toNumber()
     ) {
-        throw new Error(
-            "El monto del pago no coincide con el total de la venta"
-        );
+        throw new AppError("El monto del pago no coincide con el total de la venta");
     }
-
 
     try {
         //Creamos una transaccion para garantizar que la actualizacion de la sale
@@ -87,12 +86,18 @@ export const processPayment = async (paymentId: string) => {
         //Si alguna operacion falla se revierten los cambios realizados.
         await prisma.$transaction(async (tx) => {
 
-            await saleRepository.updateSaleStatus(
-                sale.id,
-                SaleStatus.PAID,
-                tx
-            );
+            //Descuenta el stock de cada producto.
+            for (const item of sale.items) {
+                const result = await productRepository.decreaseStock(item.productId, item.quantity, tx)
+                if (result.count === 0) {
+                    throw new AppError("Stock insuficiente para completar la venta", 409);
+                }
+            }
 
+            //Actualiza el estado del sale a PAID.
+            await saleRepository.updateSaleStatus(sale.id, SaleStatus.PAID, tx);
+
+            //Crea el payment.
             await paymentRepository.createPayment(
                 {
                     providerPaymentId: String(payment.id),

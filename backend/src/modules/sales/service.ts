@@ -3,19 +3,20 @@ import * as productRepository from "../product/repository";
 import * as saleRepository from "./repository"
 import * as paymentService from "../payment/service"
 import * as productService from "../product/service";
-import { CartItemDTO } from "./types";
+import { CartItemDTO } from "../../schemas/checkoutSchema";
+import { AppError } from "../../errors/AppError";
 
 //Funcion util.
 const calculateTotal = (cart: CartItemDTO[], products: Product[]): number => {
 
     return cart.reduce((total, item) => {
 
-        const product = products.find(
-            product => product.id === item.productId
+        const product = products.find(product =>
+            product.id === item.productId
         );
 
         if (!product) {
-            throw new Error("Producto inexistente");
+            throw new AppError("Producto inexistente");
         }
 
         return total + item.quantity * product.price.toNumber();
@@ -34,12 +35,12 @@ const createSale = async (cart: CartItemDTO[], products: Product[], total: numbe
     //Crea los saleItems.
     await saleRepository.createSaleItems(cart.map(item => {
 
-        const product = products.find(
-            product => product.id === item.productId
+        const product = products.find(product =>
+            product.id === item.productId
         );
 
         if (!product) {
-            throw new Error("Producto no encontrado");
+            throw new AppError("Producto no encontrado");
         }
 
         return {
@@ -61,7 +62,12 @@ export const createCheckout = async (cart: CartItemDTO[]) => {
     const products = await productRepository.findProductsByIds(
         cart.map(item => item.productId)
     );
-    
+
+    //Verificar que todos los productos existan.
+    if (products.length !== cart.length) {
+        throw new AppError("Uno o más productos no existen", 404);
+    }
+
     //Valida el stock de los productos.
     productService.validateStock(cart, products)
 
@@ -74,13 +80,13 @@ export const createCheckout = async (cart: CartItemDTO[]) => {
     //Crea el item de mercado pago para pasarcelo.
     const mercadoPagoItems = cart.map(item => {
 
-        //Esta funcion la repito 4 veces. (optimizar) 
-        const product = products.find(
-            product => product.id === item.productId
+        //Esta funcion la repito. (optimizar) 
+        const product = products.find(product =>
+            product.id === item.productId
         );
 
         if (!product) {
-            throw new Error("Producto no encontrado");
+            throw new AppError("Producto no encontrado");
         }
 
         return {
@@ -94,6 +100,6 @@ export const createCheckout = async (cart: CartItemDTO[]) => {
 
     //Crea la preferencia.
     const preference = await paymentService.createPaymentPreference(sale.id, mercadoPagoItems);
-    
+
     return preference.init_point
 }

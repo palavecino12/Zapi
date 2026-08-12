@@ -1,8 +1,14 @@
 import { MercadoPagoConfig } from "mercadopago";
 
-//Creamos una instancia del cliente con las configuraciones
+const accessToken = process.env.MP_ACCESS_TOKEN;
+
+if (!accessToken) {
+    throw new Error("MP_ACCESS_TOKEN no está configurada");
+}
+
+//Crea una instancia del cliente de mercado pago
 const client = new MercadoPagoConfig({
-    accessToken: process.env.MP_ACCESS_TOKEN!, //por el momento colocamos que nunca va a ser null pero mas adelante hay que validar
+    accessToken,
 });
 
 export default client;
