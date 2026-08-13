@@ -1,5 +1,6 @@
 //Servicios de los productos encargados de comunicarse con la API del backend
 import type { Product } from "../types/productType"
+
 const apiUrl = import.meta.env.VITE_API_URL
 if (!apiUrl) {
     console.error("La variable de entorno VITE_API_URL no está definida");
@@ -13,7 +14,6 @@ type DeleteProductResponse = {
 
 //Service para traer todos los productos
 export const getProducts = async () => {
-    try {
         const url = `${apiUrl}/products`
 
         const response = await fetch(url)
@@ -26,15 +26,10 @@ export const getProducts = async () => {
         const products: Product[] = await response.json()
 
         return products;
-    } catch (error) {
-        console.error(error);
-        throw error;
-    }
 }
 
 //service para traer un producto segun su codigo
 export const getProductByCode = async (code: string): Promise<Product> => {
-    try {
         const url = `${apiUrl}/products/${code}`
 
         const response = await fetch(url)
@@ -47,15 +42,10 @@ export const getProductByCode = async (code: string): Promise<Product> => {
         const product: Product = await response.json();
 
         return product;
-    } catch (error) {
-        console.error(error);
-        throw error;
-    }
 }
 
 //Service para eliminar un producto segun su codigo
 export const deleteProductByCode = async (code: string): Promise<DeleteProductResponse> => {
-    try {
         const url = `${apiUrl}/products/${code}`
 
         const response = await fetch(url, {
@@ -70,9 +60,5 @@ export const deleteProductByCode = async (code: string): Promise<DeleteProductRe
         const data: DeleteProductResponse = await response.json();
 
         return data;
-    } catch (error) {
-        console.error(error);
-        throw error;
-    }
 }
 
