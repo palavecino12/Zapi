@@ -7,68 +7,63 @@ type CartItemProps = {
   product: CartItemType
 };
 
+
 const Cartitem = ({ product }: CartItemProps) => {
 
   const { removeItem, updateQuantity } = useCart()
 
   return (
-    <div className="w-screen px-2" data-aos="zoom-in" >
-      <div className="rounded-2xl overflow-hidden bg-gray-200 border border-black/20 w-full">
+    <div className="w-screen px-2" data-aos="zoom-in">
 
-        {/* Parte superior */}
-        <div className="bg-white p-1 flex items-center justify-between">
+      <div className="rounded-2xl overflow-hidden bg-white border border-gray-200 shadow-md w-full">
+
+        <div className="p-2 flex items-center gap-3 min-w-0">
 
           {/* Nombre del producto */}
-          <h2 className="text-black/90 text-xl font-bold ml-2">
+          <h2 className="text-black/90 text-lg font-bold flex-1 min-w-0 truncate">
             {product.name}
           </h2>
 
-          {/* boton para eliminar producto */}
-          <button onClick={() => removeItem(product.id)}
-            className="h-10 w-10 mr-2 flex items-center justify-center bg-gray-100  
-                  rounded-lg shadow-xl active:bg-gray-400 active:scale-95 active:shadow-none active:text-white">
-            <Trash2 color="black" />
-          </button>
 
-        </div >
-
-        {/* Parte inferior */}
-        < div className="bg-white p-2 flex items-center justify-between" >
-
-          {/* Precio del producto */}
-          <p className="text-violet-600 text-lg font-bold ml-2">
-            Precio: ${(product.price * product.quantity).toLocaleString()}
+          {/* Precio */}
+          <p className="text-violet-600 text-lg font-bold whitespace-nowrap">
+            ${(
+              product.price * product.quantity
+            ).toLocaleString()}
           </p>
 
+
           {/* Controles */}
-          <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2 shrink-0">
 
-            <div className="flex items-center gap-3 mr-2">
+            {/* Boton restar */}
+            <button
+              onClick={() => updateQuantity(product.id, "decrement")}
+              className=" h-9 w-9 flex items-center justify-center text-lg font-bold border border-gray-400 rounded-lg shadow-md transition-all duration-150 hover:bg-gray-100 active:bg-gray-400 active:scale-95 active:shadow-none active:text-white">
+              -
+            </button>
 
-              {/* Boton restar */}
-              <button
-                onClick={() => updateQuantity(product.id, "decrement")}
-                className="h-10 w-10 flex items-center justify-center text-xl font-bold border 
-                  border-gray-400 rounded-lg  shadow-lg active:bg-gray-400 active:scale-95 active:shadow-none active:text-white">-
-              </button>
 
-              {/* Cantidad */}
-              <p className="text-black text-lg">{product.quantity}</p>
+            {/* Cantidad */}
+            <p className="text-black text-lg font-semibold min-w-[20px] text-center">
+              {product.quantity}
+            </p>
 
-              {/* Boton sumar */}
-              <button
-                onClick={() => updateQuantity(product.id, "increment")}
-                className="text-white h-10 w-10 flex items-center justify-center text-xl font-bold bg-violet-600 bordertext-white rounded-lg shadow-lg 
-              transition-all duration-150 hover:bg-violet-700 active:bg-violet-800 active:scale-95 active:shadow-none">+
 
-              </button>
-            </div>
-          </div >
-        </div >
-      </div >
-    </div >
+            {/* Boton sumar */}
+            <button onClick={() => updateQuantity(product.id, "increment")} className="h-9 w-9 flex items-center justify-center text-lg font-bold text-white bg-violet-600 rounded-lg shadow-md transition-all duration-150 hover:bg-violet-700 active:bg-violet-800 active:scale-95 active:shadow-none">+</button>
+
+
+            {/* Boton eliminar */}
+            <button onClick={() => removeItem(product.id)} className="h-9 w-9 flex items-center justify-center bg-gray-100 rounded-lg shadow-md transition-all duration-150 hover:bg-gray-200 active:bg-gray-400 active:scale-95 active:shadow-none active:text-white"><Trash2 size={18} color="black" /></button>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
   );
 };
 
 export default Cartitem;
-
