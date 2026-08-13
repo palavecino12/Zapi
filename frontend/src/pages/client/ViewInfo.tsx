@@ -16,7 +16,7 @@ const ViewInfo = () => {
     <div className="h-dvh flex flex-col items-center justify-center gap-6 px-4 ">
 
       {/* Card */}
-      <ProductDetails name={product.name} price={product.price} />
+      <ProductDetails name={product.name} price={product.price} categoria={product.category}/>
 
       {/* Botones */}
       <div className=" flex flex-col gap-3 w-full max-w-sm">
