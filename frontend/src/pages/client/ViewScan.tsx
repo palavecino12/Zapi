@@ -5,7 +5,7 @@ import { CameraView } from "../../scanner/CameraView";
 export const ViewScan = () => {
 
   const { items } = useCart();
-  
+
   return (
     <div className="h-dvh flex flex-col overflow-hidden">
 
@@ -17,7 +17,7 @@ export const ViewScan = () => {
       </div>
 
       {/* Cárrito */}
-      <CartList carrito={items} />
+      <CartList carrito={items} mode="Scan" />
     </div>
   );
 };

@@ -1,10 +1,12 @@
 import { useEffect } from 'react'
 import { useScanner } from './useScanner'
 import { useCart } from '../cart/useCart';
+import { CameraGuide } from './ScanGuide';
+import { Spinner } from '../components/feedback/Spinner';
 
 export const CameraView = () => {
 
-    const { videoRef, start, stop, product } = useScanner()
+    const { videoRef, start, stop, product, loading } = useScanner()
     const { addItem } = useCart();
 
     //Cada vez que montamos el componente inicamos la deteccion.
@@ -13,7 +15,7 @@ export const CameraView = () => {
         return () => stop()
     }, [])// eslint-disable-line react-hooks/exhaustive-deps
 
-    //Al momento que detecta un producto redirigimos:
+    //Al momento que detecta un producto lo añadimos al carrito:
     useEffect(() => {
         if (product) {
             addItem(product)
@@ -24,27 +26,14 @@ export const CameraView = () => {
         <div className="flex flex-col items-center justify-center w-full">
             <div className="relative w-full max-w-md aspect-video bg-black overflow-hidden shadow-lg">
                 <video ref={videoRef} className="w-full h-full object-cover" playsInline autoPlay muted />
-                <div className="absolute inset-0 pointer-events-none">
-                    {/* Superior izquierda */}
-                    <div
-                        className={`absolute top-10 left-15 h-10 w-10 border-t-[4px] border-l-[4px] 
-                        rounded-tl-lg opacity-55`} />
-                    {/* Superior derecha */}
-                    <div
-                        className={`absolute top-10 right-15 h-10 w-10 border-t-[4px] border-r-[4px]
-                        rounded-tr-lg opacity-55`}
-                    />
-                    {/* Inferior izquierda */}
-                    <div
-                        className={`absolute bottom-10 left-15 h-10 w-10 border-b-[4px] border-l-[4px]
-                        rounded-bl-lg opacity-55`}
-                    />
-                    {/* Inferior derecha */}
-                    <div
-                        className={`absolute bottom-10 right-15 h-10 w-10 border-b-[4px] border-r-[4px]
-                        rounded-br-lg opacity-55`}
-                    />
-                </div>
+                {loading
+                    ? (
+                        <div className="absolute inset-0 flex items-center justify-center bg-white/40 backdrop-blur-md">
+                            <Spinner />
+                        </div>
+                    )
+                    : <CameraGuide />
+                }
             </div>
         </div>
     )

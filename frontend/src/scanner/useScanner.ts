@@ -6,7 +6,8 @@ import type { Product } from '../types/productType'
 export const useScanner = () => {
 
   const videoRef = useRef<HTMLVideoElement | null>(null)
-  const hasScannedRef = useRef(false) //Ref para evitar detecciones múltiples
+  const isProcessingRef = useRef(false) //Ref para evitar detecciones múltiples MIENTRAS se procesa una (no apaga la cámara)
+  const resumeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null) //Ref al timeout de espera post-producto, para poder cancelarlo si hace falta
 
   const [isScanning, setIsScanning] = useState(false)
   const [code, setCode] = useState<string | null>(null)
@@ -18,7 +19,8 @@ export const useScanner = () => {
     if (!videoRef.current) return
 
     //Resetea los estados cuando arranca la deteccion.
-    hasScannedRef.current = false
+    isProcessingRef.current = false
+    if (resumeTimeoutRef.current) clearTimeout(resumeTimeoutRef.current)
     setIsScanning(true)
     setError(null)
     setCode(null)
@@ -27,13 +29,11 @@ export const useScanner = () => {
     startScanner(videoRef.current, {
       //Primer callback: en caso de exito mandamos el codigo al back y almacenamos el producto.
       onResult: async (text) => {
-        //Si ya tenemos un valor almacenado no seguimos.
-        if (hasScannedRef.current) return
-        hasScannedRef.current = true
-        //Cortamos el escaneo apenas detectamos algo válido
-        stopScanner()
-        setIsScanning(false)
+        //Si ya estamos procesando un código, ignoramos esta detección (pero la cámara sigue prendida)
+        if (isProcessingRef.current) return
+        isProcessingRef.current = true
         setLoading(true)
+        //Ya NO llamamos stopScanner() ni setIsScanning(false) acá: la cámara sigue viva y siguen entrando frames
 
         try {
           setCode(text);
@@ -52,6 +52,10 @@ export const useScanner = () => {
           }
         } finally {
           setLoading(false)
+          //Esperamos 1 segundo antes de liberar el lock, para dar un respiro antes del próximo escaneo
+          resumeTimeoutRef.current = setTimeout(() => {
+            isProcessingRef.current = false
+          }, 1000)
         }
       },
       //Segundo callback: Se dispara si hay un error al iniciar la camara.
@@ -61,14 +65,16 @@ export const useScanner = () => {
     })
   }
 
-  //Frena el service.
+  //Frena el service. Acá SÍ apagamos la cámara, porque es una acción explícita del usuario/desmontaje.
   const stop = () => {
+    if (resumeTimeoutRef.current) clearTimeout(resumeTimeoutRef.current)
     stopScanner()
     setIsScanning(false)
   }
 
   useEffect(() => {
     return () => {
+      if (resumeTimeoutRef.current) clearTimeout(resumeTimeoutRef.current)
       stopScanner()
     }
   }, [])
