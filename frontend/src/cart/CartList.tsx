@@ -13,7 +13,6 @@ function CartList({ carrito }: Props) {
     0
   );
 
-
   return (
     <div className="flex-1 w-full flex flex-col min-h-0 ">
       {carrito.length === 0 ? (
@@ -27,10 +26,7 @@ function CartList({ carrito }: Props) {
         <>
           <div className="flex-1 overflow-y-auto flex flex-col gap-3 ">
             {carrito.map((producto) => (
-              <CartItem
-                key={producto.id}
-                product={producto}
-              />
+              <CartItem key={producto.id} product={producto}/>
             ))}
 
           </div>

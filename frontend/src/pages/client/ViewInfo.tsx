@@ -16,12 +16,12 @@ const ViewInfo = () => {
     <div className="h-dvh flex flex-col items-center justify-center gap-6 px-4 ">
 
       {/* Card */}
-      <ProductDetails name={product.name} price={product.price} categoria={product.category}/>
+      <ProductDetails name={product.name} price={product.price}/>
 
       {/* Botones */}
       <div className=" flex flex-col gap-3 w-full max-w-sm">
         <Button onClick={() => { addItem(product); navigate("/cart") }} variant="primario"> Añadir</Button>
-        <Button onClick={() => navigate("/")} variant="secundario">Cancelar</Button>
+        <Button onClick={() => navigate("/cart")} variant="secundario">Cancelar</Button>
       </div>
     </div>
   );

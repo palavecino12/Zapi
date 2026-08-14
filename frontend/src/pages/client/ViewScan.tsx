@@ -1,7 +1,11 @@
+import CartList from "../../cart/CartList";
+import { useCart } from "../../cart/useCart";
 import { CameraView } from "../../scanner/CameraView";
-import { ScanInstruction } from "../../components/ScanInstruction";
 
 export const ViewScan = () => {
+
+  const { items } = useCart();
+  
   return (
     <div className="h-dvh flex flex-col overflow-hidden">
 
@@ -12,11 +16,8 @@ export const ViewScan = () => {
         </div>
       </div>
 
-      {/* Instrucción */}
-      <div className="flex-1 flex items-center justify-center px-6 pt-10 pb-8" >
-        <ScanInstruction />
-      </div>
-
+      {/* Cárrito */}
+      <CartList carrito={items} />
     </div>
   );
 };
