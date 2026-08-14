@@ -1,4 +1,6 @@
 import { Trash2 } from 'lucide-react';
+import { useEffect } from 'react';
+import { useSpring, animated } from '@react-spring/web';
 import { useCart } from "./useCart";
 import type { CartItemType } from "../types/productType";
 
@@ -6,24 +8,71 @@ type CartItemProps = {
   product: CartItemType;
 };
 
-const Cartitem = ({ product }: CartItemProps) => {
+const CartItem = ({ product }: CartItemProps) => {
 
   const { removeItem, updateQuantity } = useCart();
 
+  // Animación de entrada
+  const [spring, api] = useSpring(() => ({
+    from: {
+      opacity: 0,
+      x: -100,
+      scale: 0.95,
+    },
+    config: {
+      tension: 220,
+      friction: 22,
+    },
+  }));
+
+  useEffect(() => {
+    api.start({
+      opacity: 1,
+      x: 0,
+      scale: 1,
+    });
+  }, [api]);
+
+  const handleRemove = () => {
+
+    // Animación hacia la derecha
+    api.start({
+      opacity: 0,
+      x: 300,
+      scale: 0.95,
+      config: {
+        tension: 220,
+        friction: 22,
+      },
+    });
+
+    // Esperamos a que termine antes de eliminar
+    setTimeout(() => {
+      removeItem(product.id);
+    }, 350);
+  };
+
   return (
-    <div className="w-screen px-2" data-aos="zoom-in">
+    <animated.div
+      style={{
+        opacity: spring.opacity,
+        transform: spring.x.to(
+          (x) => `translate3d(${x}px, 0, 0) scale(${spring.scale.get()})`
+        ),
+      }}
+      className="w-screen px-2"
+    >
       <div className="rounded-2xl overflow-hidden bg-white border border-gray-200 shadow-md w-full">
+
         <div className="p-2 pr-0 flex items-center gap-3">
 
           {/* Contenido */}
           <div className="flex-1 min-w-0 flex flex-col">
 
-            {/* Nombre */}
             <h2 className="text-black/90 text-lg font-bold min-w-0 truncate">
               {product.name}
             </h2>
 
-            {/* Precio */}
             <p className="text-violet-600 text-lg font-bold whitespace-nowrap">
               ${(product.price * product.quantity).toLocaleString()}
             </p>
@@ -35,9 +84,7 @@ const Cartitem = ({ product }: CartItemProps) => {
 
             <button
               onClick={() => updateQuantity(product.id, "decrement")}
-              className="h-10 w-10 flex items-center justify-center text-base font-bold border border-gray-400 
-              rounded-lg shadow-md transition-all duration-150 active:bg-gray-400 active:scale-95 active:shadow-none
-              active:text-white"
+              className="h-10 w-10 flex items-center justify-center text-base font-bold border border-gray-400 rounded-lg shadow-md transition-all duration-150 active:bg-gray-400 active:scale-95 active:shadow-none active:text-white"
             >
               -
             </button>
@@ -48,8 +95,7 @@ const Cartitem = ({ product }: CartItemProps) => {
 
             <button
               onClick={() => updateQuantity(product.id, "increment")}
-              className="h-10 w-10 flex items-center justify-center text-base font-bold text-white bg-violet-600 
-              rounded-lg shadow-md transition-all duration-150 active:bg-violet-800 active:scale-95 active:shadow-none"
+              className="h-10 w-10 flex items-center justify-center text-base font-bold text-white bg-violet-600 rounded-lg shadow-md transition-all duration-150 active:bg-violet-800 active:scale-95 active:shadow-none"
             >
               +
             </button>
@@ -58,17 +104,16 @@ const Cartitem = ({ product }: CartItemProps) => {
 
           {/* Eliminar */}
           <button
-            onClick={() => removeItem(product.id)}
-            className="w-10 h-10 shrink-0 mr-2 flex items-center justify-center text-white bg-red-500/80 rounded-lg 
-            shadow-md transition-all duration-150 active:bg-red-700 active:scale-95 active:shadow-none"
+            onClick={handleRemove}
+            className="w-10 h-10 shrink-0 mr-2 flex items-center justify-center text-white bg-red-500/80 rounded-lg shadow-md transition-all duration-150 active:bg-red-700 active:scale-95 active:shadow-none"
           >
             <Trash2 size={16} />
           </button>
 
         </div>
       </div>
-    </div>
+    </animated.div>
   );
 };
 
-export default Cartitem;
+export default CartItem;
