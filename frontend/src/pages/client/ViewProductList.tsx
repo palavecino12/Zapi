@@ -13,7 +13,7 @@ const products: Product[] = [
         id: 180001,
         code: "P001",
         name: "Coca Cola 2.25L",
-        category:"Bebidas",
+        category: "Bebidas",
         price: 100,
         stock: 25,
         createdAt: "2026-07-01T10:30:00.000Z"
@@ -22,7 +22,7 @@ const products: Product[] = [
         id: 180002,
         code: "P002",
         name: "Papas Lays Clásicas",
-        category:"Snacks",
+        category: "Snacks",
         price: 1700,
         stock: 15,
         createdAt: "2026-07-01T10:35:00.000Z"
@@ -31,10 +31,55 @@ const products: Product[] = [
         id: 180003,
         code: "P003",
         name: "Agua Mineral 1.5L",
-        category:"Bebidas",
+        category: "Bebidas",
         price: 2200,
         stock: 40,
         createdAt: "2026-07-01T10:40:00.000Z"
+    },
+    {
+        id: 180004,
+        code: "P004",
+        name: "Alfajor Guaymallén Chocolate",
+        category: "Golosinas",
+        price: 800,
+        stock: 30,
+        createdAt: "2026-07-01T10:45:00.000Z"
+    },
+    {
+        id: 180005,
+        code: "P005",
+        name: "Sprite 2.25L",
+        category: "Bebidas",
+        price: 1900,
+        stock: 20,
+        createdAt: "2026-07-01T10:50:00.000Z"
+    },
+    {
+        id: 180006,
+        code: "P006",
+        name: "Chizitos 100g",
+        category: "Snacks",
+        price: 1200,
+        stock: 18,
+        createdAt: "2026-07-01T10:55:00.000Z"
+    },
+    {
+        id: 180007,
+        code: "P007",
+        name: "Chocolate Milka 100g",
+        category: "Golosinas",
+        price: 2500,
+        stock: 12,
+        createdAt: "2026-07-01T11:00:00.000Z"
+    },
+    {
+        id: 180008,
+        code: "P008",
+        name: "Jugo Baggio Naranja 1L",
+        category: "Bebidas",
+        price: 1600,
+        stock: 22,
+        createdAt: "2026-07-01T11:05:00.000Z"
     },
 ];
 
