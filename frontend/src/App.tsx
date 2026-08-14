@@ -11,8 +11,8 @@ import "aos/dist/aos.css";
 import "@fontsource/poppins/600.css";
 import "@fontsource/poppins/700.css";
 
-import Success from "./components/success"
-import Error from "./components/error"
+import Success from "./components/feedback/success"
+import Error from "./components/feedback/error"
 import Home from "./components/Home";
 
 function App() {

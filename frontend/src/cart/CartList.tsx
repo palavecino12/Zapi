@@ -1,11 +1,14 @@
 import CartItem from "./CartItem";
 import type { CartItemType } from "../types/productType";
+import { CartEmpty } from "../components/CartEmpty";
+import { ScanInstruction } from "../components/ScanInstruction";
 
 type Props = {
   carrito: CartItemType[];
+  mode?: "Cart" | "Scan"
 };
 
-function CartList({ carrito }: Props) {
+function CartList({ carrito, mode = "Cart" }: Props) {
 
   const total = carrito.reduce(
     (acumulador, producto) =>
@@ -13,28 +16,21 @@ function CartList({ carrito }: Props) {
     0
   );
 
-
   return (
     <div className="flex-1 w-full flex flex-col min-h-0 ">
       {carrito.length === 0 ? (
-        <div className=" flex-1 flex flex-col justify-center items-center gap-6 pb-6 ">
-          <img src="/cart-empty.png" alt="Carrito" className=" w-[65vw] max-w-[330px] h-auto " />
-          <h2 className=" font-medium text-2xl text-center ">
-            Tu carrito está vacío
-          </h2>
-        </div>
+        mode === "Cart"
+          ? <CartEmpty />
+          : <div className="flex-1 flex items-center"><ScanInstruction /></div>
       ) : (
         <>
           <div className="flex-1 overflow-y-auto flex flex-col gap-3 ">
             {carrito.map((producto) => (
-              <CartItem
-                key={producto.id}
-                product={producto}
-              />
+              <CartItem key={producto.id} product={producto} />
             ))}
 
           </div>
-          <p className=" border-y border-black/30 p-3 font-bold shadow-lg ">  
+          <p className=" border-y border-black/30 p-3 font-bold shadow-lg ">
             Total: ${total}
           </p>
         </>

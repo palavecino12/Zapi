@@ -1,47 +1,39 @@
 import { useEffect } from 'react'
 import { useScanner } from './useScanner'
-import { useNavigate } from 'react-router-dom';
+import { useCart } from '../cart/useCart';
+import { CameraGuide } from './ScanGuide';
+import { Spinner } from '../components/feedback/Spinner';
 
 export const CameraView = () => {
-    const { videoRef, start, stop, product } = useScanner()
 
-    const navigate = useNavigate();
+    const { videoRef, start, stop, product, loading } = useScanner()
+    const { addItem } = useCart();
 
-    //Iniciar scanner
+    //Cada vez que montamos el componente inicamos la deteccion.
     useEffect(() => {
         start()
         return () => stop()
-    }, [])
+    }, [])// eslint-disable-line react-hooks/exhaustive-deps
 
-    //Redirigir cuando se encuentre un producto
+    //Al momento que detecta un producto lo añadimos al carrito:
     useEffect(() => {
         if (product) {
-            navigate("/product", {
-                state: {
-                    product,
-                },
-            });
+            addItem(product)
         }
     }, [product]);
 
     return (
         <div className="flex flex-col items-center justify-center w-full">
-
-            {/* Contenedor cámara */}
-            <div className="relative w-full max-w-md aspect-video bg-black rounded-xl overflow-hidden shadow-lg">
-                {/* CAMBIO AQUÍ: Se agregaron autoPlay y muted */}
-                <video 
-                    ref={videoRef} 
-                    className="w-full h-full object-cover" 
-                    playsInline 
-                    autoPlay 
-                    muted 
-                />
-
-                {/* Línea de escaneo (horizontal) */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-[90%] h-[2px] bg-violet-600 opacity-80" />
-                </div>
+            <div className="relative w-full max-w-md aspect-video bg-black overflow-hidden shadow-lg">
+                <video ref={videoRef} className="w-full h-full object-cover" playsInline autoPlay muted />
+                {loading
+                    ? (
+                        <div className="absolute inset-0 flex items-center justify-center bg-white/40 backdrop-blur-md">
+                            <Spinner />
+                        </div>
+                    )
+                    : <CameraGuide />
+                }
             </div>
         </div>
     )
