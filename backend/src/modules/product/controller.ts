@@ -13,13 +13,13 @@ export const getProductsController = async (req: Request, res: Response, next: N
 }
 
 //GET/products/:code
-export const getProductByCodeController = async (req: Request<{ code: string }>, res: Response, next: NextFunction) => {
+export const getProductByIdCodeController = async (req: Request<{ code: string }>, res: Response, next: NextFunction) => {
 
     try {
         const { code } = req.params;
         const product = await getProductByCode(code);
         return res.status(200).json(product);
-    } catch (error: unknown) {
+    } catch (error) {
         next(error)
     }
 };

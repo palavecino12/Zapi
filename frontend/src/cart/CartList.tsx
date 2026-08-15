@@ -18,19 +18,22 @@ function CartList({ carrito, mode = "Cart" }: Props) {
 
   return (
     <div className="flex-1 w-full flex flex-col min-h-0 ">
+
+      {/* Em caso de no haber productos mostramos un icono */}
       {carrito.length === 0 ? (
         mode === "Cart"
           ? <CartEmpty />
-          : <div className="flex-1 flex items-center"><ScanInstruction /></div>
+          : <div className="flex-1 flex items-center justify-center"><ScanInstruction /></div>
       ) : (
         <>
+          {/* Lista de productos */}
           <div className="flex-1 overflow-y-auto flex flex-col gap-3 ">
             {carrito.map((producto) => (
               <CartItem key={producto.id} product={producto} />
             ))}
 
           </div>
-          <p className=" border-y border-black/30 p-3 font-bold shadow-lg ">
+          <p className=" border-y border-black/7 py-2 px-5 font-bold shadow-lg ">
             Total: ${total}
           </p>
         </>

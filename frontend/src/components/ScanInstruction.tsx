@@ -2,7 +2,7 @@
 export const ScanInstruction = () => {
 
   return (
-    <div className="flex flex-col items-center justify-center p-8 rounded-2xl shadow-xl max-w-sm mx-auto border border-gray-200 bg-white">
+    <div className="flex flex-col items-center justify-center p-5 rounded-2xl shadow-xl max-w-sm mx-auto border border-gray-200 bg-white">
       
       {/* Cuadro del Scanner */}
       <div className="relative w-52 h-52 bg-white rounded-xl flex items-center justify-center overflow-hidden border-2 border-dashed border-black/20 ">

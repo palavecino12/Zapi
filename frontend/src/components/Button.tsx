@@ -9,14 +9,14 @@ export const Button = ({ children, variant = 'primario', className = "", ...prop
 
   const styles = { 
     primario: ` text-white bg-violet-600 hover:bg-violet-700 active:bg-violet-800`,
-    secundario: "text-violet-600 border border-violet-600 bg-white hover:bg-violet-50 active:bg-violet-100"
+    secundario: "text-violet-600 border border-violet-600 bg-white active:bg-violet-100"
   };
 
   return (
 
     <button
       {...props}
-      className={`h-12 w-70 relative text-lg font-bold rounded-xl shadow-lg transition-all duration-150 active:scale-95 active:shadow-md hover:scale-[1.02] ${styles[variant]} ${className}`}>
+      className={`h-11 w-68 relative text-lg font-bold rounded-xl shadow-lg transition-all duration-150 active:scale-95 active:shadow-md ${styles[variant]} ${className}`}>
       {children}
     </button>
 

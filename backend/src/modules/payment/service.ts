@@ -23,9 +23,9 @@ export const createPaymentPreference = async (saleId: number, items: MercadoPago
             back_urls: {
                 success: `${process.env.FRONTEND_URL}/success`,
                 failure: `${process.env.FRONTEND_URL}/error`,
-                pending: "",
+                pending: `${process.env.FRONTEND_URL}/loading`,
             },
-            auto_return: undefined,
+            auto_return: "approved",
             //Mercado pago enviara las notificaciones de los eventos del pago a este endpoint.
             notification_url: `${process.env.BACKEND_URL}/payments/webhook`
         },

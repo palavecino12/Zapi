@@ -15,7 +15,7 @@ export const getProductByCode = async (code: string): Promise<Product> => {
     const product = await findProductByCode(code)
 
     if (!product) {
-        throw new AppError("El producto no fue encontrado", 404)
+        throw new AppError("Este producto no pertenece al negocio", 404)
     }
 
     return product
