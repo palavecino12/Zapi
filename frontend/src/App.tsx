@@ -11,9 +11,10 @@ import "aos/dist/aos.css";
 import "@fontsource/poppins/600.css";
 import "@fontsource/poppins/700.css";
 
-import Success from "./components/feedback/success"
-import Error from "./components/feedback/error"
+import { SuccessFeedback } from "./components/feedback/SuccessFeedback"
+import { ErrorFeedback } from "./components/feedback/ErrorFeedback"
 import Home from "./components/Home";
+import { Loading } from "./components/feedback/Loading";
 
 function App() {
 
@@ -33,10 +34,11 @@ function App() {
                 <Route path="/product" element={<ViewInfo />} />
                 <Route path="/list" element={<ViewProductList />} />
 
-                <Route path="/success" element={<Success />} />
-                <Route path="/error" element={<Error />} />
+                <Route path="/success" element={<SuccessFeedback />} />
+                <Route path="/error" element={<ErrorFeedback />} />
+                <Route path="/loading" element={<Loading />} />
 
-                <Route path="/test" element={<Home />} />
+                <Route path="/test" element={<ErrorFeedback />} />
             </Routes>
         </BrowserRouter>
     )

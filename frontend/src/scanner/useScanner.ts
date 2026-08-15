@@ -1,3 +1,5 @@
+//Este hook maneja el escaneo de codigo de barra, cuando se obtiene un codigo numerico
+//se hace la llamada al service para traer el producto.
 import { useEffect, useRef, useState } from 'react'
 import { startScanner, stopScanner } from './scannerService'
 import { getProductByCode } from '../services/productServices'
@@ -29,18 +31,16 @@ export const useScanner = () => {
     startScanner(videoRef.current, {
       //Primer callback: en caso de exito mandamos el codigo al back y almacenamos el producto.
       onResult: async (text) => {
-        //Si ya estamos procesando un código, ignoramos esta detección (pero la cámara sigue prendida)
+        //Si ya estamos procesando un código, ignoramos esta deteccion.
         if (isProcessingRef.current) return
         isProcessingRef.current = true
         setLoading(true)
-        //Ya NO llamamos stopScanner() ni setIsScanning(false) acá: la cámara sigue viva y siguen entrando frames
+        setError(null)
 
         try {
           setCode(text);
-          console.log(text)//Eliminar cuando ya funcione todo bien
 
           const foundProduct = await getProductByCode(text);
-          console.log("Codigo enviado a backend")//Eliminar cuando ya funcione todo bien
 
           setProduct(foundProduct);
 
@@ -52,7 +52,7 @@ export const useScanner = () => {
           }
         } finally {
           setLoading(false)
-          //Esperamos 1 segundo antes de liberar el lock, para dar un respiro antes del próximo escaneo
+          //Esperamos 1 segundo antes de liberar el lock, sino repite el codigo del producto.
           resumeTimeoutRef.current = setTimeout(() => {
             isProcessingRef.current = false
           }, 1000)
@@ -65,7 +65,7 @@ export const useScanner = () => {
     })
   }
 
-  //Frena el service. Acá SÍ apagamos la cámara, porque es una acción explícita del usuario/desmontaje.
+  //Frena el service.
   const stop = () => {
     if (resumeTimeoutRef.current) clearTimeout(resumeTimeoutRef.current)
     stopScanner()
