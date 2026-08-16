@@ -6,14 +6,14 @@ import { useSpring, animated } from "@react-spring/web";
 export default function Home() {
   const navigate = useNavigate();
 
-  // Movimiento del grupo completo (Z + API)
+  //Movimiento del grupo completo (Z + API)
   const [groupSpring, groupApi] = useSpring(() => ({
     from: {
       x: 65, // La Z comienza centrada
     },
   }));
 
-  // Animación del texto
+  //Animación del texto
   const [textSpring, textApi] = useSpring(() => ({
     from: {
       x: 0,
@@ -26,31 +26,31 @@ export default function Home() {
 
     groupApi.start({
       to: async (next) => {
-        // Espera a que aparezca el logo
+        // Espera a que aparezca el logo (más corto)
         await next({
-          delay: 600,
+          delay: 300,
         });
 
-        // Mientras aparece API, todo el grupo se mueve al centro
+        // Mientras aparece API, todo el grupo se mueve al centro (más rápido)
         await next({
           x: 0,
           config: {
-            tension: 120,
-            friction: 14,
+            tension: 280,
+            friction: 20,
           },
         });
 
-        // Espera un momento
+        // Se lee "ZAPI" por 1 a 2 segundos
         await next({
-          delay: 1800,
+          delay: 1200,
         });
 
-        // Al desaparecer API, vuelve a quedar solo la Z centrada
+        // Al desaparecer API, vuelve a quedar solo la Z centrada (más rápido)
         await next({
           x: 65,
           config: {
-            tension: 140,
-            friction: 16,
+            tension: 300,
+            friction: 22,
           },
         });
       },
@@ -59,22 +59,22 @@ export default function Home() {
     textApi.start({
       to: async (next) => {
         await next({
-          delay: 600,
+          delay: 300,
           opacity: 1,
           x: 115,
           config: {
-            tension: 120,
-            friction: 14,
+            tension: 280,
+            friction: 20,
           },
         });
 
         await next({
-          delay: 1800,
+          delay: 1200,
           opacity: 0,
           x: 0,
           config: {
-            tension: 140,
-            friction: 16,
+            tension: 300,
+            friction: 22,
           },
         });
       },
@@ -82,7 +82,7 @@ export default function Home() {
 
     const timer = setTimeout(() => {
       navigate("/cart");
-    }, 4000);
+    }, 2600);
 
     return () => clearTimeout(timer);
   }, [navigate, groupApi, textApi]);
