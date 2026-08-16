@@ -5,7 +5,7 @@ import { Button } from "../../components/Button";
 import { CameraView } from "../../scanner/CameraView";
 import { useCheckout } from "../../hooks/useCheckout";
 import { Loading } from "../../components/feedback/Loading";
-import { ErrorFeedback } from "../../components/feedback/ErrorFeedback";
+import { ErrorModal } from "../../components/feedback/ErrorModal";
 
 export const ViewScan = () => {
 
@@ -25,7 +25,6 @@ export const ViewScan = () => {
     if (url) window.location.href = url
   }
 
-  if (error) return <ErrorFeedback text={error} />
   return (
     <>
       {/* Componente loading */}
@@ -52,6 +51,9 @@ export const ViewScan = () => {
 
         )}
       </div>
+      
+      {/* Modal para advetir de un problema no mayor */}
+      <ErrorModal error={error} />
     </>
 
   );

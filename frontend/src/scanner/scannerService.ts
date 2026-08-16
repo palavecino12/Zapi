@@ -19,6 +19,9 @@ const codeReader = new BrowserMultiFormatReader(hints)
 let controls: IScannerControls | null = null//Almacenamos el control fuera de la funcion.
 let activeVideoElement: HTMLVideoElement | null = null
 
+//Contador que identifica cada intento de arranque.
+let requestIdCounter = 0
+
 export interface ScannerCallbacks {
   onResult: (text: string) => void
   onError?: (err: unknown) => void
@@ -27,13 +30,15 @@ export interface ScannerCallbacks {
 interface ExtendedMediaTrackConstraintSet extends MediaTrackConstraintSet {
   focusMode?: 'continuous' | 'manual' | 'single-shot' | 'none'
 }
+
 //(PRINCIPAL)
 export const startScanner = async (videoElement: HTMLVideoElement, { onResult, onError }: ScannerCallbacks) => {
+  stopScanner()//Limpiamos por las dudas antes de arrancar (esto también invalida cualquier start anterior en curso).
+  const requestId = requestIdCounter
+
+  activeVideoElement = videoElement
+
   try {
-    stopScanner()//Limpiamos por las dudas antes de arrancar.
-
-    activeVideoElement = videoElement 
-
     //Almacena una lista de camaras disponibles.
     const devices = await BrowserMultiFormatReader.listVideoInputDevices()
     //Intetamos usar solo la camara trasera.
@@ -43,7 +48,7 @@ export const startScanner = async (videoElement: HTMLVideoElement, { onResult, o
     }) || devices[0];
 
     //Control del lector.
-    controls = await codeReader.decodeFromConstraints(
+    const newControls = await codeReader.decodeFromConstraints(
       {
         video: {
           deviceId: backCamera?.deviceId ? { exact: backCamera.deviceId } : undefined,
@@ -63,12 +68,24 @@ export const startScanner = async (videoElement: HTMLVideoElement, { onResult, o
         if (err) return
       }
     )
+
+    if (requestId !== requestIdCounter) {
+      newControls.stop()
+      const stream = videoElement.srcObject as MediaStream | null
+      stream?.getTracks().forEach(track => track.stop())
+      if (videoElement.srcObject) videoElement.srcObject = null
+      return
+    }
+
+    controls = newControls
   } catch (error) {
     onError?.(error)
   }
 }
 
 export const stopScanner = () => {
+  requestIdCounter++ //Invalida cualquier startScanner que esté en curso.
+
   //Frena los controles de zxing.
   if (controls) {
     controls.stop()

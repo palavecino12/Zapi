@@ -6,7 +6,13 @@ import { Prisma, Product } from "@prisma/client";
 
 //Trae todos los productos.
 export const findProducts = async (): Promise<Product[]> => {
-    return await prisma.product.findMany()
+    return await prisma.product.findMany({
+        where: {
+            stock: {
+                gte: 1,
+            },
+        },
+    })
 }
 
 //Busca un unico producto por code.

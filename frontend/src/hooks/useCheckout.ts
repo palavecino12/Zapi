@@ -14,8 +14,8 @@ export const useCheckout = () => {
         try {
             const { url } = await createCheckout(cart)
             return url
-        } catch (err) {
-            const message = err instanceof Error ? err.message : 'Lo sentimos, tuvimos un problema al procesar el pago'
+        } catch (error) {
+            const message = error instanceof Error ? error.message : 'Lo sentimos, tuvimos un problema al procesar el pago'
             setError(message)
             return null
         } finally {
