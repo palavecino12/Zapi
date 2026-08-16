@@ -7,8 +7,8 @@ import { CreditCard } from "lucide-react";
 import Header from "../../components/Header";
 import { useCart } from "../../cart/useCart";
 import { useCheckout } from "../../hooks/useCheckout";
-import { ErrorFeedback } from "../../components/feedback/ErrorFeedback";
 import { Loading } from "../../components/feedback/Loading";
+import { ErrorModal } from "../../components/feedback/ErrorModal";
 
 export const ViewCart = () => {
 
@@ -29,7 +29,6 @@ export const ViewCart = () => {
     if (url) window.location.href = url
   }
 
-  if (error) return <ErrorFeedback text={error} />
   return (
     <>
       {/* Componente loading */}
@@ -62,6 +61,9 @@ export const ViewCart = () => {
           )}
         </div>
       </div>
+
+      {/* Modal para advetir de un problema no mayor */}
+      <ErrorModal error={error} />
     </>
 
   );

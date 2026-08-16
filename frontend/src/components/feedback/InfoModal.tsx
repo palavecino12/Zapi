@@ -1,3 +1,4 @@
+//Por el momento este modal solo se reutiliza dentro de errorModal.
 import React from 'react';
 import { Button } from '../Button';
 import { createPortal } from 'react-dom';

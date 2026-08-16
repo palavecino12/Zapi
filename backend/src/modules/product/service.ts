@@ -15,7 +15,7 @@ export const getProductByCode = async (code: string): Promise<Product> => {
     const product = await findProductByCode(code)
 
     if (!product) {
-        throw new AppError("Este producto no pertenece al negocio", 404)
+        throw new AppError("Este producto no pertenece al negocio.", 404)
     }
 
     return product
@@ -35,7 +35,7 @@ export const validateStock = (cart: CartItemDTO[], products: Product[]) => {
         }
 
         if (product.stock < item.quantity) {
-            throw new AppError(`Stock insuficiente para ${product.name}`, 409);
+            throw new AppError(`Stock insuficiente para ${product.name}.`, 409);
         }
     }
 }

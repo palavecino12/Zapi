@@ -8,7 +8,7 @@ interface SpinnerProps {
 export const Spinner = ({ message = "Cargando..." }: SpinnerProps) => {
     return (
 
-        <div className="flex flex-col items-center justify-center gap-6">
+        <div className="flex flex-col items-center justify-center gap-3">
             <motion.div
                 animate={{ rotate: 360 }}
                 transition={{

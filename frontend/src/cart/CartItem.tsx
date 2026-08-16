@@ -12,7 +12,7 @@ const CartItem = ({ product }: CartItemProps) => {
 
   const { removeItem, updateQuantity } = useCart();
 
-  // Animación de entrada
+  //Animación de entrada
   const [spring, api] = useSpring(() => ({
     from: {
       opacity: 0,
@@ -35,7 +35,7 @@ const CartItem = ({ product }: CartItemProps) => {
 
   const handleRemove = () => {
 
-    // Animación hacia la derecha
+    //Animación hacia la derecha
     api.start({
       opacity: 0,
       x: 300,
@@ -46,7 +46,7 @@ const CartItem = ({ product }: CartItemProps) => {
       },
     });
 
-    // Esperamos a que termine antes de eliminar
+    //Esperamos a que termine antes de eliminar
     setTimeout(() => {
       removeItem(product.id);
     }, 350);
@@ -62,18 +62,18 @@ const CartItem = ({ product }: CartItemProps) => {
       }}
       className="w-screen px-2"
     >
-      <div className="rounded-2xl overflow-hidden bg-white border border-gray-200 shadow-md w-full">
+      <div className="rounded-2xl overflow-hidden bg-white border border-gray-300 shadow-xl w-full">
 
         <div className="p-2 pr-0 flex items-center gap-3">
 
           {/* Contenido */}
           <div className="flex-1 min-w-0 flex flex-col">
 
-            <h2 className="text-black/90 text-lg font-bold min-w-0 truncate">
+            <h2 className="text-black/90 text-lg font-semibold min-w-0 truncate">
               {product.name}
             </h2>
 
-            <p className="text-violet-600 text-lg font-bold whitespace-nowrap">
+            <p className="text-violet-600 text-lg font-semibold whitespace-nowrap">
               ${(product.price * product.quantity).toLocaleString()}
             </p>
 
@@ -105,7 +105,7 @@ const CartItem = ({ product }: CartItemProps) => {
           {/* Eliminar */}
           <button
             onClick={handleRemove}
-            className="w-10 h-10 shrink-0 mr-2 flex items-center justify-center text-white bg-red-500/80 rounded-lg shadow-md transition-all duration-150 active:bg-red-700 active:scale-95 active:shadow-none"
+            className="w-10 h-10 shrink-0 mr-2 flex items-center justify-center text-white bg-red-600/80 rounded-lg shadow-md transition-all duration-150 active:bg-red-700 active:scale-95 active:shadow-none"
           >
             <Trash2 size={16} />
           </button>
