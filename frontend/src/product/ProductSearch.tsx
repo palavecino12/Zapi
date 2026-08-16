@@ -6,12 +6,12 @@ interface props{
 
 export const ProductSearch = ({setProductSearch}:props) =>{
     return(
-        <div className="relative w-88">
+        <div className="relative w-full">
 
             {/* La razon por la que esta primero el input es para poder usar peer para cuando se hace foco en el input */}
             <input
                 type="text"
-                placeholder="Buscar usuario..."
+                placeholder="Buscar producto..."
                 className="peer w-full pl-10 p-2 border border-gray-300 rounded-lg shadow-lg
                     focus:ring-2 focus:border-transparent focus:outline-none focus:shadow-inner
                     transition-all duration-200 bg-white active:scale-95"
