@@ -15,6 +15,12 @@ import { SuccessFeedback } from "./components/feedback/SuccessFeedback"
 import { ErrorFeedback } from "./components/feedback/ErrorFeedback"
 import Home from "./components/Home";
 import { Loading } from "./components/feedback/Loading";
+import { Login } from "./pages/admin/Login";
+import { AddProduct } from "./pages/admin/AddProduct";
+import { Products } from "./pages/admin/Products";
+import { ReviewStock } from "./pages/admin/ReviewStock";
+import { Statistics } from "./pages/admin/Statistics";
+import { Stock } from "./pages/admin/Stock";
 
 function App() {
 
@@ -39,6 +45,18 @@ function App() {
                 <Route path="/loading" element={<Loading />} />
 
                 <Route path="/test" element={<ErrorFeedback />} />
+
+                {/* Admin */}
+            <Route path="/admin">
+                <Route path="/Login" element={<Login />} />
+                <Route path="/AddProduct" element={<AddProduct />} />
+                <Route path="/Products" element={<Products />} />
+                <Route path="/ReviewStock" element={<ReviewStock />} />
+                <Route path="/Statistics" element={<Statistics />} />
+                <Route path="/Stock" element={<Stock />} />
+
+            </Route>
+
             </Routes>
         </BrowserRouter>
     )
