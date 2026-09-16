@@ -47,15 +47,14 @@ function App() {
                 <Route path="/test" element={<ErrorFeedback />} />
 
                 {/* Admin */}
-            <Route path="/admin">
-                <Route path="/Login" element={<Login />} />
-                <Route path="/AddProduct" element={<AddProduct />} />
-                <Route path="/Products" element={<Products />} />
-                <Route path="/ReviewStock" element={<ReviewStock />} />
-                <Route path="/Statistics" element={<Statistics />} />
-                <Route path="/Stock" element={<Stock />} />
-
-            </Route>
+                <Route path="/admin">
+                    <Route path="login" element={<Login />} />
+                    <Route path="add-product" element={<AddProduct />} />
+                    <Route path="products" element={<Products />} />
+                    <Route path="review-stock" element={<ReviewStock />} />
+                    <Route path="statistics" element={<Statistics />} />
+                    <Route path="stock" element={<Stock />} />
+                </Route>
 
             </Routes>
         </BrowserRouter>
