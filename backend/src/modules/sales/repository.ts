@@ -22,13 +22,26 @@ export const findSaleById = (id: number) => {
     return prisma.sale.findUnique({
         where: { id },
         include: { items: true }
-    })
-}
+    });
+};
 
 //Actualiza el estado del sale.
 export const updateSaleStatus = (id: number, status: SaleStatus, tx: Prisma.TransactionClient = prisma) => {
     return tx.sale.update({
         where: { id },
         data: { status }
-    })
-}
+    });
+};
+
+//Trae todas las ventas pagas para estadisticas je
+export const findPaidSales = () => {
+    return prisma.sale.findMany({
+        where: { status: SaleStatus.PAID },
+        include: {
+            items: {
+                include: { product: true }
+            }
+        },
+        orderBy: { createdAt: "asc" }
+    });
+};

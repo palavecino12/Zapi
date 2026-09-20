@@ -5,6 +5,8 @@ import ViewInfo from "./pages/client/ViewInfo"
 import { ViewCart } from "./pages/client/ViewCart"
 import { useEffect } from "react";
 import { ViewProductList } from "./pages/client/ViewProductList";
+import { Statistics } from "./pages/client/Statistics";
+
 import AOS from "aos";
 import "aos/dist/aos.css";
 
@@ -33,6 +35,7 @@ function App() {
                 <Route path="/scan" element={<ViewScan />} />
                 <Route path="/product" element={<ViewInfo />} />
                 <Route path="/list" element={<ViewProductList />} />
+                <Route path="/statistics" element={<Statistics />} />
 
                 <Route path="/success" element={<SuccessFeedback />} />
                 <Route path="/error" element={<ErrorFeedback />} />
