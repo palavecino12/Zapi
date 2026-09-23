@@ -1,8 +1,9 @@
 import Navbar from '../../components/Navbar';
 import { CameraView } from '../../scanner/CameraView';
 
-export default function AddProduct() {
+export function AddProduct() {
   return (
+    
     <div className="flex flex-col h-screen bg-white">
       {/* Header */}
       <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100">

@@ -48,12 +48,12 @@ function App() {
 
                 {/* Admin */}
             <Route path="/admin">
-                <Route path="/Login" element={<Login />} />
-                <Route path="/AddProduct" element={<AddProduct />} />
-                <Route path="/Products" element={<Products />} />
-                <Route path="/ReviewStock" element={<ReviewStock />} />
-                <Route path="/Statistics" element={<Statistics />} />
-                <Route path="/Stock" element={<Stock />} />
+                <Route path="Login" element={<Login />} />
+                <Route path="AddProduct" element={<AddProduct />} />
+                <Route path="Products" element={<Products />} />
+                <Route path="ReviewStock" element={<ReviewStock />} />
+                <Route path="Statistics" element={<Statistics />} />
+                <Route path="Stock" element={<Stock />} />
 
             </Route>
 
