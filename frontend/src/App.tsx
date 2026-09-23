@@ -21,6 +21,7 @@ import { Products } from "./pages/admin/Products";
 import { ReviewStock } from "./pages/admin/ReviewStock";
 import { Statistics } from "./pages/admin/Statistics";
 import { Stock } from "./pages/admin/Stock";
+import { EditProductModal } from "./product/EditProductModal";
 
 function App() {
 
@@ -44,7 +45,7 @@ function App() {
                 <Route path="/error" element={<ErrorFeedback />} />
                 <Route path="/loading" element={<Loading />} />
 
-                <Route path="/test" element={<ErrorFeedback />} />
+                <Route path="/test" element={<Loading />} />
 
                 {/* Admin */}
                 <Route path="/admin">
@@ -55,6 +56,7 @@ function App() {
                     <Route path="statistics" element={<Statistics />} />
                     <Route path="stock" element={<Stock />} />
                 </Route>
+
             </Routes>
         </BrowserRouter>
     )
