@@ -1,6 +1,5 @@
 import { useMemo, useState } from "react";
-import { NavLink } from "react-router-dom";
-import { ChartColumn, List, Package, Plus, type LucideIcon } from "lucide-react";
+import {Plus} from "lucide-react";
 import { useGetProducts } from "../../hooks/useGetProducts";
 import Header from "../../components/Header";
 import { Button } from "../../components/Button";
@@ -85,40 +84,9 @@ export function Stock() {
         </Button>
       </div>
 
-      {/* Navegación inferior */}
-      <nav className="w-full border-t border-gray-200 bg-white">
-        <div className="mx-auto flex w-full max-w-md items-center justify-around px-4 py-2">
-          <NavItem to="/admin/Statistics" label="Estadísticas" icon={ChartColumn} />
-          <NavItem to="/admin/Products" label="Productos" icon={Package} />
-          <NavItem to="/admin/Stock" label="Stocks" icon={List} />
-        </div>
-      </nav>
+     
     </div>
   );
 }
 
-function NavItem({
-  to,
-  label,
-  icon: Icon,
-}: {
-  to: string;
-  label: string;
-  icon: LucideIcon;
-}) {
-  return (
-    <NavLink
-      to={to}
-      className={({ isActive }) =>
-        `flex flex-col items-center gap-1 rounded-lg border px-4 py-1.5 text-xs transition ${
-          isActive
-            ? "border-violet-500 bg-violet-50 font-bold text-violet-700"
-            : "border-transparent font-medium text-gray-600"
-        }`
-      }
-    >
-      <Icon size={16} />
-      {label}
-    </NavLink>
-  );
-}
+
