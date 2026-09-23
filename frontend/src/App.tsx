@@ -47,17 +47,6 @@ function App() {
                 <Route path="/test" element={<ErrorFeedback />} />
 
                 {/* Admin */}
-<<<<<<< HEAD
-            <Route path="/admin">
-                <Route path="Login" element={<Login />} />
-                <Route path="AddProduct" element={<AddProduct />} />
-                <Route path="Products" element={<Products />} />
-                <Route path="ReviewStock" element={<ReviewStock />} />
-                <Route path="Statistics" element={<Statistics />} />
-                <Route path="Stock" element={<Stock />} />
-
-            </Route>
-=======
                 <Route path="/admin">
                     <Route path="login" element={<Login />} />
                     <Route path="add-product" element={<AddProduct />} />
@@ -66,8 +55,6 @@ function App() {
                     <Route path="statistics" element={<Statistics />} />
                     <Route path="stock" element={<Stock />} />
                 </Route>
->>>>>>> feature/ListProducts
-
             </Routes>
         </BrowserRouter>
     )
