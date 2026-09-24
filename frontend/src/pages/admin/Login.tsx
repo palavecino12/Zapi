@@ -1,9 +1,13 @@
 
 
+import { useNavigate } from "react-router-dom";
 import { Button } from "../../components/Button";
 import { Imput } from "../../components/Imput";
 
 export function Login() {
+
+  const navigate = useNavigate();
+
   return (
     <div className="flex min-h-dvh w-full flex-col items-center justify-center overflow-y-auto bg-white px-6 py-10 sm:px-8">
       <div className="w-full max-w-sm">
@@ -33,7 +37,7 @@ export function Login() {
             placeholder="••••••••"          
           />
 
-          <Button type="submit" className="mt-2 w-full!">
+          <Button type="submit" className="mt-2 w-full!" onClick={()=> navigate("/admin/statistics")}>
             Entrar
           </Button>
         </form>
