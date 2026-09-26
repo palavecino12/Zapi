@@ -1,18 +1,19 @@
 //En este archivo solo creamos la logica de negocio, vemos si existe o no el producto y lanzamos los errores
 import { AppError } from "../../errors/AppError";
 import { CartItemDTO } from "../../schemas/checkoutSchema";
-import { deleteProduct, findProductByCode, findProducts } from "./repository"
+import { CreateProductDTO } from "../../schemas/createProductSchema";
+import * as productRepository from "./repository"
 import { Product } from "@prisma/client";//type del producto
 
 //Service para traer todos los productos.
 export const getProducts = async () => {
     //Retornamos directamente ya que si no hay productos, prisma retorna un array vacio
-    return await findProducts()
+    return await productRepository.findProducts()
 }
 
 //Service para buscar prodcuto por code.
 export const getProductByCode = async (code: string): Promise<Product> => {
-    const product = await findProductByCode(code)
+    const product = await productRepository.findProductByCode(code)
 
     if (!product) {
         throw new AppError("Este producto no pertenece al negocio.", 404)
@@ -46,11 +47,25 @@ export const validateStock = (cart: CartItemDTO[], products: Product[]) => {
 export const deleteProductService = async (code: string): Promise<Product> => {
 
     //Primero validamos si el producto que quiere eliminar el usuario existe
-    const product = await findProductByCode(code)
+    const product = await productRepository.findProductByCode(code)
 
     if (!product) {
         throw new AppError("El producto no existe", 404)
     }
 
-    return await deleteProduct(code)//retorna el producto eliminado
+    return await productRepository.deleteProduct(code)//retorna el producto eliminado
 };
+
+//Service para crear un producto
+export const createProductService = async (data: CreateProductDTO) => {
+    const { product } = data
+
+    //Primero validamos si el producto que quiere crear el usuario existe
+    const existProduct = await productRepository.findProductByCode(product.code)
+
+    if (existProduct) {
+        throw new AppError("El producto ya existe", 409)
+    }
+
+    return await productRepository.createProduct(product)
+}
