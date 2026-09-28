@@ -1,5 +1,5 @@
 //Servicios de los productos encargados de comunicarse con la API del backend
-import type { Product } from "../types/productType"
+import type { CreateProductDTO, Product } from "../types/productType"
 
 const apiUrl = import.meta.env.VITE_API_URL
 if (!apiUrl) {
@@ -14,51 +14,73 @@ type DeleteProductResponse = {
 
 //Service para traer todos los productos
 export const getProducts = async () => {
-        const url = `${apiUrl}/products`
+    const url = `${apiUrl}/products`
 
-        const response = await fetch(url)
+    const response = await fetch(url)
 
-        if (!response.ok) {
-            const errorResponse = await response.json()
-            throw new Error(errorResponse.message || "Error desconocido al obtener productos")
-        }
+    if (!response.ok) {
+        const errorResponse = await response.json()
+        throw new Error(errorResponse.message || "Error desconocido al obtener productos")
+    }
 
-        const products: Product[] = await response.json()
+    const products: Product[] = await response.json()
 
-        return products;
+    return products;
 }
 
 //service para traer un producto segun su codigo
-export const getProductByCode = async (code: string): Promise<Product> => {
-        const url = `${apiUrl}/products/${code}`
+export const getProductByCode = async (code: string) => {
+    const url = `${apiUrl}/products/${code}`
 
-        const response = await fetch(url)
+    const response = await fetch(url)
 
-        if (!response.ok) {
-            const errorResponse = await response.json()
-            throw new Error(errorResponse.message || "Error desconocido al obtener el producto")//retornamos el mensaje de error que creo el back
-        }
+    if (!response.ok) {
+        const errorResponse = await response.json()
+        throw new Error(errorResponse.message || "Error desconocido al obtener el producto")//retornamos el mensaje de error que creo el back
+    }
 
-        const product: Product = await response.json();
+    const product: Product = await response.json();
 
-        return product;
+    return product;
+}
+
+//SERVICES PARA EL ADMIN
+
+//Service para crear un producto
+export const createProduct = async (product: CreateProductDTO) => {
+    const url = `${apiUrl}/products`
+
+    const response = await fetch(url, {
+        method: "POST",
+        headers:{"Content-Type": "application/json"},
+        body:JSON.stringify({product})
+    })
+
+    if (!response.ok) {
+        const errorResponse = await response.json()
+        throw new Error(errorResponse.message || "Error desconocido al crear el producto")
+    }
+
+    const data:Product = await response.json();
+
+    return data;
 }
 
 //Service para eliminar un producto segun su codigo
 export const deleteProductByCode = async (code: string): Promise<DeleteProductResponse> => {
-        const url = `${apiUrl}/products/${code}`
+    const url = `${apiUrl}/products/${code}`
 
-        const response = await fetch(url, {
-            method: "DELETE"
-        })
+    const response = await fetch(url, {
+        method: "DELETE"
+    })
 
-        if (!response.ok) {
-            const errorResponse = await response.json()
-            throw new Error(errorResponse.message || "Error desconocido al eliminar el producto")
-        }
+    if (!response.ok) {
+        const errorResponse = await response.json()
+        throw new Error(errorResponse.message || "Error desconocido al eliminar el producto")
+    }
 
-        const data: DeleteProductResponse = await response.json();
+    const data: DeleteProductResponse = await response.json();
 
-        return data;
+    return data;
 }
 

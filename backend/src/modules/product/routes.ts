@@ -13,7 +13,6 @@ router.get("/", productController.getProductsController);
 router.get("/:code", validate(productCodeSchema, "params"), productController.getProductByIdCodeController);
 
 //POST/products
-//hace falta la validacion por zod
 router.post("/", validate(createProductSchema, "body"), productController.createProductController)
 
 //DELETE/products/:code

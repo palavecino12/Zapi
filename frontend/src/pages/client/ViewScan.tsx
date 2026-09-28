@@ -9,7 +9,7 @@ import { ErrorModal } from "../../components/feedback/ErrorModal";
 
 export const ViewScan = () => {
 
-  const { items } = useCart();
+  const { items, addItem } = useCart();
   const { checkout, loading, error } = useCheckout()
 
   const handlePay = async () => {
@@ -35,7 +35,7 @@ export const ViewScan = () => {
         {/* Cámara */}
         <div className="w-full flex justify-center p-4">
           <div className="w-full max-w-md rounded-2xl overflow-hidden border-white/10 shadow-[0_0_40px_rgba(249,115,22,0.08)]">
-            <CameraView />
+            <CameraView mode="client" onScanProduct={addItem}/>
           </div>
         </div>
 

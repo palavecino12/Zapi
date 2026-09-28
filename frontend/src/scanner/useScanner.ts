@@ -5,7 +5,11 @@ import { startScanner, stopScanner } from './scannerService'
 import { getProductByCode } from '../services/productServices'
 import type { Product } from '../types/productType'
 
-export const useScanner = () => {
+interface UseScannerOptions {
+  mode: "client" | "admin"
+}
+
+export const useScanner = ({ mode }: UseScannerOptions) => {
 
   const videoRef = useRef<HTMLVideoElement | null>(null)
   const isProcessingRef = useRef(false) //Ref para evitar detecciones múltiples MIENTRAS se procesa una (no apaga la cámara)
@@ -39,6 +43,8 @@ export const useScanner = () => {
 
         try {
           setCode(text);
+
+          if (mode === "admin") return
 
           const foundProduct = await getProductByCode(text);
 

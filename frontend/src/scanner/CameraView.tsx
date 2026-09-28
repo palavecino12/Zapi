@@ -1,14 +1,19 @@
 import { useEffect } from 'react'
 import { useScanner } from './useScanner'
-import { useCart } from '../cart/useCart';
 import { CameraGuide } from './ScanGuide';
 import { Spinner } from '../components/feedback/Spinner';
 import { ErrorModal } from '../components/feedback/ErrorModal';
+import type { Product } from '../types/productType';
 
-export const CameraView = () => {
+interface CameraProps {
+    mode: "client" | "admin";
+    onScanProduct?: (product: Product) => void
+    onScanCode?: (code: string) => void
+}
 
-    const { videoRef, start, stop, product, loading, error } = useScanner()
-    const { addItem } = useCart();
+export const CameraView = ({ mode, onScanCode, onScanProduct }: CameraProps) => {
+
+    const { videoRef, start, stop, product, loading, error, code } = useScanner({mode})
 
     //Cada vez que montamos el componente inicamos la deteccion.
     useEffect(() => {
@@ -18,11 +23,20 @@ export const CameraView = () => {
 
     //Al momento que detecta un producto lo añadimos al carrito:
     useEffect(() => {
-        if (product) {
-            addItem(product)
+        if (mode === "client" && product && onScanProduct) {
+            console.log("cliente")
+            onScanProduct(product)
         }
-    }, [product]);
-    
+    }, [mode, product, onScanProduct]);
+
+    //Al momento de detectar un codigo lo mandamos al componente padre
+    useEffect(() => {
+        if (mode === "admin" && code && onScanCode) {
+            console.log("admin")
+            onScanCode(code)
+        }
+    }, [mode, code, onScanCode])
+
     return (
         <>
             <div className="flex flex-col items-center justify-center w-full">
@@ -40,7 +54,7 @@ export const CameraView = () => {
             </div>
 
             {/* Modal para advetir de un problema no mayor */}
-            <ErrorModal error={error}/>
+            <ErrorModal error={error} />
         </>
 
     )
