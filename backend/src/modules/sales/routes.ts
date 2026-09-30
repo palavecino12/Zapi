@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createCheckout } from "./controller";
+import { createCheckout, getStatistics } from "./controller";
 import { validate } from "../../middlewares/validateZodSchema";
 import { checkoutSchema } from "../../schemas/checkoutSchema";
 

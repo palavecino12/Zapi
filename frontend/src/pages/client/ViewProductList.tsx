@@ -19,11 +19,14 @@ export const ViewProductList = () => {
 
     //Para manejar el error de traer los productos.
     const [openModal, setOpenModal] = useState(false)
-    const [prevError, setPrevError] = useState(error)
-    if (error !== prevError) {
-        setPrevError(error)
-        if (error) setOpenModal(true)
-    }
+    const [prevError, setPrevError] = useState<string | null>(null)
+
+    useEffect(() => {
+        if (error && error !== prevError) {
+            setPrevError(error)
+            setOpenModal(true)
+        }
+    }, [error, prevError])
 
     //Almacenamos lo que ingresa el usuario
     const [productSearch, setProductSearch] = useState("")

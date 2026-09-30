@@ -35,7 +35,6 @@ function App() {
                 <Route path="/scan" element={<ViewScan />} />
                 <Route path="/product" element={<ViewInfo />} />
                 <Route path="/list" element={<ViewProductList />} />
-                <Route path="/statistics" element={<Statistics />} />
 
                 <Route path="/success" element={<SuccessFeedback />} />
                 <Route path="/error" element={<ErrorFeedback />} />
