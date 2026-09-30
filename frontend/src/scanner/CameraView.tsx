@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { useScanner } from './useScanner'
 import { CameraGuide } from './ScanGuide';
 import { Spinner } from '../components/feedback/Spinner';
@@ -8,39 +8,45 @@ import type { Product } from '../types/productType';
 interface CameraProps {
     mode: "client" | "admin";
     onScanProduct?: (product: Product) => void
-    onScanCode?: (code: string) => void
+    onScanCode?: (code: string, existProduct: boolean) => void
 }
 
 export const CameraView = ({ mode, onScanCode, onScanProduct }: CameraProps) => {
 
-    const { videoRef, start, stop, product, loading, error, code } = useScanner({mode})
+    const { videoRef, start, stop, product, loading, error, code, existProduct } = useScanner({ mode })
 
-    //Cada vez que montamos el componente inicamos la deteccion.
+    //Siempre apuntan a la última versión de los callbacks del padre
+    const onScanCodeRef = useRef(onScanCode)
+    const onScanProductRef = useRef(onScanProduct)
+
+    useEffect(() => {
+        onScanCodeRef.current = onScanCode
+        onScanProductRef.current = onScanProduct
+    })
+
     useEffect(() => {
         start()
         return () => stop()
     }, [])// eslint-disable-line react-hooks/exhaustive-deps
 
-    //Al momento que detecta un producto lo añadimos al carrito:
+    // Cliente: al detectar un producto lo añadimos al carrito
     useEffect(() => {
-        if (mode === "client" && product && onScanProduct) {
-            console.log("cliente")
-            onScanProduct(product)
+        if (mode === "client" && product) {
+            onScanProductRef.current?.(product)
         }
-    }, [mode, product, onScanProduct]);
+    }, [mode, product])
 
-    //Al momento de detectar un codigo lo mandamos al componente padre
+    // Admin: avisamos al padre recién cuando la consulta terminó sin error
     useEffect(() => {
-        if (mode === "admin" && code && onScanCode) {
-            console.log("admin")
-            onScanCode(code)
+        if (mode === "admin" && code && !loading && !error) {
+            onScanCodeRef.current?.(code, existProduct)
         }
-    }, [mode, code, onScanCode])
+    }, [mode, code, loading, error, existProduct])
 
     return (
         <>
             <div className="flex flex-col items-center justify-center w-full">
-                <div className="relative w-full max-w-md aspect-video bg-black overflow-hidden shadow-lg">
+                <div className="relative w-full max-w-md aspect-video bg-black overflow-hidden shadow-lg rounded-xl">
                     <video ref={videoRef} className="w-full h-full object-cover" playsInline autoPlay muted />
                     {loading
                         ? (
@@ -53,9 +59,7 @@ export const CameraView = ({ mode, onScanCode, onScanProduct }: CameraProps) => 
                 </div>
             </div>
 
-            {/* Modal para advetir de un problema no mayor */}
             <ErrorModal error={error} />
         </>
-
     )
 }

@@ -34,6 +34,8 @@ export const getProductByCode = async (code: string) => {
 
     const response = await fetch(url)
 
+    if (response.status === 404) return null;//Que no exista el producto no es un error
+
     if (!response.ok) {
         const errorResponse = await response.json()
         throw new Error(errorResponse.message || "Error desconocido al obtener el producto")//retornamos el mensaje de error que creo el back
