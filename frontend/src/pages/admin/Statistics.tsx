@@ -28,9 +28,10 @@ export const Statistics = () => {
                 y: "total",
             }),
         ],
-        x: { scale: scaleTime, label: "Fecha" },
-        y: { scale: scaleLinear, nice: true, label: "Facturación ($)", grid: true },
-        tooltip: true,
+        scales: {
+            x: { scale: scaleTime, label: "Fecha" },
+            y: { scale: scaleLinear, nice: true, label: "Facturación ($)", grid: true },
+        },
     })
 
     //Grafico de barras: productos mas vendidos.
@@ -41,9 +42,10 @@ export const Statistics = () => {
                 y: "quantity",
             }),
         ],
-        x: { scale: () => scaleBand().padding(0.2), label: "Producto" },
-        y: { scale: scaleLinear, nice: true, label: "Unidades vendidas", grid: true },
-        tooltip: true,
+        scales: {
+            x: { scale: () => scaleBand().padding(0.2), label: "Producto" },
+            y: { scale: scaleLinear, nice: true, label: "Unidades vendidas", grid: true },
+        },
     })
 
     return (
@@ -98,4 +100,3 @@ export const Statistics = () => {
         </>
     )
 }
-
