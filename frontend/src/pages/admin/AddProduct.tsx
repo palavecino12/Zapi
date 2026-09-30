@@ -62,7 +62,7 @@ export function AddProduct() {
         </button>
       </div>
 
-      <Navbar active="Productos" />
+      <Navbar />
     </div>
   );
 }
