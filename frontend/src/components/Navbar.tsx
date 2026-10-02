@@ -1,29 +1,30 @@
 import { NavLink } from "react-router-dom";
+import { ChartNoAxesCombined, Package, Boxes, type LucideIcon } from "lucide-react";
 
 type Tab = "Estadisticas" | "Productos" | "Stocks";
 
 const TABS: {
   key: Tab;
   label: string;
-  icon: string;
+  icon: LucideIcon;
   path: string;
 }[] = [
     {
       key: "Estadisticas",
       label: "Estadísticas",
-      icon: "📊",
+      icon: ChartNoAxesCombined,
       path: "/admin/statistics",
     },
     {
       key: "Productos",
       label: "Productos",
-      icon: "📦",
+      icon: Package,
       path: "/admin/products",
     },
     {
       key: "Stocks",
       label: "Stocks",
-      icon: "📋",
+      icon: Boxes,
       path: "/admin/stock",
     },
   ];
@@ -43,7 +44,7 @@ export default function Navbar() {
                 className={`flex h-10 w-10 items-center justify-center rounded-full text-lg ${isActive ? "bg-purple-100" : ""
                   }`}
               >
-                {tab.icon}
+                <tab.icon size={20} strokeWidth={1.8} />
               </span>
 
               <span

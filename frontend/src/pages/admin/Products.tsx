@@ -5,10 +5,12 @@ import { useGetProducts } from "../../hooks/useGetProducts";
 import { AdminProductItem } from "../../product/AdminProductItem";
 import type { Product } from "../../types/productType";
 import { Plus } from "lucide-react";
+import { EditProductModal } from "../../product/EditProductModal";
 
 export function Products() {
   const [productSearch, setProductSearch] = useState("");
   const { products } = useGetProducts();
+  const [openModal, setOpenModal] = useState(false);
 
   // Productos filtrados por el buscador.
   const filteredProducts = products.filter((product) =>
@@ -18,7 +20,14 @@ export function Products() {
   // Funciones handler para las acciones del Admin
   const handleEdit = (product: Product) => {
     console.log("Editar producto:", product);
+    setOpenModal(true);
   };
+
+  <EditProductModal
+    open={openModal}
+    onClose={() => setOpenModal(false)}
+    onConfirm={() => { }}
+  />
 
   const handleDelete = (id: number) => {
     console.log("Eliminar producto con ID:", id);
@@ -51,12 +60,20 @@ export function Products() {
       </main>
 
       {/* Botón flotante fixed en la esquina inferior derecha */}
-      <button 
+      <button
         className="fixed bottom-6 right-6 bg-violet-600 text-white p-4 rounded-full shadow-2xl hover:bg-violet-700 active:scale-95 transition-all z-50 flex items-center justify-center"
         onClick={() => console.log("Agregar producto")}
       >
         <Plus className="w-6 h-6" />
       </button>
+
+      
+      <EditProductModal
+        open={openModal}
+        onClose={() => setOpenModal(false)}
+        onConfirm={() => { }}
+      />
     </div>
+
   );
 }
