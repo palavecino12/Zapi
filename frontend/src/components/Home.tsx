@@ -104,7 +104,7 @@ export default function Home() {
         {/* Logo */}
         <div
           data-aos="zoom-in"
-          className="absolute left-0 z-10 w-32 h-32"
+          className="absolute left-0 z-10 w-32 h-32 "
         >
           <img
             src="/logo.png"

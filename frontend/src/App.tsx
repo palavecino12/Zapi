@@ -5,6 +5,8 @@ import ViewInfo from "./pages/client/ViewInfo"
 import { ViewCart } from "./pages/client/ViewCart"
 import { useEffect } from "react";
 import { ViewProductList } from "./pages/client/ViewProductList";
+import { Statistics } from "./pages/admin/Statistics";
+
 import AOS from "aos";
 import "aos/dist/aos.css";
 
@@ -15,6 +17,13 @@ import { SuccessFeedback } from "./components/feedback/SuccessFeedback"
 import { ErrorFeedback } from "./components/feedback/ErrorFeedback"
 import Home from "./components/Home";
 import { Loading } from "./components/feedback/Loading";
+import { Login } from "./pages/admin/Login";
+import { AddProduct } from "./pages/admin/AddProduct";
+import { Products } from "./pages/admin/Products";
+import { ReviewStock } from "./pages/admin/ReviewStock";
+import { Stock } from "./pages/admin/Stock";
+import Navbar from "./components/Navbar";
+import AppLayout from "./layout/appLayout";
 
 function App() {
 
@@ -33,12 +42,26 @@ function App() {
                 <Route path="/scan" element={<ViewScan />} />
                 <Route path="/product" element={<ViewInfo />} />
                 <Route path="/list" element={<ViewProductList />} />
+                <Route path="/statistics" element={<Statistics />} />
 
                 <Route path="/success" element={<SuccessFeedback />} />
                 <Route path="/error" element={<ErrorFeedback />} />
                 <Route path="/loading" element={<Loading />} />
 
-                <Route path="/test" element={<ErrorFeedback />} />
+                <Route path="/test" element={<Navbar />} />
+
+                {/* Admin */}
+                <Route path="/admin">
+                    <Route element={<AppLayout />} >
+                        <Route path="products" element={<Products />} />
+                        <Route path="statistics" element={<Statistics />} />
+                        <Route path="stock" element={<Stock />} />
+                    </Route>
+                    <Route path="login" element={<Login />} />
+                    <Route path="add-product" element={<AddProduct />} />
+                    <Route path="review-stock" element={<ReviewStock />} />
+                </Route>
+
             </Routes>
         </BrowserRouter>
     )
