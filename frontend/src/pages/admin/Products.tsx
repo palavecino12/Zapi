@@ -6,10 +6,13 @@ import { AdminProductItem } from "../../product/AdminProductItem";
 import type { Product } from "../../types/productType";
 import { Plus } from "lucide-react";
 import { ConfirmModal } from "../../components/feedback/ConfirmModal";
+import { EditProductModal } from "../../product/EditProductModal";
+
 
 export function Products() {
   const [productSearch, setProductSearch] = useState("");
   const { products } = useGetProducts();
+  const [openModal, setOpenModal] = useState(false);
 
   // ID del producto que se está por eliminar (null = ningún modal abierto)
   const [productToDelete, setProductToDelete] = useState<number | null>(null);
@@ -25,9 +28,12 @@ export function Products() {
   // Funciones handler para las acciones del Admin
   const handleEdit = (product: Product) => {
     console.log("Editar producto:", product);
+    setOpenModal(true);
   };
 
+
   // Al tocar el ícono de eliminar, solo abrimos el modal de confirmación
+
   const handleDelete = (id: number) => {
     setProductToDelete(id);
   };
@@ -75,6 +81,7 @@ export function Products() {
         <Plus className="w-6 h-6" />
       </button>
 
+
       {/* Modal de confirmación de eliminación */}
       <ConfirmModal
         open={productToDelete !== null}
@@ -84,7 +91,15 @@ export function Products() {
         ¿Seguro que querés eliminar{" "}
         <strong>{productPendingDelete?.name}</strong>?
       </ConfirmModal>
+
+      
+      <EditProductModal
+        open={openModal}
+        onClose={() => setOpenModal(false)}
+        onConfirm={() => { }}
+      />
     </div>
+
   );
 }
 
