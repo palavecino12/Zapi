@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import {Plus} from "lucide-react";
+import { Check, Plus } from "lucide-react";
 import { useGetProducts } from "../../hooks/useGetProducts";
 import Header from "../../components/Header";
 import { Button } from "../../components/Button";
@@ -7,6 +7,8 @@ import { ProductSearch } from "../../product/ProductSearch";
 
 export function Stock() {
   const [productSearch, setProductSearch] = useState("");
+  const [editingId, setEditingId] = useState<number | null>(null);
+  const [amount, setAmount] = useState("");
   const { products } = useGetProducts();
 
   const filtered = useMemo(
@@ -18,8 +20,16 @@ export function Stock() {
   );
 
   const handleAdd = (id: number) => {
-    // "+" Solo muestra en consola
-    console.log("Agregar stock a", id);
+    setEditingId(id);
+    setAmount("");
+  };
+
+  const handleConfirmAdd = (id: number) => {
+    const value = Number(amount);
+    if (!value || value <= 0) return;
+    console.log("Agregar stock a", id, value);
+    setEditingId(null);
+    setAmount("");
   };
 
   const handleReview = () => {
@@ -58,14 +68,38 @@ export function Stock() {
                 </span>
               </div>
 
-              <button
-                type="button"
-                onClick={() => handleAdd(prod.id)}
-                aria-label={`Agregar stock a ${prod.name}`}
-                className="flex h-6 w-6 items-center justify-center rounded-full border border-violet-600 text-violet-600 transition hover:bg-violet-50 active:scale-95"
-              >
-                <Plus size={12} strokeWidth={3} />
-              </button>
+              {editingId === prod.id ? (
+                <div className="flex items-center gap-1.5">
+                  <input
+                    type="number"
+                    inputMode="numeric"
+                    autoFocus
+                    min={0}
+                    placeholder="Cant."
+                    value={amount}
+                    onChange={(e) => setAmount(e.target.value)}
+                    aria-label={`Cantidad a agregar a ${prod.name}`}
+                    className="h-8 w-16 rounded-full border border-violet-600 px-2 text-center text-xs text-violet-700 outline-none"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => handleConfirmAdd(prod.id)}
+                    aria-label="Confirmar"
+                    className="flex h-8 w-8 items-center justify-center rounded-full bg-violet-600 text-white active:scale-95"
+                  >
+                    <Check size={14} strokeWidth={3} />
+                  </button>
+                </div>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => handleAdd(prod.id)}
+                  aria-label={`Agregar stock a ${prod.name}`}
+                  className="flex h-6 w-6 items-center justify-center rounded-full border border-violet-600 text-violet-600 transition hover:bg-violet-50 active:scale-95"
+                >
+                  <Plus size={12} strokeWidth={3} />
+                </button>
+              )}
             </li>
           ))}
 
@@ -88,5 +122,3 @@ export function Stock() {
     </div>
   );
 }
-
-
