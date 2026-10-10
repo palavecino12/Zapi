@@ -31,7 +31,7 @@ const TABS: {
 
 export default function Navbar() {
   return (
-    <nav className="flex border-t border-gray-100 bg-white py-2 pb-3.5">
+    <nav className="flex border-t border-violet-600 bg-violet-600 py-2 pb-3.5">
       {TABS.map((tab) => (
         <NavLink
           key={tab.key}
@@ -41,7 +41,7 @@ export default function Navbar() {
           {({ isActive }) => (
             <>
               <span
-                className={`flex h-10 w-10 items-center justify-center rounded-full text-lg ${isActive ? "bg-purple-100" : ""
+                className={`flex h-10 w-10 items-center justify-center rounded-full text-lg ${isActive ? "bg-purple-100 " : "text-white"
                   }`}
               >
                 <tab.icon size={20} strokeWidth={1.8} />
@@ -49,8 +49,8 @@ export default function Navbar() {
 
               <span
                 className={`mt-0.5 text-[11px] ${isActive
-                    ? "font-semibold text-purple-600"
-                    : "text-gray-400"
+                    ? "font-semibold text-white"
+                    : "text-white"
                   }`}
               >
                 {tab.label}

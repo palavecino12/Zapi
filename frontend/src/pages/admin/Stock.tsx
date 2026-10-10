@@ -4,12 +4,14 @@ import { useGetProducts } from "../../hooks/useGetProducts";
 import Header from "../../components/Header";
 import { Button } from "../../components/Button";
 import { ProductSearch } from "../../product/ProductSearch";
+import { useNavigate } from "react-router-dom";
 
 export function Stock() {
   const [productSearch, setProductSearch] = useState("");
   const [editingId, setEditingId] = useState<number | null>(null);
   const [amount, setAmount] = useState("");
   const { products } = useGetProducts();
+  const navigate = useNavigate();
 
   const filtered = useMemo(
     () =>
@@ -30,11 +32,6 @@ export function Stock() {
     console.log("Agregar stock a", id, value);
     setEditingId(null);
     setAmount("");
-  };
-
-  const handleReview = () => {
-    // "Revisar stock", solo muestra en consola
-    console.log("Revisar stock");
   };
 
   return (
@@ -60,9 +57,8 @@ export function Stock() {
               <div className="flex flex-col">
                 <span className="text-sm font-bold text-black">{prod.name}</span>
                 <span
-                  className={`text-xs ${
-                    prod.stock === 0 ? "text-red-500" : "text-gray-600"
-                  }`}
+                  className={`text-xs ${prod.stock === 0 ? "text-red-500" : "text-gray-600"
+                    }`}
                 >
                   Stock: {prod.stock}
                 </span>
@@ -113,12 +109,17 @@ export function Stock() {
 
       {/* Botón Revisar Stock */}
       <div className="mx-auto w-full max-w-md px-4 pb-3 pt-4">
-        <Button onClick={handleReview} className="w-full">
-          Revisar Stock
-        </Button>
+        <div className="fixed bottom-28 left-0 z-40 w-full px-4">
+          <Button
+            onClick={() => navigate("/admin/review-stock")}
+            className="w-full"
+          >
+            Revisar Stock
+          </Button>
+        </div>
       </div>
 
-     
+
     </div>
   );
 }

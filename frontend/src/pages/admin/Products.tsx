@@ -7,12 +7,14 @@ import type { Product } from "../../types/productType";
 import { Plus } from "lucide-react";
 import { ConfirmModal } from "../../components/feedback/ConfirmModal";
 import { EditProductModal } from "../../product/EditProductModal";
+import { useNavigate } from "react-router-dom";
 
 
 export function Products() {
   const [productSearch, setProductSearch] = useState("");
   const { products } = useGetProducts();
   const [openModal, setOpenModal] = useState(false);
+  const navigate = useNavigate();
 
   // ID del producto que se está por eliminar (null = ningún modal abierto)
   const [productToDelete, setProductToDelete] = useState<number | null>(null);
@@ -75,8 +77,8 @@ export function Products() {
 
       {/* Botón flotante fixed en la esquina inferior derecha */}
       <button
-        className="fixed bottom-6 right-6 bg-violet-600 text-white p-4 rounded-full shadow-2xl hover:bg-violet-700 active:scale-95 transition-all z-50 flex items-center justify-center"
-        onClick={() => console.log("Agregar producto")}
+        className="fixed bottom-24 right-6 bg-violet-600 text-white p-4 rounded-full shadow-2xl hover:bg-violet-700 active:scale-95 transition-all z-50 flex items-center justify-center"
+        onClick={() => navigate("/admin/add-product")}
       >
         <Plus className="w-6 h-6" />
       </button>
@@ -92,7 +94,7 @@ export function Products() {
         <strong>{productPendingDelete?.name}</strong>?
       </ConfirmModal>
 
-      
+
       <EditProductModal
         open={openModal}
         onClose={() => setOpenModal(false)}
