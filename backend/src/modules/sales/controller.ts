@@ -11,3 +11,12 @@ export const createCheckout = async (req: Request, res: Response, next: NextFunc
         next(error)
     }
 };
+
+export const getStatistics = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const statistics = await saleService.getStatistics();
+        return res.json(statistics);
+    } catch (error) {
+        next(error)
+    }
+};

@@ -5,7 +5,11 @@ import { startScanner, stopScanner } from './scannerService'
 import { getProductByCode } from '../services/productServices'
 import type { Product } from '../types/productType'
 
-export const useScanner = () => {
+interface UseScannerOptions {
+  mode: "client" | "admin"
+}
+
+export const useScanner = ({ mode }: UseScannerOptions) => {
 
   const videoRef = useRef<HTMLVideoElement | null>(null)
   const isProcessingRef = useRef(false) //Ref para evitar detecciones múltiples MIENTRAS se procesa una (no apaga la cámara)
@@ -15,6 +19,7 @@ export const useScanner = () => {
   const [code, setCode] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
   const [product, setProduct] = useState<Product | null>(null);
+  const existProduct = mode === 'admin' && product !== null
   const [error, setError] = useState<string | null>(null)
 
   const start = () => {
@@ -36,13 +41,20 @@ export const useScanner = () => {
         isProcessingRef.current = true
         setLoading(true)
         setError(null)
+        setProduct(null)
 
         try {
           setCode(text);
 
           const foundProduct = await getProductByCode(text);
 
-          setProduct(foundProduct);
+          //Solo el cliente necesita saber que el producto no pertenece al negocio.
+          //Para el admin, "no existe" es el caso esperado.
+          if (!foundProduct && mode === 'client') {
+            setError('Este producto no es parte del negocio')
+          }
+
+          setProduct(foundProduct)
 
         } catch (error) {
           if (error instanceof Error) {
@@ -79,5 +91,5 @@ export const useScanner = () => {
     }
   }, [])
 
-  return { videoRef, isScanning, code, loading, error, start, stop, product }
+  return { videoRef, isScanning, code, loading, error, start, stop, product, existProduct }
 }

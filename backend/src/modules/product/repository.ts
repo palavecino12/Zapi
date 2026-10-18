@@ -1,6 +1,7 @@
 //En este archivo solo nos comunicamos con Prisma (no tenemos que validar nada)
 import prisma from "../../config/prisma";
 import { Prisma, Product } from "@prisma/client";
+import { CreateProductDTO } from "../../schemas/createProductSchema";
 
 //FUNCIONES USADAS POR EL CLIENTE
 
@@ -58,5 +59,12 @@ export const deleteProduct = async (code: string): Promise<Product> => {
         where: {
             code
         },
+    });
+};
+
+//Craer un nuevo producto
+export const createProduct = async (productData: Prisma.ProductCreateInput): Promise<Product> => {
+    return await prisma.product.create({
+        data: productData
     });
 };

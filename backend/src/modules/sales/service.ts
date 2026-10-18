@@ -103,3 +103,43 @@ export const createCheckout = async (cart: CartItemDTO[]) => {
 
     return preference.init_point
 }
+
+//Funcion para calcular estadisticas
+export const getStatistics = async () => {
+
+    const sales = await saleRepository.findPaidSales();
+
+    //Ventas totales y facturacion total.
+    const totalSales = sales.length;
+    const totalRevenue = sales.reduce((sum, sale) => sum + sale.total.toNumber(), 0);
+
+    //Facturacion agrupada por dia (para un grafico de linea).
+    const revenueByDayMap = new Map<string, number>();
+    sales.forEach(sale => {
+        const day = sale.createdAt.toISOString().slice(0, 10); // YYYY-MM-DD
+        revenueByDayMap.set(day, (revenueByDayMap.get(day) ?? 0) + sale.total.toNumber());
+    });
+    const revenueByDay = Array.from(revenueByDayMap.entries())
+        .map(([date, total]) => ({ date, total }))
+        .sort((a, b) => a.date.localeCompare(b.date));
+
+    //Cantidad vendida por producto (para un grafico de barras).
+    const quantityByProductMap = new Map<string, number>();
+    sales.forEach(sale => {
+        sale.items.forEach(item => {
+            const name = item.product.name;
+            quantityByProductMap.set(name, (quantityByProductMap.get(name) ?? 0) + item.quantity);
+        });
+    });
+    const topProducts = Array.from(quantityByProductMap.entries())
+        .map(([name, quantity]) => ({ name, quantity }))
+        .sort((a, b) => b.quantity - a.quantity)
+        .slice(0, 10);
+
+    return {
+        totalSales,
+        totalRevenue,
+        revenueByDay,
+        topProducts
+    };
+}
