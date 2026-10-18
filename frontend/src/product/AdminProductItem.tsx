@@ -1,4 +1,4 @@
-// src/components/product/AdminProductItem.tsx
+// src/product/AdminProductItem.tsx
 
 import { Pencil, Trash2 } from "lucide-react";
 import type { Product } from "../types/productType";
@@ -7,9 +7,10 @@ type AdminProductItemProps = {
     product: Product;
     onEdit: (product: Product) => void;
     onDelete: (id: number) => void;
+    showStock?: boolean;
 };
 
-export const AdminProductItem = ({ product, onEdit, onDelete }: AdminProductItemProps) => {
+export const AdminProductItem = ({ product, onEdit, onDelete, showStock = false }: AdminProductItemProps) => {
     return (
         <div className="px-2 py-1">
             <div className="flex flex-row items-center border border-gray-300 bg-white shadow-xl p-2 rounded-xl gap-2">
@@ -19,11 +20,17 @@ export const AdminProductItem = ({ product, onEdit, onDelete }: AdminProductItem
                     {product.name}
                 </h2>
 
-                {/* Precio del producto */}
+                {/* Precio o Stock del producto, según la pantalla */}
                 <div className="w-24 text-left shrink-0">
-                    <p className="text-violet-600 text-lg font-semibold">
-                        ${product.price.toLocaleString()}
-                    </p>
+                    {showStock ? (
+                        <p className={`text-sm font-semibold ${product.stock === 0 ? "text-red-500" : "text-violet-600"}`}>
+                            Stock: {product.stock}
+                        </p>
+                    ) : (
+                        <p className="text-violet-600 text-lg font-semibold">
+                            ${product.price.toLocaleString()}
+                        </p>
+                    )}
                 </div>
 
                 <div className="flex gap-1">
