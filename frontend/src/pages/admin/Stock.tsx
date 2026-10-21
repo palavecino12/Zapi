@@ -109,7 +109,7 @@ export function Stock() {
 
       {/* Botón Revisar Stock */}
       <div className="mx-auto w-full max-w-md px-4 pb-3 pt-4">
-        <div className="fixed bottom-28 left-0 z-40 w-full px-4">
+        <div className="fixed bottom-23 left-0 z-40 w-full px-4">
           <Button
             onClick={() => navigate("/admin/review-stock")}
             className="w-full"
