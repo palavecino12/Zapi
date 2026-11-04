@@ -1,15 +1,16 @@
+
 type Props = {
-    title?: string
-}
+    title?: string;
+};
 
 function Header({ title = "Mi carrito" }: Props) {
     return (
-        <div className="w-full bg-white px-4 py-3 mb-3 shadow-lg">
-            <h2 className="text-violet-600 text-xl font-bold flex center-items justify-center">
+        <header className="mb-3 w-full border-b-2 border-violet-200 bg-white px-4 py-4 shadow-sm">
+            <h2 className="text-center text-xl font-bold tracking-tight text-violet-700">
                 {title}
             </h2>
-        </div>
-    )
+        </header>
+    );
 }
 
-export default Header
+export default Header;

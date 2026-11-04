@@ -64,10 +64,10 @@ export function AddProduct() {
         <form
           onSubmit={handleSubmit(onSubmit)}
           noValidate
-          className="flex-1 overflow-y-auto px-5 py-5"
+          className="flex-1 overflow-y-auto px-5"
         >
           {/* Cámara */}
-          <div className="flex items-center justify-center mb-4 overflow-hidden">
+          <div className="flex items-center justify-center mb-3 overflow-hidden">
             <CameraView mode="admin" onScanCode={handleCode} />
           </div>
 
@@ -93,9 +93,8 @@ export function AddProduct() {
             </p>
           )}
 
-
           {/* Campos */}
-          <div className="flex flex-col gap-4 mt-5">
+          <div className="flex flex-col gap-2 mt-2">
             <Imput
               label="Nombre"
               placeholder="Nombre del producto"

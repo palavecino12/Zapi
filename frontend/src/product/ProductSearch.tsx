@@ -1,22 +1,22 @@
+
 import { Search } from "lucide-react";
 
-interface props{
-    setProductSearch:React.Dispatch<React.SetStateAction<string>>
+interface props {
+    setProductSearch: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export const ProductSearch = ({setProductSearch}:props) =>{
-    return(
-        <div className="relative w-full mb-2">
+export const ProductSearch = ({ setProductSearch }: props) => {
+    return (
+        <div className="relative mb-2 w-full">
 
-            {/* La razon por la que esta primero el input es para poder usar peer para cuando se hace foco en el input */}
+            {/* Input de búsqueda */}
             <input
                 type="text"
                 placeholder="Buscar producto..."
-                className="peer w-full pl-10 p-3 border border-gray-400 rounded-xl shadow-lg
-                    focus:ring-2 focus:border-transparent focus:outline-none focus:shadow-inner
-                    transition-all duration-200 bg-white active:scale-95"
+                className="peer w-full rounded-xl border border-gray-200 bg-white p-3 pl-11 text-base text-gray-800 shadow-md outline-none transition-all duration-200 placeholder:text-gray-400 focus:border-violet-600 focus:ring-2 focus:ring-violet-100"
                 onChange={(e) => {
                     const value = e.target.value.trim();
+
                     if (value.length > 2) {
                         setProductSearch(value);
                     } else {
@@ -26,9 +26,12 @@ export const ProductSearch = ({setProductSearch}:props) =>{
             />
 
             {/* Icono del buscador */}
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 
-                peer-focus:text-black peer-active:translate-x-2 transition-all duration-200" />
+            <Search
+                size={20}
+                strokeWidth={1.8}
+                className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 transition-colors duration-200 peer-focus:text-violet-600"
+            />
 
         </div>
-    )
-}
+    );
+};

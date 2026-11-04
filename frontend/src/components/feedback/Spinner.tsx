@@ -1,26 +1,27 @@
+
 import { Loader } from "lucide-react";
 import { motion } from "framer-motion";
 
 interface SpinnerProps {
-    message?: string
+    message?: string;
 }
 
-export const Spinner = ({ message = "Cargando..." }: SpinnerProps) => {
+export const Spinner = ({
+    message = "Cargando...",
+}: SpinnerProps) => {
     return (
-
         <div className="flex flex-col items-center justify-center gap-3">
             <motion.div
                 animate={{ rotate: 360 }}
                 transition={{
-                    duration: 3,
+                    duration: 1.5,
                     repeat: Infinity,
                     ease: "linear",
-                }}
-            >
-                <Loader size={80} strokeWidth={2} className="text-black" />
+                }}            >
+                <Loader size={56} strokeWidth={2} />
             </motion.div>
 
-            <p className="text-lg font-medium text-black">
+            <p className="text-base font-semibold">
                 {message}
             </p>
         </div>

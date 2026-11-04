@@ -1,5 +1,11 @@
+
 import { NavLink } from "react-router-dom";
-import { ChartNoAxesCombined, Package, Boxes, type LucideIcon } from "lucide-react";
+import {
+  ChartNoAxesCombined,
+  Package,
+  Boxes,
+  type LucideIcon,
+} from "lucide-react";
 
 type Tab = "Estadisticas" | "Productos" | "Stocks";
 
@@ -9,54 +15,46 @@ const TABS: {
   icon: LucideIcon;
   path: string;
 }[] = [
-    {
-      key: "Estadisticas",
-      label: "Estadísticas",
-      icon: ChartNoAxesCombined,
-      path: "/admin/statistics",
-    },
-    {
-      key: "Productos",
-      label: "Productos",
-      icon: Package,
-      path: "/admin/products",
-    },
-    {
-      key: "Stocks",
-      label: "Stocks",
-      icon: Boxes,
-      path: "/admin/stock",
-    },
-  ];
+  {
+    key: "Estadisticas",
+    label: "Estadísticas",
+    icon: ChartNoAxesCombined,
+    path: "/admin/statistics",
+  },
+  {
+    key: "Productos",
+    label: "Productos",
+    icon: Package,
+    path: "/admin/products",
+  },
+  {
+    key: "Stocks",
+    label: "Stocks",
+    icon: Boxes,
+    path: "/admin/stock",
+  },
+];
 
 export default function Navbar() {
   return (
-    <nav className="flex border-t border-violet-600 bg-violet-600 py-2 pb-3.5">
+    <nav className="fixed bottom-0 left-0 z-50 flex w-full items-center justify-around border-t border-gray-200 bg-white px-2 pb-[env(safe-area-inset-bottom)]">
       {TABS.map((tab) => (
         <NavLink
           key={tab.key}
           to={tab.path}
-          className="flex flex-1 flex-col items-center justify-center"
+          className={({ isActive }) =>
+            `flex flex-1 flex-col items-center justify-center gap-1 rounded-xl py-2.5 mx-1 my-1 transition-all duration-200 ${
+              isActive
+                ? "bg-violet-600 text-white shadow-sm"
+                : "bg-transparent text-gray-400 hover:bg-gray-100"
+            }`
+          }
         >
-          {({ isActive }) => (
-            <>
-              <span
-                className={`flex h-10 w-10 items-center justify-center rounded-full text-lg ${isActive ? "bg-purple-100 " : "text-white"
-                  }`}
-              >
-                <tab.icon size={20} strokeWidth={1.8} />
-              </span>
+          <tab.icon size={22} strokeWidth={1.8} />
 
-              <span
-                className={`mt-0.5 text-[11px] ${isActive
-                    ? "font-semibold text-white"
-                    : "text-white"
-                  }`}
-              >
-                {tab.label}
-              </span>
-            </>
-          )}
+          <span className="text-xs font-semibold">
+            {tab.label}
+          </span>
         </NavLink>
       ))}
     </nav>

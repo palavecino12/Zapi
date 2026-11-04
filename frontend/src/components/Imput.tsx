@@ -16,7 +16,7 @@ export const Imput = forwardRef<HTMLInputElement, ImputProps>(
             <div className="flex w-full flex-col gap-1">
                 <label
                     htmlFor={inputId}
-                    className="text-sm font-medium text-gray-700"
+                    className="text-base font-medium text-gray-700"
                 >
                     {label}
                 </label>
@@ -26,8 +26,7 @@ export const Imput = forwardRef<HTMLInputElement, ImputProps>(
                     name={name}
                     type={type}
                     aria-invalid={!!error}
-                    className={`w-full rounded-lg border px-3 py-2 text-sm outline-none focus:border-gray-600 ${error ? 'border-red-500' : 'border-gray-300'
-                        }`}
+                    className={`w-full rounded-lg border px-3 py-2 text-base outline-none focus:border-violet-400 focus:ring-2 focus:ring-violet-100 ${error ? 'border-red-500' : 'border-gray-300'}`}
                     {...props}
                 />
                 {error && <p className="text-xs text-red-500">{error}</p>}

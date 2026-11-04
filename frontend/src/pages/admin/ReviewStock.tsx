@@ -1,38 +1,92 @@
+import { useState } from "react";
+
 import Header from "../../components/Header";
-import { useGetProducts } from "../../hooks/useGetProducts";
 import { Button } from "../../components/Button";
+import { Spinner } from "../../components/feedback/Spinner";
+import { ErrorModal } from "../../components/feedback/ErrorModal";
+
+import { useGetProducts } from "../../hooks/useGetProducts";
+import { ReviewStockItem } from "../../product/ReviewStockItem";
 
 export function ReviewStock() {
-  const { products } = useGetProducts();
+  const { products, error, loading } = useGetProducts();
+
+  const [amounts, setAmounts] = useState<Record<number, string>>({});
+
+  const handleAmountChange = (id: number, value: string) => {
+    setAmounts((prev) => ({
+      ...prev,
+      [id]: value,
+    }));
+  };
+
+  const handleAccept = () => {
+    const reviewedProducts = products.map((product) => ({
+      id: product.id,
+      name: product.name,
+      stock:
+        amounts[product.id] === undefined
+          ? product.stock
+          : Number(amounts[product.id]),
+    }));
+
+    console.log("Stock revisado:", reviewedProducts);
+  };
 
   return (
-    <div className="h-dvh flex flex-col items-center">
-      <Header title="Control de stock" />
-
-      <div className="w-full flex-1 overflow-y-auto px-5 pt-4">
-        <div className="w-full rounded-md border border-dashed border-blue-400 p-2">
-          <div className="flex flex-col gap-2">
-            {products.map((product) => (
-              <div key={product.id} className="flex w-full items-center justify-between rounded-lg border border-gray-200 bg-white px-3 py-3 shadow-sm">
-                <div>
-                  <p className="text-sm font-semibold text-gray-900">
-                    {product.name}
-                  </p>
-                  <p className={`text-xs ${product.stock === 0 ? "text-red-500" : "text-gray-500"}`}>
-                    Stock: {product.stock}
-                  </p>
-                </div>
-
-                <span className="rounded-full border border-gray-200 px-3 py-1 text-xs text-gray-600">
-                  Stock Actual
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
+    <div className="flex h-full min-h-0 flex-col overflow-hidden bg-white">
+      <div className="shrink-0">
+        <Header title="Control de stock" />
       </div>
 
-      <Button variant="primario">Aceptar</Button>
+      <main className="flex min-h-0 flex-1 flex-col">
+        {loading ? (
+          <div className="flex flex-1 items-center justify-center">
+            <Spinner />
+          </div>
+        ) : error ? (
+          <div className="flex min-h-0 flex-1 items-center justify-center px-4">
+            <p className="text-center text-gray-500">
+              No se pudieron cargar los productos.
+            </p>
+          </div>
+        ) : (
+          <div className="min-h-0 flex-1 overflow-y-auto">
+            <ul className="mx-auto flex w-full max-w-md flex-col">
+              {products.map((product) => (
+                <ReviewStockItem
+                  key={product.id}
+                  product={product}
+                  amount={amounts[product.id] ?? ""}
+                  onAmountChange={(value) =>
+                    handleAmountChange(product.id, value)
+                  }
+                />
+              ))}
+
+              {products.length === 0 ? (
+                <li className="py-8 text-center text-sm text-gray-500">
+                  No hay productos para revisar.
+                </li>
+              ) : (
+                <li className="px-2 pb-6 pt-5">
+                  <Button variant="primario" onClick={handleAccept}>
+                    Aceptar
+                  </Button>
+                </li>
+              )}
+            </ul>
+          </div>
+        )}
+      </main>
+
+      <ErrorModal
+        error={
+          error
+            ? "Lo sentimos, no pudimos cargar los productos."
+            : null
+        }
+      />
     </div>
   );
 }

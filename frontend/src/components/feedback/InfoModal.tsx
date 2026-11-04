@@ -2,7 +2,7 @@
 import React from 'react';
 import { Button } from '../Button';
 import { createPortal } from 'react-dom';
-import { CircleX } from 'lucide-react';
+import { AlertCircle } from 'lucide-react';
 
 interface ConfirmModalProps {
     open: boolean;
@@ -22,8 +22,10 @@ export const InfoModal = ({ open, children, onAccept }: ConfirmModalProps) => {
             <div className="rounded-lg bg-white p-5 shadow-2xl animate-in fade-in zoom-in-95 duration-200 
             flex flex-col justify-center items-center">
 
-                {/* Icono de advertencia */}
-                <CircleX size={66} color='#B91C1C' />
+                 {/* Icono de error */}
+                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-red-100 text-red-600">
+                    <AlertCircle size={30} strokeWidth={1.8} />
+                </div>
 
                 {/* Contenido dinámico (children) */}
                 <div className="mb-10 mt-5 text-center text-lg">
