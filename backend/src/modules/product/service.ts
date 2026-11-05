@@ -56,6 +56,18 @@ export const deleteProductService = async (code: string): Promise<Product> => {
     return await productRepository.deleteProduct(code)//retorna el producto eliminado
 };
 
+//Service para actualizar el nombre y el precio de un producto
+export const updateProductService = async (code: string, name: string, price: number) => {
+    //Validamos si el producto que queremos editar existe
+    const product = await productRepository.findProductByCode(code)
+
+    if (!product) {
+        throw new AppError("El producto no existe.", 404)
+    }
+
+    return await productRepository.updateProduct(code, name, price)//retorna el producto editado
+}
+
 //Service para crear un producto
 export const createProductService = async (data: CreateProductDTO) => {
     const { product } = data

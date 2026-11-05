@@ -3,6 +3,7 @@ import * as productController from "./controller";
 import { validate } from "../../middlewares/validateZodSchema";
 import { productCodeSchema } from "../../schemas/productCodeSchema";
 import { createProductSchema } from "../../schemas/createProductSchema";
+import { updateProductSchema } from "../../schemas/updateProductSchema";
 
 const router = Router();
 
@@ -14,6 +15,9 @@ router.get("/:code", validate(productCodeSchema, "params"), productController.ge
 
 //POST/products
 router.post("/", validate(createProductSchema, "body"), productController.createProductController)
+
+//PUT/products/:code
+router.put("/:code", validate(updateProductSchema), productController.updateProductController)
 
 //DELETE/products/:code
 router.delete("/:code", validate(productCodeSchema, "params"), productController.deleteProductController);

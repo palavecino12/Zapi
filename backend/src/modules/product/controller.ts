@@ -43,6 +43,23 @@ export const deleteProductController = async (req: Request<{ code: string }>, re
     }
 };
 
+//PUT /products/:code
+export const updateProductController = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const code = String(req.params.code)
+        const { name, price } = req.body
+
+        const updatedProduct = await productService.updateProductService(code, name, price)
+
+        return res.status(200).json({
+            message: "Producto editado con éxito",
+            product: updatedProduct
+        })
+    } catch (error) {
+        next(error)
+    }
+}
+
 //POST/products/
 export const createProductController = async (req: Request, res: Response, next: NextFunction) => {
     try {
