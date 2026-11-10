@@ -1,5 +1,5 @@
 //Servicios de los productos encargados de comunicarse con la API del backend
-import type { CreateProductDTO, Product } from "../types/productType"
+import type { CreateProductDTO, updateProductDTO, Product } from "../types/productType"
 
 const apiUrl = import.meta.env.VITE_API_URL
 if (!apiUrl) {
@@ -54,8 +54,8 @@ export const createProduct = async (product: CreateProductDTO) => {
 
     const response = await fetch(url, {
         method: "POST",
-        headers:{"Content-Type": "application/json"},
-        body:JSON.stringify({product})
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ product })
     })
 
     if (!response.ok) {
@@ -63,7 +63,27 @@ export const createProduct = async (product: CreateProductDTO) => {
         throw new Error(errorResponse.message || "Error desconocido al crear el producto")
     }
 
-    const data:Product = await response.json();
+    const data: Product = await response.json();
+
+    return data;
+}
+
+//Service para editar un producto
+export const updateProduct = async (code: string, product: updateProductDTO) => {
+    const url = `${apiUrl}/products/${code}`
+
+    const response = await fetch(url, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(product)
+    })
+
+    if (!response.ok) {
+        const errorResponse = await response.json()
+        throw new Error(errorResponse.message || "Error desconocido al editar el producto")
+    }
+
+    const data: Product = await response.json();
 
     return data;
 }

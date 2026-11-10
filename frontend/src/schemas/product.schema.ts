@@ -6,11 +6,15 @@ export const createProductSchema = z.object({
     code: z.string().min(1, 'Escaneá un código de barras'),
     name: z.string().trim().min(1, 'El nombre es obligatorio'),
     category: z.string().trim().min(1, 'La categoría es obligatoria'),
-    price: z
-        .number({ message: 'Ingresá un precio válido' })
-        .positive('El precio debe ser mayor a 0'),
-    stock: z
-        .number({ message: 'Ingresá un stock válido' })
-        .int('El stock debe ser un número entero')
-        .min(0, 'El stock no puede ser negativo'),
+    price: z.number({ message: 'Ingresá un precio válido' }).positive('El precio debe ser mayor a 0'),
+    stock: z.number({ message: 'Ingresá un stock válido' }).int('El stock debe ser un número entero').min(0, 'El stock no puede ser negativo'),
 }) satisfies z.ZodType<CreateProductDTO>;
+
+
+//Schema para editar un producto
+export const updateProductSchema = z.object({
+    name: z.string().trim().min(2, "El nombre debe tener al menos 2 caracteres").max(100, "El nombre no puede superar los 100 caracteres"),
+    price: z.number({error: "El precio debe ser un número",}).positive("El precio debe ser mayor que 0"),
+});
+
+export type UpdateProductData = z.infer<typeof updateProductSchema>;

@@ -7,6 +7,12 @@ export const useGetProducts = () => {
     const [error, setError] = useState<string | null>(null)
     const [loading, setLoading] = useState(false)
 
+    const [refresh, setRefresh] = useState(false)
+
+    const refreshProducts = () => {
+        setRefresh(prev => !prev)
+    }
+
     useEffect(() => {
         const fetchProducts = async () => {
             setLoading(true)
@@ -24,7 +30,7 @@ export const useGetProducts = () => {
         }
 
         fetchProducts()
-    }, [])
+    }, [refresh])
 
-    return { products, loading, error }
+    return { products, loading, error, refreshProducts }
 }

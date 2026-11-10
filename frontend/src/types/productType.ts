@@ -12,6 +12,9 @@ export interface Product {
 //Type de los valores que va a introducir el admin al momento de crear un producto
 export type CreateProductDTO = Omit<Product, "id" | "createdAt">;
 
+//Type que vamos a usar para editar un producto
+export type updateProductDTO = Pick<Product, "name" | "price">
+
 //Type que vamos a usar solo para el carrito
 export type CartItemType = Product & {
     quantity: number;

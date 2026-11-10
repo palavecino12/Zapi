@@ -1,125 +1,113 @@
-
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { createPortal } from "react-dom";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Pencil } from "lucide-react";
+
 import { Button } from "../components/Button";
+import { Imput } from "../components/Imput";
+import { updateProductSchema } from "../schemas/product.schema";
+import type { updateProductDTO } from "../types/productType";
 
-interface ProductToEdit {
-  name: string;
-  price: number | string;
-}
-
+// Props que recibe el modal desde el componente padre.
 interface EditProductModalProps {
-  open: boolean;
-  product?: ProductToEdit | null;
-  onClose: () => void;
-  onConfirm: (updatedData: { name: string; price: number }) => void;
+    open: boolean;
+    product: updateProductDTO;
+    onClose: () => void;
+    onConfirm: (data: updateProductDTO) => void;
 }
 
-export const EditProductModal: React.FC<EditProductModalProps> = ({
-  open,
-  product,
-  onClose,
-  onConfirm,
-}) => {
-  const [name, setName] = useState("");
-  const [price, setPrice] = useState<string | number>("");
+export const EditProductModal: React.FC<EditProductModalProps> = ({open,product,onClose,onConfirm}) => {
 
-  useEffect(() => {
-    if (product) {
-      setName(product.name ?? "");
-      setPrice(product.price ?? "");
-    } else {
-      setName("");
-      setPrice("");
-    }
-  }, [product, open]);
-
-  const modalRoot = document.getElementById("modal");
-
-  if (!open || !modalRoot) return null;
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    onConfirm({
-      name: name.trim(),
-      price: typeof price === "string" ? parseFloat(price) || 0 : Number(price),
+    // Configuramos React Hook Form y conectamos Zod.
+    const {register,handleSubmit,formState: { errors }} = useForm<updateProductDTO>({
+        resolver: zodResolver(updateProductSchema),
+        defaultValues: {
+            name: product.name,
+            price: Number(product.price),
+        },
     });
 
-    onClose();
-  };
+    // Se ejecuta únicamente si todos los campos pasan la validación.
+    const onSubmit = (data: updateProductDTO) => {
+        onConfirm(data);
+        onClose();
+    };
 
-  return createPortal(
-    <div className="fixed inset-0 z-50 flex h-dvh items-center justify-center bg-black/50 px-4 backdrop-blur-sm">
-      <div className="w-full max-w-sm animate-in fade-in zoom-in-95 rounded-xl border border-gray-200 bg-white p-5 shadow-2xl duration-200">
+    // Buscamos el contenedor donde se renderizará el modal.
+    const modalRoot = document.getElementById("modal");
 
-        {/* Encabezado */}
-        <div className="mb-5 flex flex-col items-center gap-3">
-          <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-violet-100 text-violet-700">
-            <Pencil size={28} strokeWidth={1.8} />
-          </div>
+    // Si el modal está cerrado o no existe el contenedor, no lo mostramos.
+    if (!open || !modalRoot) return null;
 
-          <h2 className="text-xl font-bold tracking-tight text-gray-800">
-            Editar producto
-          </h2>
+    return createPortal(
+        <div className="fixed inset-0 z-50 flex h-dvh items-center justify-center bg-black/50 px-4 backdrop-blur-sm">
 
-          <p className="text-center text-sm text-gray-500">
-            Modificá los datos del producto seleccionado.
-          </p>
-        </div>
+            <div className="w-full max-w-sm rounded-xl border border-gray-200 bg-white p-5 shadow-2xl">
 
-        {/* Formulario */}
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-          <div className="flex flex-col gap-1.5">
-            <label className="text-sm font-semibold text-gray-700">
-              Nombre
-            </label>
+                {/* Encabezado */}
+                <div className="mb-5 flex flex-col items-center gap-3">
 
-            <input
-              type="text"
-              placeholder="Nombre del producto"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-              className="w-full rounded-xl border border-gray-200 bg-white p-3 text-base text-gray-800 shadow-sm outline-none transition-all duration-200 placeholder:text-gray-400 focus:border-violet-400 focus:ring-2 focus:ring-violet-100"
-            />
-          </div>
+                    <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-violet-100 text-violet-700">
+                        <Pencil size={28} />
+                    </div>
 
-          <div className="flex flex-col gap-1.5">
-            <label className="text-sm font-semibold text-gray-700">
-              Precio
-            </label>
+                    <h2 className="text-xl font-bold text-gray-800">
+                        Editar producto
+                    </h2>
 
-            <input
-              type="number"
-              step="any"
-              min="0"
-              placeholder="0.00"
-              value={price}
-              onChange={(e) => setPrice(e.target.value)}
-              required
-              className="w-full rounded-xl border border-gray-200 bg-white p-3 text-base text-gray-800 shadow-sm outline-none transition-all duration-200 placeholder:text-gray-400 focus:border-violet-400 focus:ring-2 focus:ring-violet-100"
-            />
-          </div>
+                    <p className="text-center text-sm text-gray-500">
+                        Modificá los datos del producto seleccionado.
+                    </p>
 
-          {/* Acciones */}
-          <div className="mt-2 flex gap-3">
-            <Button
-              type="button"
-              variant="secundario"
-              onClick={onClose}
-            >
-              Cancelar
-            </Button>
+                </div>
 
-            <Button type="submit">
-              Guardar 
-            </Button>
-          </div>
-        </form>
-      </div>
-    </div>,
-    modalRoot
-  );
+                {/* Formulario */}
+                <form
+                    onSubmit={handleSubmit(onSubmit)}
+                    noValidate
+                    className="flex flex-col gap-4"
+                >
+
+                    {/* Nombre */}
+                    <Imput
+                        label="Nombre"
+                        placeholder="Nombre del producto"
+                        error={errors.name?.message}
+                        {...register("name")}
+                    />
+
+                    {/* Precio */}
+                    <Imput
+                        label="Precio"
+                        type="number"
+                        step="any"
+                        placeholder="0.00"
+                        error={errors.price?.message}
+                        {...register("price", { valueAsNumber: true })}
+                    />
+
+                    {/* Acciones */}
+                    <div className="mt-2 flex gap-3">
+
+                        <Button
+                            type="button"
+                            variant="secundario"
+                            onClick={onClose}
+                        >
+                            Cancelar
+                        </Button>
+
+                        <Button type="submit">
+                            Guardar
+                        </Button>
+
+                    </div>
+
+                </form>
+
+            </div>
+        </div>,
+        modalRoot
+    );
 };
