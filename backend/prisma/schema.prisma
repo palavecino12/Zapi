@@ -9,13 +9,14 @@ datasource db {
 
 //Solo el administrador debe poder crear productos.
 model Product {
-  id        Int        @id @default(autoincrement())
-  code      String     @unique
+  id        Int      @id @default(autoincrement())
+  code      String   @unique
   name      String
-  price     Decimal    @db.Decimal(10, 2)
+  price     Decimal  @db.Decimal(10, 2)
   stock     Int
-  createdAt DateTime   @default(now())
+  createdAt DateTime @default(now())
   category  String
+  isActive  Boolean  @default(true)
 
   saleItems SaleItem[]
 }
@@ -34,8 +35,8 @@ model Sale {
   status    SaleStatus @default(PENDING)
   createdAt DateTime   @default(now())
 
-  items     SaleItem[]
-  payment   Payment?//Se crea únicamente cuando mercado pago confirma el pago.
+  items   SaleItem[]
+  payment Payment? //Se crea únicamente cuando mercado pago confirma el pago.
 }
 
 //Se crea junto con la venta. Cada registro representa un producto del carrito
@@ -53,11 +54,11 @@ model SaleItem {
 
 //Solo cuando el pago fue exitoso se crea el payment.
 model Payment {
-  id                Int           @id @default(autoincrement())
-  providerPaymentId String        @unique
-  amount            Decimal       @db.Decimal(10, 2)
+  id                Int     @id @default(autoincrement())
+  providerPaymentId String  @unique
+  amount            Decimal @db.Decimal(10, 2)
   paymentMethod     String?
-  saleId            Int           @unique
+  saleId            Int     @unique
 
   sale      Sale     @relation(fields: [saleId], references: [id])
   createdAt DateTime @default(now())

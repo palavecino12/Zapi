@@ -5,6 +5,8 @@ import { CreateProductDTO } from "../../schemas/createProductSchema";
 import * as productRepository from "./repository"
 import { Product } from "@prisma/client";//type del producto
 
+//FUNCIONES PARA EL CLIENTE
+
 //Service para traer todos los productos.
 export const getProducts = async () => {
     //Retornamos directamente ya que si no hay productos, prisma retorna un array vacio
@@ -43,7 +45,31 @@ export const validateStock = (cart: CartItemDTO[], products: Product[]) => {
 
 //FUNCIONES PARA EL ADMINISTRADOR
 
-//Service para eliminar un producto
+//Service para traer todos los productos (activos e inactivos).
+export const getAllProductsService = async (): Promise<Product[]> => {
+    return await productRepository.findAllProducts()
+};
+
+//Service para traer todos los productos inactivos.
+export const getInactiveProductsService = async (): Promise<Product[]> => {
+    return await productRepository.findInactiveProducts()
+};
+
+//Service para crear un producto
+export const createProductService = async (data: CreateProductDTO) => {
+    const { product } = data
+
+    //Primero validamos si el producto que quiere crear el usuario existe
+    const existProduct = await productRepository.findProductByCode(product.code)
+
+    if (existProduct) {
+        throw new AppError("El producto ya existe", 409)
+    }
+
+    return await productRepository.createProduct(product)
+}
+
+//Service para eliminar un producto (solo lo pone como inactivo).
 export const deleteProductService = async (code: string): Promise<Product> => {
 
     //Primero validamos si el producto que quiere eliminar el usuario existe
@@ -68,16 +94,15 @@ export const updateProductService = async (code: string, name: string, price: nu
     return await productRepository.updateProduct(code, name, price)//retorna el producto editado
 }
 
-//Service para crear un producto
-export const createProductService = async (data: CreateProductDTO) => {
-    const { product } = data
+//Service para recuperar un producto.
+export const restoreProductService = async (code: string): Promise<Product> => {
 
-    //Primero validamos si el producto que quiere crear el usuario existe
-    const existProduct = await productRepository.findProductByCode(product.code)
+    //Primero verificamos que el producto exista y esté inactivo.
+    const product = await productRepository.findInactiveProductByCode(code)
 
-    if (existProduct) {
-        throw new AppError("El producto ya existe", 409)
+    if (!product) {
+        throw new AppError("El producto no existe o ya está activo.", 404)
     }
 
-    return await productRepository.createProduct(product)
-}
+    return await productRepository.restoreProduct(code)
+};

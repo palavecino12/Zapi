@@ -2,6 +2,8 @@
 import { NextFunction, Request, Response } from "express";
 import * as productService from "./service";
 
+//CONTROLLERS PARA EL CLIENTE
+
 //GET/products/
 export const getProductsController = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -13,8 +15,7 @@ export const getProductsController = async (req: Request, res: Response, next: N
 }
 
 //GET/products/:code
-export const getProductByIdCodeController = async (req: Request<{ code: string }>, res: Response, next: NextFunction) => {
-
+export const getProductByCodeController = async (req: Request<{ code: string }>, res: Response, next: NextFunction) => {
     try {
         const { code } = req.params;
         const product = await productService.getProductByCode(code);
@@ -26,7 +27,46 @@ export const getProductByIdCodeController = async (req: Request<{ code: string }
 
 //CONTROLLERS PARA EL ADMINISTRADOR
 
-//DELETE/products/:code
+//GET/products/all (Trae todos los productos)
+export const getAllProductsController = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const products = await productService.getAllProductsService();
+
+        return res.status(200).json(products);
+
+    } catch (error) {
+        next(error);
+    }
+};
+
+//GET /products/inactive (Trae los productos inactivos)
+export const getInactiveProductsController = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const products = await productService.getInactiveProductsService();
+
+        return res.status(200).json(products);
+
+    } catch (error) {
+        next(error);
+    }
+};
+
+//POST/products/ (Crea un producto)
+export const createProductController = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const createdProduct = await productService.createProductService(req.body);
+
+        return res.status(201).json({
+            message: "Producto creado con éxito",
+            product: createdProduct
+        });
+
+    } catch (error) {
+        next(error);
+    }
+};
+
+//DELETE/products/:code (Elimina un producto, realmente lo pone inactivo)
 export const deleteProductController = async (req: Request<{ code: string }>, res: Response, next: NextFunction) => {
     try {
         const { code } = req.params;
@@ -43,10 +83,10 @@ export const deleteProductController = async (req: Request<{ code: string }>, re
     }
 };
 
-//PUT /products/:code
-export const updateProductController = async (req: Request, res: Response, next: NextFunction) => {
+//PUT /products/:code (Actualiza el nombre y precio de un producto)
+export const updateProductController = async (req: Request<{ code: string }>, res: Response, next: NextFunction) => {
     try {
-        const code = String(req.params.code)
+        const { code } = req.params
         const { name, price } = req.body
 
         const updatedProduct = await productService.updateProductService(code, name, price)
@@ -60,14 +100,16 @@ export const updateProductController = async (req: Request, res: Response, next:
     }
 }
 
-//POST/products/
-export const createProductController = async (req: Request, res: Response, next: NextFunction) => {
+//PATCH /products/:code/restore (Recupera un producto)
+export const restoreProductController = async (req: Request<{ code: string }>, res: Response, next: NextFunction) => {
     try {
-        const createdProduct = await productService.createProductService(req.body);
+        const { code } = req.params;
 
-        return res.status(201).json({
-            message: "Producto creado con éxito",
-            product: createdProduct
+        const restoredProduct = await productService.restoreProductService(code);
+
+        return res.status(200).json({
+            message: "Producto recuperado correctamente",
+            product: restoredProduct
         });
 
     } catch (error) {
