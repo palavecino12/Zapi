@@ -7,9 +7,10 @@ import { ErrorModal } from "../../components/feedback/ErrorModal";
 
 import { useGetProducts } from "../../hooks/useGetProducts";
 import { ReviewStockItem } from "../../product/ReviewStockItem";
+import { getProducts } from "../../services/productServices";
 
 export function ReviewStock() {
-  const { products, error, loading } = useGetProducts();
+  const { products, error, loading } = useGetProducts(getProducts);
 
   const [amounts, setAmounts] = useState<Record<number, string>>({});
 
