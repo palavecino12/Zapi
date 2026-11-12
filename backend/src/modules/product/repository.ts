@@ -81,10 +81,10 @@ export const createProduct = async (productData: Prisma.ProductCreateInput): Pro
     });
 };
 
-//Elimina producto (solo lo pone como inactivo)
-export const deleteProduct = async (code: string): Promise<Product> => {
+//Oculta un producto (lo pone como inactivo).
+export const hideProduct = async (code: string): Promise<Product> => {
     return await prisma.product.update({
-        where: { code: code },
+        where: { code },
         data: { isActive: false }
     });
 };

@@ -69,17 +69,17 @@ export const createProductService = async (data: CreateProductDTO) => {
     return await productRepository.createProduct(product)
 }
 
-//Service para eliminar un producto (solo lo pone como inactivo).
-export const deleteProductService = async (code: string): Promise<Product> => {
+//Service para ocultar un producto (lo pone como inactivo).
+export const hideProductService = async (code: string): Promise<Product> => {
 
-    //Primero validamos si el producto que quiere eliminar el usuario existe
+    //Primero validamos si el producto que quiere ocultar el usuario existe.
     const product = await productRepository.findProductByCode(code)
 
     if (!product) {
         throw new AppError("El producto no existe", 404)
     }
 
-    return await productRepository.deleteProduct(code)//retorna el producto eliminado
+    return await productRepository.hideProduct(code);//Retorna el producto ocultado.
 };
 
 //Service para actualizar el nombre y el precio de un producto

@@ -66,16 +66,16 @@ export const createProductController = async (req: Request, res: Response, next:
     }
 };
 
-//DELETE/products/:code (Elimina un producto, realmente lo pone inactivo)
-export const deleteProductController = async (req: Request<{ code: string }>, res: Response, next: NextFunction) => {
+//PATCH /products/:code (Oculta un producto, lo pone como inactivo).
+export const hideProductController = async (req: Request<{ code: string }>, res: Response, next: NextFunction) => {
     try {
         const { code } = req.params;
 
-        const deletedProduct = await productService.deleteProductService(code);
+        const hiddenProduct = await productService.hideProductService(code);
 
         return res.status(200).json({
-            message: "Producto eliminado correctamente",
-            product: deletedProduct,
+            message: "Producto ocultado correctamente",
+            product: hiddenProduct,
         });
 
     } catch (error) {

@@ -26,8 +26,8 @@ router.post("/", validate(createProductSchema, "body"), productController.create
 //PUT/products/:code (Edita el nombre y precio)
 router.put("/:code", validate(updateProductSchema), productController.updateProductController);
 
-//DELETE/products/:code (Desactiva un producto)
-router.delete("/:code", validate(productCodeSchema, "params"), productController.deleteProductController);
+//PATCH /products/:code (Oculta un producto).
+router.patch("/:code", validate(productCodeSchema, "params"), productController.hideProductController);
 
 //PATCH/products/:code/restore (Recupera un producto)
 router.patch("/:code/restore", validate(productCodeSchema, "params"), productController.restoreProductController);
