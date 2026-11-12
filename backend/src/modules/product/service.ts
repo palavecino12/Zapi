@@ -45,6 +45,29 @@ export const validateStock = (cart: CartItemDTO[], products: Product[]) => {
 
 //FUNCIONES PARA EL ADMINISTRADOR
 
+//Service para sumar stock a un producto.
+export const addStockService = async (code: string, quantity: number): Promise<Product> => {
+
+    //Primero verificamos que el producto exista.
+    const product = await productRepository.findProductByCodeAdmin(code);
+
+    if (!product) {
+        throw new AppError("El producto no existe.", 404);
+    }
+
+    //Validamos que el producto esté activo.
+    if (!product.isActive) {
+        throw new AppError("No se puede agregar stock a un producto inactivo.", 409);
+    }
+
+    //Validamos que la cantidad sea positiva.
+    if (quantity <= 0 || !Number.isInteger(quantity)) {
+        throw new AppError("La cantidad debe ser un número entero positivo.", 400);
+    }
+
+    return await productRepository.addStock(code, quantity);
+};
+
 //Service para traer todos los productos (activos e inactivos).
 export const getAllProductsService = async (): Promise<Product[]> => {
     return await productRepository.findAllProducts()

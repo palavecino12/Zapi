@@ -58,7 +58,19 @@ export const decreaseStock = async (productId: number, quantity: number, tx: Pri
 
 //FUNCIONES USADAS POR EL ADMINISTRADOR
 
-//Actualizar el stock de un producto
+//Sumar stock de un producto.
+export const addStock = async (code: string, quantity: number): Promise<Product> => {
+    return await prisma.product.update({
+        where: {
+            code
+        },
+        data: {
+            stock: {
+                increment: quantity
+            }
+        }
+    });
+};
 
 //Trae todos los productos (activos e inactivos).
 export const findAllProducts = async (): Promise<Product[]> => {
@@ -116,6 +128,15 @@ export const findInactiveProductByCode = async (code: string): Promise<Product |
         where: {
             code,
             isActive: false
+        }
+    });
+};
+
+//Busca un producto por código (activo o inactivo).
+export const findProductByCodeAdmin = async (code: string): Promise<Product | null> => {
+    return await prisma.product.findUnique({
+        where: {
+            code
         }
     });
 };

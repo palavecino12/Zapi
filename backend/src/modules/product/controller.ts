@@ -27,6 +27,24 @@ export const getProductByCodeController = async (req: Request<{ code: string }>,
 
 //CONTROLLERS PARA EL ADMINISTRADOR
 
+//PATCH/products/add-stock/:code
+export const addStockController = async (req: Request<{ code: string }>, res: Response, next: NextFunction) => {
+    try {
+        const { code } = req.params;
+        const { quantity } = req.body;
+
+        const product = await productService.addStockService(code, quantity);
+
+        return res.status(200).json({
+            message: "Stock actualizado correctamente",
+            product
+        });
+
+    } catch (error) {
+        next(error);
+    }
+};
+
 //GET/products/all (Trae todos los productos)
 export const getAllProductsController = async (req: Request, res: Response, next: NextFunction) => {
     try {
