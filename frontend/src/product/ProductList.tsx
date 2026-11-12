@@ -1,29 +1,28 @@
-//Este componente se va a usar para listar los productos de la base de datos.
 
-import type { CartItemType, Product } from "../types/productType"
-import { ProductListItem } from "./ProductListItem"
+import type { ReactNode } from "react";
+import type { Product } from "../types/productType";
 
-type ProductListProp = {
-    products: Product[],
-    items: CartItemType[],
-    onAdd: (product: Product) => void;
-    onRemove: (id: number) => void;
+// Componente genérico para listar productos.
+interface ProductListProps {
+    products: Product[];
+    renderItem: (product: Product) => ReactNode;
+    emptyMessage?: string;
 }
 
-export const ProductList = ({ products, items, onAdd, onRemove }: ProductListProp) => {
-
+export const ProductList = ({ products, renderItem, emptyMessage = "No se encontraron productos." }: ProductListProps) => {
     return (
-        <div>
-            {products.map((product => (
-                <ProductListItem
-                    key={product.id}
-                    product={product}
-                    selected={items.some(item=>item.id===product.id)}//Observamos si el producto esta en el carrito y devolvemos true o false.
-                    onAdd={onAdd}
-                    onRemove={onRemove}
-                />
-            )))}
+        <div className="flex w-full flex-col">
+            {products.length > 0 ? (
+                products.map((product) => (
+                    <div key={product.id}>
+                        {renderItem(product)}
+                    </div>
+                ))
+            ) : (
+                <p className="py-8 text-center text-sm text-gray-500">
+                    {emptyMessage}
+                </p>
+            )}
         </div>
-    )
-
-}
+    );
+};

@@ -1,36 +1,42 @@
-import { useState, useEffect } from "react"
-import { getProducts } from "../services/productServices"
-import type { Product } from "../types/productType"
 
-export const useGetProducts = () => {
-    const [products, setProducts] = useState<Product[]>([])
-    const [error, setError] = useState<string | null>(null)
-    const [loading, setLoading] = useState(false)
+import { useState, useEffect } from "react";
+import type { Product } from "../types/productType";
 
-    const [refresh, setRefresh] = useState(false)
+//Este es un hook reutilizable, le tengo que pasar el service necesario.
+//Son 3 tipos de service los que acepta: getProducts, getProducts y getProducts.
+
+type GetProductsFunction = () => Promise<Product[]>;
+
+export const useGetProducts = (getProductsFn: GetProductsFunction) => {
+    const [products, setProducts] = useState<Product[]>([]);
+    const [error, setError] = useState<string | null>(null);
+    const [loading, setLoading] = useState(false);
+
+    const [refresh, setRefresh] = useState(false);
 
     const refreshProducts = () => {
-        setRefresh(prev => !prev)
-    }
+        setRefresh(prev => !prev);
+    };
 
     useEffect(() => {
         const fetchProducts = async () => {
-            setLoading(true)
-            setError(null)
+            setLoading(true);
+            setError(null);
 
             try {
-                const data = await getProducts()
-                setProducts(data)
+                const data = await getProductsFn();
+                setProducts(data);
             } catch (error) {
-                const message = error instanceof Error ? error.message : 'Lo sentimos, tuvimos un problema al traer los productos'
-                setError(message)
+                const message = error instanceof Error? error.message: "Error al obtener los productos";
+
+                setError(message);
             } finally {
-                setLoading(false)
+                setLoading(false);
             }
-        }
+        };
 
-        fetchProducts()
-    }, [refresh])
+        fetchProducts();
+    }, [refresh, getProductsFn]);
 
-    return { products, loading, error, refreshProducts }
-}
+    return { products, loading, error, refreshProducts };
+};

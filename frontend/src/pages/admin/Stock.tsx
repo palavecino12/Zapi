@@ -12,13 +12,14 @@ import { ErrorModal } from "../../components/feedback/ErrorModal";
 
 // Hooks
 import { useGetProducts } from "../../hooks/useGetProducts";
+import { getProducts } from "../../services/productServices";
 
 export function Stock() {
     const [productSearch, setProductSearch] = useState("");
     const [editingId, setEditingId] = useState<number | null>(null);
     const [amount, setAmount] = useState("");
 
-    const { products, error, loading } = useGetProducts();
+    const { products, error, loading } = useGetProducts(getProducts);
     const navigate = useNavigate();
 
     // Filtrar productos por nombre.

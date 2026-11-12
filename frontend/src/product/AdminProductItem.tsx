@@ -1,5 +1,5 @@
 
-import { Pencil, Trash2 } from "lucide-react";
+import { EyeOff, Pencil } from "lucide-react";
 import type { Product, updateProductDTO } from "../types/productType";
 
 type AdminProductItemProps = {
@@ -43,7 +43,7 @@ export const AdminProductItem = ({ product, onEdit, onDelete }: AdminProductItem
                         aria-label="Eliminar producto"
                         className="rounded-xl bg-red-100 p-2 text-red-600 shadow-sm transition-all duration-200 active:bg-red-600 active:text-white active:shadow-inner"
                     >
-                        <Trash2 size={22} strokeWidth={1.8} />
+                        <EyeOff size={22} strokeWidth={1.8} />
                     </button>
 
                 </div>

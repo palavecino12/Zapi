@@ -1,6 +1,9 @@
+
 import { useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useNavigate } from 'react-router-dom';
+
 import Header from '../../components/Header';
 import { CameraView } from '../../scanner/CameraView';
 import { Button } from '../../components/Button';
@@ -10,13 +13,13 @@ import { createProductSchema } from '../../schemas/product.schema';
 import { useCreateProduct } from '../../hooks/useCreateProduct';
 import { Loading } from '../../components/feedback/Loading';
 import { ErrorModal } from '../../components/feedback/ErrorModal';
-import { useNavigate } from 'react-router-dom';
 
 export function AddProduct() {
 
-  const navigate = useNavigate()
-  const { addProduct, error, loading } = useCreateProduct()
-  const { register, handleSubmit, setValue, control, formState: { errors, isSubmitting } } = useForm<CreateProductDTO>({
+  const navigate = useNavigate();
+  const { addProduct, error, loading } = useCreateProduct();
+
+  const {register,handleSubmit,setValue,control,formState: { errors },} = useForm<CreateProductDTO>({
     resolver: zodResolver(createProductSchema),
     defaultValues: {
       code: '',
@@ -28,7 +31,7 @@ export function AddProduct() {
   const code = useWatch({ control, name: 'code' });
   const [existingCode, setExistingCode] = useState<string | null>(null);
 
-  //Funcion para validar el codigo leido
+  // Funcion para validar el codigo leido
   const handleCode = (scanned: string, existProduct: boolean) => {
     if (existProduct) {
       // Ya está cargado: no dejamos el código en el form
@@ -36,21 +39,23 @@ export function AddProduct() {
       setExistingCode(scanned);
       return;
     }
+
     setExistingCode(null);
     setValue('code', scanned, { shouldValidate: true });
   };
 
-  //Funcion para crear el producto
+  // Funcion para crear el producto
   const onSubmit = async (data: CreateProductDTO) => {
-    const newProduct = await addProduct(data)
-    if (!newProduct) return //el error ya se muestra en el ErrorModal
+    const newProduct = await addProduct(data);
+
+    if (!newProduct) return;
 
     navigate('/success', {
       state: {
-        text: `"${newProduct.name}" se almacenó correctamente.`,
+        text: `"${newProduct.product.name}" se almacenó correctamente.`,
         redirectTo: '/admin/products',
       },
-    })
+    });
   };
 
   return (
@@ -76,15 +81,15 @@ export function AddProduct() {
 
           <div
             className={`w-full rounded-lg py-2 font-medium flex justify-center ${existingCode
-              ? 'bg-red-600 text-white'
-              : code
-                ? 'bg-green-600 text-white'
-                : 'border border-gray-300 text-gray-500'
+                ? 'bg-red-600 text-white'
+                : code
+                  ? 'bg-green-600 text-white'
+                  : 'border border-gray-300 text-gray-500'
               }`}
           >
             {existingCode
               ? 'Este producto ya está almacenado'
-              : code || <p className='text-sm text-black/40'>Escaneá el producto</p>}
+              : code || <p className="text-sm text-black/40">Escaneá el producto</p>}
           </div>
 
           {errors.code && !existingCode && (
@@ -129,16 +134,15 @@ export function AddProduct() {
           </div>
 
           <div className="mt-6 flex justify-center">
-            <Button type="submit" disabled={isSubmitting}>
+            <Button type="submit" disabled={loading}>
               Almacenar
             </Button>
           </div>
         </form>
       </div>
 
-      {/* Modal para advetir de un problema no mayor */}
+      {/* Modal para advertir de un problema */}
       <ErrorModal error={error} />
     </>
-
   );
 }

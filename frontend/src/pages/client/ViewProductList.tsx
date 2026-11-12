@@ -8,6 +8,8 @@ import Header from "../../components/Header";
 import { useGetProducts } from "../../hooks/useGetProducts";
 import { InfoModal } from "../../components/feedback/InfoModal";
 import { Spinner } from "../../components/feedback/Spinner";
+import { getProducts } from "../../services/productServices";
+import { ProductListItem } from "../../product/ProductListItem";
 
 export const ViewProductList = () => {
 
@@ -15,7 +17,7 @@ export const ViewProductList = () => {
     const { items, addItem, removeItem } = useCart();
     const navigate = useNavigate();
 
-    const { products, loading, error } = useGetProducts()
+    const { products, loading, error } = useGetProducts(getProducts)
 
     //Para manejar el error de traer los productos.
     const [openModal, setOpenModal] = useState(false)
@@ -48,12 +50,22 @@ export const ViewProductList = () => {
                     {loading ?
                         (
                             <div className="flex-1 flex justify-center">
-                                <Spinner/>
+                                <Spinner />
                             </div>
                         )
                         : (
                             <div className="flex-1 overflow-y-auto">
-                                <ProductList products={filteredProducts} items={items} onAdd={addItem} onRemove={removeItem} />
+                                <ProductList
+                                    products={filteredProducts}
+                                    renderItem={(product) => (
+                                        <ProductListItem
+                                            product={product}
+                                            selected={items.some(item => item.id === product.id)}
+                                            onAdd={addItem}
+                                            onRemove={removeItem}
+                                        />
+                                    )}
+                                />
                             </div>
                         )}
 

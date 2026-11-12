@@ -1,42 +1,59 @@
 
-import React from "react";
 import { createPortal } from "react-dom";
-import { TriangleAlert } from "lucide-react";
+import { TriangleAlert, EyeOff } from "lucide-react";
 import { Button } from "../Button";
 
 interface ConfirmModalProps {
     open: boolean;
-    children: React.ReactNode;
+    productName: string;
+    action: "hide" | "delete";
     onConfirm: () => void;
     onCancel: () => void;
 }
 
-export const ConfirmModal = ({
-    open,
-    children,
-    onConfirm,
-    onCancel,
-}: ConfirmModalProps) => {
+export const ConfirmModal = ({ open, productName, action, onConfirm, onCancel }: ConfirmModalProps) => {
+
     const modalRoot = document.getElementById("modal");
 
     if (!open || !modalRoot) return null;
+
+    const isDelete = action === "delete";
 
     return createPortal(
         <div className="fixed inset-0 z-50 flex h-dvh items-center justify-center bg-black/50 px-4 backdrop-blur-sm">
             <div className="flex w-full max-w-sm animate-in fade-in zoom-in-95 flex-col items-center rounded-xl border border-gray-200 bg-white p-5 shadow-2xl duration-200">
 
                 {/* Encabezado */}
-                <div className="mb-3 flex h-14 w-14 items-center justify-center rounded-2xl bg-amber-100 text-amber-600">
-                    <TriangleAlert size={30} strokeWidth={1.8} />
+                <div className={`mb-3 flex h-14 w-14 items-center justify-center rounded-2xl ${isDelete
+                        ? "bg-amber-100 text-amber-600"
+                        : "bg-violet-100 text-violet-600"
+                    }`}>
+                    {isDelete ? (
+                        <TriangleAlert size={30} strokeWidth={1.8} />
+                    ) : (
+                        <EyeOff size={30} strokeWidth={1.8} />
+                    )}
                 </div>
 
                 <h2 className="text-xl font-bold tracking-tight text-gray-800">
-                    ¿Estás seguro?
+                    {isDelete ? "¿Eliminar producto?" : "¿Ocultar producto?"}
                 </h2>
 
-                {/* Contenido dinámico */}
+                {/* Mensaje dinámico */}
                 <div className="mb-5 mt-3 text-center text-sm leading-relaxed text-gray-500">
-                    {children}
+                    {isDelete ? (
+                        <>
+                            ¿Estás seguro de que querés eliminar definitivamente
+                            el producto <strong className="font-semibold text-gray-700">{productName}</strong>?
+                            Esta acción no se puede deshacer.
+                        </>
+                    ) : (
+                        <>
+                            El producto <strong className="font-semibold text-gray-700">{productName}</strong> dejará
+                            de estar visible para los clientes. Podrás recuperarlo
+                            cuando quieras desde la sección de productos ocultos.
+                        </>
+                    )}
                 </div>
 
                 {/* Acciones */}
@@ -53,7 +70,7 @@ export const ConfirmModal = ({
                         type="button"
                         onClick={onConfirm}
                     >
-                        Confirmar
+                        {isDelete ? "Eliminar" : "Ocultar"}
                     </Button>
                 </div>
             </div>

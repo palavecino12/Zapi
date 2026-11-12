@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Plus } from "lucide-react";
+import { EyeOff, Plus } from "lucide-react";
 
 // Componentes
 import Header from "../../components/Header";
@@ -16,58 +16,57 @@ import { Loading } from "../../components/feedback/Loading";
 // Hooks y tipos
 import { useGetProducts } from "../../hooks/useGetProducts";
 import type { updateProductDTO } from "../../types/productType";
-import { deleteProductByCode } from "../../services/productServices";
+import { getAllProducts } from "../../services/productServices";
 import { useUpdateProduct } from "../../hooks/useUpdateProduct";
+import { useDeleteProduct } from "../../hooks/useDeleteProduct";
+import { ProductList } from "../../product/ProductList";
+import { InactiveProductItem } from "../../product/InactiveProductItem";
+import { useRestoreProduct } from "../../hooks/useRestoreProduct";
 
 export function Products() {
 
     const navigate = useNavigate();
 
     // Custom hooks
-    const {
-        products,
-        error: productsError,
-        loading: productsLoading,
-        refreshProducts
-    } = useGetProducts();
+    const { products, error: productsError, loading: productsLoading, refreshProducts } = useGetProducts(getAllProducts);
+    const { deleteProduct, error: deleteError, loading: deleteLoading } = useDeleteProduct()
+    const { editProduct, error: updateError, loading: updateLoading } = useUpdateProduct();
+    const { restoreProduct, error: restoreError, loading: restoreLoading } = useRestoreProduct();
 
-    const {
-        editProduct,
-        error: updateError,
-        loading: updateLoading
-    } = useUpdateProduct();
+    //LISTA DE PRODUCTOS
+
+    const [showInactive, setShowInactive] = useState(false);
 
     // Guarda el texto ingresado en el buscador.
     const [productSearch, setProductSearch] = useState("");
 
     // Filtra los productos según el texto del buscador.
     const filteredProducts = products.filter((product) =>
-        product.name.toLowerCase().includes(productSearch.toLowerCase())
+        product.name.toLowerCase().includes(productSearch.toLowerCase()) &&
+        (showInactive ? !product.isActive : product.isActive)
     );
 
-    // ELIMINAR UN PRODUCTO
+    //ELIMINAR UN PRODUCTO
 
-    // Guarda el código del producto que se quiere eliminar.
+    //Guarda el código del producto que se quiere eliminar.
     const [productToDelete, setProductToDelete] = useState<string | null>(null);
 
-    // Busca el producto seleccionado para mostrar su nombre.
+    //Busca el producto seleccionado para mostrar su nombre.
     const productPendingDelete = products.find(
         (p) => p.code === productToDelete
     );
 
-    // Selecciona el producto que se quiere eliminar.
+    //Selecciona el producto que se quiere eliminar.
     const handleDelete = (code: string) => {
         setProductToDelete(code);
     };
 
-    // Confirma la eliminación del producto seleccionado.
-    // Todavía no funciona porque hay que cambiar el back
-    // para que solo edite un atributo del producto y no aparezca más.
-    // También tengo que crear el hook y llamarlo acá.
+    //Confirma la eliminación del producto seleccionado.
+    //También tengo que crear el hook y llamarlo acá.
     const confirmDelete = async () => {
         if (productToDelete !== null) {
             try {
-                await deleteProductByCode(productToDelete);
+                await deleteProduct(productToDelete);
                 refreshProducts();
 
             } catch (error) {
@@ -79,19 +78,32 @@ export function Products() {
         setProductToDelete(null);
     };
 
-    // EDITAR UN PRODUCTO
+    //REACTIVAR UN PRODUCTO
 
-    // Guarda los datos del producto que se quiere editar (esto es para mostrarlos en el modal).
+    //Selecciona y reactiva un producto previamente desactivado.
+    const handleActivate = async (code: string) => {
+        try {
+            await restoreProduct(code);
+            refreshProducts();
+
+        } catch (error) {
+            console.error("Error al reactivar el producto:", error);
+        }
+    };
+
+    //EDITAR UN PRODUCTO
+
+    //Guarda los datos del producto que se quiere editar (esto es para mostrarlos en el modal).
     const [productToEdit, setProductToEdit] = useState<updateProductDTO | null>(null);
     const [codeToEdit, setCodeToEdit] = useState<string | null>(null);
 
-    // Selecciona el producto que se quiere editar.
+    //Selecciona el producto que se quiere editar.
     const handleEdit = (code: string, product: updateProductDTO) => {
         setProductToEdit(product);
         setCodeToEdit(code);
     };
 
-    // Al confirmar la edición de un producto:
+    //Al confirmar la edición de un producto:
     const confirmEdit = async (data: updateProductDTO) => {
         if (!codeToEdit) return;
 
@@ -110,7 +122,7 @@ export function Products() {
         }
     };
 
-    // Cierra el modal y limpia el producto seleccionado.
+    //Cierra el modal y limpia el producto seleccionado.
     const handleCloseEdit = () => {
         setProductToEdit(null);
         setCodeToEdit(null);
@@ -120,10 +132,14 @@ export function Products() {
         <>
             {/* Feedback de carga y errores */}
             {updateLoading && <Loading />}
+            {deleteLoading && <Loading />}
+            {restoreLoading && <Loading />}
 
             {/* Modales de error */}
             <ErrorModal error={productsError ? "Lo sentimos, no pudimos cargar los productos." : null} />
             <ErrorModal error={updateError ? "Error al actualizar el producto." : null} />
+            <ErrorModal error={deleteError ? "Error al actualizar el producto." : null} />
+            <ErrorModal error={restoreError ? "Error al reactivar el producto." : null} />
 
             <div className="relative flex h-full min-h-0 flex-col overflow-hidden">
 
@@ -132,9 +148,26 @@ export function Products() {
 
                 <main className="flex min-h-0 flex-1 flex-col">
 
-                    {/* Buscador de productos */}
-                    <div className="mx-auto w-full shrink-0 px-2">
-                        <ProductSearch setProductSearch={setProductSearch} />
+                    {/* Buscador y filtro de productos inactivos */}
+                    <div className="flex w-full shrink-0 items-center gap-2 px-2 mb-2">
+
+                        <div className="min-w-0 flex-1">
+                            <ProductSearch setProductSearch={setProductSearch} />
+                        </div>
+
+                        <button
+                            type="button"
+                            onClick={() => setShowInactive(prev => !prev)}
+                            title={showInactive ? "Ocultar productos inactivos" : "Mostrar productos inactivos"}
+                            aria-label={showInactive ? "Ocultar productos inactivos" : "Mostrar productos inactivos"}
+                            aria-pressed={showInactive}
+                            className={`flex h-12 w-12 shrink-0 self-center items-center justify-center rounded-xl shadow-sm transition-colors ${showInactive
+                                ? "bg-violet-600 text-white"
+                                : "bg-violet-100 text-violet-700 hover:bg-violet-200"
+                                }`}
+                        >
+                            <EyeOff size={21} />
+                        </button>
                     </div>
 
                     {/* Muestra el contenido según el estado de la petición */}
@@ -148,23 +181,23 @@ export function Products() {
 
                         <div className="min-h-0 flex-1 overflow-y-auto pb-35">
 
-                            {filteredProducts.length > 0 ? (
-
-                                filteredProducts.map((product) => (
-                                    <AdminProductItem
-                                        key={product.id}
-                                        product={product}
-                                        onEdit={handleEdit}
-                                        onDelete={handleDelete}
-                                    />
-                                ))
-
-                            ) : (
-
-                                <p className="py-8 text-center text-gray-500">
-                                    No se encontraron productos.
-                                </p>
-                            )}
+                            <ProductList
+                                products={filteredProducts}
+                                renderItem={(product) => (
+                                    showInactive ? (
+                                        <InactiveProductItem
+                                            product={product}
+                                            onActivate={handleActivate}
+                                        />
+                                    ) : (
+                                        <AdminProductItem
+                                            product={product}
+                                            onEdit={handleEdit}
+                                            onDelete={handleDelete}
+                                        />
+                                    )
+                                )}
+                            />
 
                         </div>
                     )}
@@ -179,15 +212,13 @@ export function Products() {
                     <Plus className="h-6 w-6" />
                 </button>
 
-                {/* Modal para confirmar la eliminación */}
                 <ConfirmModal
-                    open={productToDelete !== null}
-                    onCancel={() => setProductToDelete(null)}
+                    open={!!productPendingDelete}
+                    productName={productPendingDelete?.name ?? ""}
+                    action="hide"
                     onConfirm={confirmDelete}
-                >
-                    ¿Seguro que querés eliminar{" "}
-                    <strong>{productPendingDelete?.name}</strong>?
-                </ConfirmModal>
+                    onCancel={() => setProductToDelete(null)}
+                />
 
                 {/* Modal de edición: solamente existe si hay un producto seleccionado */}
                 {productToEdit && (

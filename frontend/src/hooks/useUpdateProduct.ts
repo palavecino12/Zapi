@@ -1,25 +1,32 @@
-import { useState } from "react"
-import type { updateProductDTO } from "../types/productType"
-import { updateProduct } from "../services/productServices"
+
+import { useState } from "react";
+import type { updateProductDTO } from "../types/productType";
+import type { ProductApiResponse } from "../types/apiResponseType";
+import { updateProduct } from "../services/productServices";
 
 export const useUpdateProduct = () => {
-    const [loading, setLoading] = useState(false)
-    const [error, setError] = useState<string | null>(null)
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
-    const editProduct = async (code: string, product: updateProductDTO) => {
-        setLoading(true)
-        setError(null)
+    const editProduct = async (code: string, product: updateProductDTO): Promise<ProductApiResponse | null> => {
+
+        setLoading(true);
+        setError(null);
 
         try {
-            const updatedProduct = await updateProduct(code, product)
-            return updatedProduct
+            const response = await updateProduct(code, product);
+            return response;
+
         } catch (error) {
-            const message = error instanceof Error ? error.message : 'Lo sentimos, tuvimos un problema al editar el producto'
-            setError(message)
-            return null
+            const message = error instanceof Error ? error.message : "Lo sentimos, tuvimos un problema al editar el producto";
+
+            setError(message);
+            return null;
+
         } finally {
-            setLoading(false)
+            setLoading(false);
         }
-    }
-    return { editProduct, loading, error }
-}
+    };
+
+    return { editProduct, loading, error };
+};
