@@ -1,23 +1,25 @@
 import { useState } from "react";
-import { deleteProductByCode } from "../services/productServices";
+import { hideProductByCode } from "../services/productServices";
 import type { ProductApiResponse } from "../types/apiResponseType";
 
-export const useDeleteProduct = () => {
+export const useHideProduct = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-    const deleteProduct = async (code: string): Promise<ProductApiResponse | null> => {
+    const hideProduct = async (code: string): Promise<ProductApiResponse | null> => {
 
         setLoading(true);
         setError(null);
 
         try {
-            const response = await deleteProductByCode(code);
+            const response = await hideProductByCode(code);
 
             return response;
 
         } catch (error) {
-            const message = error instanceof Error ? error.message : "Lo sentimos, tuvimos un problema al desactivar el producto";
+            const message = error instanceof Error
+                ? error.message
+                : "Lo sentimos, tuvimos un problema al ocultar el producto";
 
             setError(message);
 
@@ -28,5 +30,5 @@ export const useDeleteProduct = () => {
         }
     };
 
-    return { deleteProduct, loading, error };
+    return { hideProduct, loading, error };
 };

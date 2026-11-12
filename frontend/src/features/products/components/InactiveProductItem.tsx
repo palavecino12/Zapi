@@ -1,4 +1,4 @@
-import { RotateCcw, Trash2 } from "lucide-react";
+import { RotateCcw } from "lucide-react";
 import type { Product } from "../types/productType";
 
 interface InactiveProductItemProps {
@@ -36,16 +36,7 @@ export function InactiveProductItem({ product, onActivate }: InactiveProductItem
                             <RotateCcw size={22} strokeWidth={1.8} />
                         </button>
                     </div>
-                    {/* Eliminar */}
-
-                    <button
-                        onClick={()=>console.log("en proceso")}
-                        aria-label="Eliminar producto"
-                        className="rounded-xl bg-red-100 p-2 text-red-600 shadow-sm transition-all duration-200 active:bg-red-600 active:text-white active:shadow-inner"
-                    >
-                        <Trash2 size={22} strokeWidth={1.8} />
-                    </button>
-
+                    
                 </div>
 
 

@@ -18,7 +18,7 @@ import { useGetProducts } from "../../features/products/hooks/useGetProducts";
 import type { updateProductDTO } from "../../features/products/types/productType";
 import { getAllProducts } from "../../features/products/services/productServices";
 import { useUpdateProduct } from "../../features/products/hooks/useUpdateProduct";
-import { useDeleteProduct } from "../../features/products/hooks/useDeleteProduct";
+import { useHideProduct } from "../../features/products/hooks/useHideProduct";
 import { ProductList } from "../../features/products/components/ProductList";
 import { InactiveProductItem } from "../../features/products/components/InactiveProductItem";
 import { useRestoreProduct } from "../../features/products/hooks/useRestoreProduct";
@@ -29,7 +29,7 @@ export function Products() {
 
     // Custom hooks
     const { products, error: productsError, loading: productsLoading, refreshProducts } = useGetProducts(getAllProducts);
-    const { deleteProduct, error: deleteError, loading: deleteLoading } = useDeleteProduct()
+    const { hideProduct, error: hideError, loading: hideLoading } = useHideProduct()
     const { editProduct, error: updateError, loading: updateLoading } = useUpdateProduct();
     const { restoreProduct, error: restoreError, loading: restoreLoading } = useRestoreProduct();
 
@@ -49,25 +49,28 @@ export function Products() {
 
     // OCULTAR UN PRODUCTO
 
-    // Guarda el código del producto que se quiere eliminar.
-    const [productToDelete, setProductToDelete] = useState<string | null>(null);
+    // Guarda el código del producto que se quiere ocultar.
+    const [productToHide, setProductToHide] = useState<string | null>(null);
 
     // Busca el producto seleccionado para mostrar su nombre.
-    const productPendingDelete = products.find(
-        (p) => p.code === productToDelete
+    const productPendingHide = products.find(
+        (p) => p.code === productToHide
     );
 
-    // Selecciona el producto que se quiere eliminar.
-    const handleDelete = (code: string) => {
-        setProductToDelete(code);
+    // Selecciona el producto que se quiere ocultar.
+    const handleHide = (code: string) => {
+        setProductToHide(code);
     };
 
-    // Confirma la eliminación del producto seleccionado.
-    const confirmDelete = async () => {
-        if (productToDelete !== null) {
+    // Confirma el ocultamiento del producto seleccionado.
+    const confirmHide = async () => {
+        if (productToHide !== null) {
             try {
-                await deleteProduct(productToDelete);
-                refreshProducts();
+                const response = await hideProduct(productToHide);
+
+                if (response) {
+                    refreshProducts();
+                }
 
             } catch (error) {
                 // En este caso de error mostrar un modal.
@@ -75,7 +78,7 @@ export function Products() {
             }
         }
 
-        setProductToDelete(null);
+        setProductToHide(null);
     };
 
     //REACTIVAR UN PRODUCTO
@@ -149,13 +152,13 @@ export function Products() {
         <>
             {/* Feedback de carga y errores */}
             {updateLoading && <Loading />}
-            {deleteLoading && <Loading />}
+            {hideLoading && <Loading />}
             {restoreLoading && <Loading />}
 
             {/* Modales de error */}
             <ErrorModal error={productsError ? "Lo sentimos, no pudimos cargar los productos." : null} />
             <ErrorModal error={updateError ? "Error al actualizar el producto." : null} />
-            <ErrorModal error={deleteError ? "Error al actualizar el producto." : null} />
+            <ErrorModal error={hideError ? "Error al ocultar el producto." : null} />
             <ErrorModal error={restoreError ? "Error al reactivar el producto." : null} />
 
             <div className="relative flex h-full min-h-0 flex-col overflow-hidden">
@@ -210,7 +213,7 @@ export function Products() {
                                         <AdminProductItem
                                             product={product}
                                             onEdit={handleEdit}
-                                            onDelete={handleDelete}
+                                            onDelete={handleHide}
                                         />
                                     )
                                 )}
@@ -231,11 +234,11 @@ export function Products() {
 
                 {/* Modal para confirmar si ocultar un producto */}
                 <ConfirmModal
-                    open={!!productPendingDelete}
-                    productName={productPendingDelete?.name ?? ""}
+                    open={!!productPendingHide}
+                    productName={productPendingHide?.name ?? ""}
                     action="hide"
-                    onConfirm={confirmDelete}
-                    onCancel={() => setProductToDelete(null)}
+                    onConfirm={confirmHide}
+                    onCancel={() => setProductToHide(null)}
                 />
 
                 {/* Modal para confirmar si editar un producto */}

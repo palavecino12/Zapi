@@ -136,19 +136,19 @@ export const updateProduct = async (code: string, product: updateProductDTO): Pr
     return data;
 };
 
-//Service para desactivar un producto según su código
-export const deleteProductByCode = async (code: string): Promise<ProductApiResponse> => {
+//Service para ocultar un producto según su código.
+export const hideProductByCode = async (code: string): Promise<ProductApiResponse> => {
 
     const url = `${productsUrl}/${encodeURIComponent(code)}`;
 
     const response = await fetch(url, {
-        method: "DELETE"
+        method: "PATCH"
     });
 
     if (!response.ok) {
         const errorResponse = await response.json();
         throw new Error(
-            errorResponse.message || "Error desconocido al desactivar el producto"
+            errorResponse.message || "Error desconocido al ocultar el producto"
         );
     }
 
