@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 
 import Header from "../../components/Header";
@@ -5,9 +6,10 @@ import { Button } from "../../components/Button";
 import { Spinner } from "../../components/feedback/Spinner";
 import { ErrorModal } from "../../components/feedback/ErrorModal";
 
-import { useGetProducts } from "../../hooks/useGetProducts";
-import { ReviewStockItem } from "../../product/ReviewStockItem";
-import { getProducts } from "../../services/productServices";
+import { useGetProducts } from "../../features/products/hooks/useGetProducts";
+import { ReviewStockItem } from "../../features/stock/components/ReviewStockItem";
+import { ProductList } from "../../features/products/components/ProductList";
+import { getProducts } from "../../features/products/services/productServices";
 
 export function ReviewStock() {
   const { products, error, loading } = useGetProducts(getProducts);
@@ -53,30 +55,29 @@ export function ReviewStock() {
           </div>
         ) : (
           <div className="min-h-0 flex-1 overflow-y-auto">
-            <ul className="mx-auto flex w-full max-w-md flex-col">
-              {products.map((product) => (
-                <ReviewStockItem
-                  key={product.id}
-                  product={product}
-                  amount={amounts[product.id] ?? ""}
-                  onAmountChange={(value) =>
-                    handleAmountChange(product.id, value)
-                  }
-                />
-              ))}
+            <div className="mx-auto w-full max-w-md">
+              <ProductList
+                products={products}
+                emptyMessage="No hay productos para revisar."
+                renderItem={(product) => (
+                  <ReviewStockItem
+                    product={product}
+                    amount={amounts[product.id] ?? ""}
+                    onAmountChange={(value) =>
+                      handleAmountChange(product.id, value)
+                    }
+                  />
+                )}
+              />
 
-              {products.length === 0 ? (
-                <li className="py-8 text-center text-sm text-gray-500">
-                  No hay productos para revisar.
-                </li>
-              ) : (
-                <li className="px-2 pb-6 pt-5">
+              {products.length > 0 && (
+                <div className="px-2 pb-6 pt-5">
                   <Button variant="primario" onClick={handleAccept}>
                     Aceptar
                   </Button>
-                </li>
+                </div>
               )}
-            </ul>
+            </div>
           </div>
         )}
       </main>

@@ -1,9 +1,9 @@
 import { CreditCard } from "lucide-react";
-import CartList from "../../cart/CartList";
-import { useCart } from "../../cart/useCart";
+import CartList from "../../features/cart/components/CartList";
+import { useCart } from "../../features/cart/hooks/useCart";
 import { Button } from "../../components/Button";
-import { CameraView } from "../../scanner/CameraView";
-import { useCheckout } from "../../hooks/useCheckout";
+import { CameraView } from "../../features/scanner/components/CameraView";
+import { useCheckout } from "../../features/sales/hooks/useCheckout";
 import { Loading } from "../../components/feedback/Loading";
 import { ErrorModal } from "../../components/feedback/ErrorModal";
 

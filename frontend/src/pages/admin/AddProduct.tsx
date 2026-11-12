@@ -1,16 +1,15 @@
-
 import { useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigate } from 'react-router-dom';
 
 import Header from '../../components/Header';
-import { CameraView } from '../../scanner/CameraView';
+import { CameraView } from '../../features/scanner/components/CameraView';
 import { Button } from '../../components/Button';
 import { Imput } from '../../components/Imput';
-import type { CreateProductDTO } from '../../types/productType';
-import { createProductSchema } from '../../schemas/product.schema';
-import { useCreateProduct } from '../../hooks/useCreateProduct';
+import type { CreateProductDTO } from '../../features/products/types/productType';
+import { createProductSchema } from '../../features/products/schemas/product.schema';
+import { useCreateProduct } from '../../features/products/hooks/useCreateProduct';
 import { Loading } from '../../components/feedback/Loading';
 import { ErrorModal } from '../../components/feedback/ErrorModal';
 

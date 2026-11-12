@@ -1,15 +1,15 @@
-import { useCart } from "../../cart/useCart";
-import { ProductList } from "../../product/ProductList";
+import { useCart } from "../../features/cart/hooks/useCart";
+import { ProductList } from "../../features/products/components/ProductList";
 import { Button } from "../../components/Button";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { ProductSearch } from "../../product/ProductSearch";
+import { ProductSearch } from "../../features/products/components/ProductSearch";
 import Header from "../../components/Header";
-import { useGetProducts } from "../../hooks/useGetProducts";
+import { useGetProducts } from "../../features/products/hooks/useGetProducts";
 import { InfoModal } from "../../components/feedback/InfoModal";
 import { Spinner } from "../../components/feedback/Spinner";
-import { getProducts } from "../../services/productServices";
-import { ProductListItem } from "../../product/ProductListItem";
+import { getProducts } from "../../features/products/services/productServices";
+import { ProductListItem } from "../../features/products/components/ProductListItem";
 
 export const ViewProductList = () => {
 

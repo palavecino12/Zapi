@@ -5,23 +5,23 @@ import { EyeOff, Plus } from "lucide-react";
 
 // Componentes
 import Header from "../../components/Header";
-import { ProductSearch } from "../../product/ProductSearch";
-import { AdminProductItem } from "../../product/AdminProductItem";
+import { ProductSearch } from "../../features/products/components/ProductSearch";
+import { AdminProductItem } from "../../features/products/components/AdminProductItem";
 import { ConfirmModal } from "../../components/feedback/ConfirmModal";
-import { EditProductModal } from "../../product/EditProductModal";
+import { EditProductModal } from "../../features/products/components/EditProductModal";
 import { Spinner } from "../../components/feedback/Spinner";
 import { ErrorModal } from "../../components/feedback/ErrorModal";
 import { Loading } from "../../components/feedback/Loading";
 
 // Hooks y tipos
-import { useGetProducts } from "../../hooks/useGetProducts";
-import type { updateProductDTO } from "../../types/productType";
-import { getAllProducts } from "../../services/productServices";
-import { useUpdateProduct } from "../../hooks/useUpdateProduct";
-import { useDeleteProduct } from "../../hooks/useDeleteProduct";
-import { ProductList } from "../../product/ProductList";
-import { InactiveProductItem } from "../../product/InactiveProductItem";
-import { useRestoreProduct } from "../../hooks/useRestoreProduct";
+import { useGetProducts } from "../../features/products/hooks/useGetProducts";
+import type { updateProductDTO } from "../../features/products/types/productType";
+import { getAllProducts } from "../../features/products/services/productServices";
+import { useUpdateProduct } from "../../features/products/hooks/useUpdateProduct";
+import { useDeleteProduct } from "../../features/products/hooks/useDeleteProduct";
+import { ProductList } from "../../features/products/components/ProductList";
+import { InactiveProductItem } from "../../features/products/components/InactiveProductItem";
+import { useRestoreProduct } from "../../features/products/hooks/useRestoreProduct";
 
 export function Products() {
 
@@ -33,36 +33,36 @@ export function Products() {
     const { editProduct, error: updateError, loading: updateLoading } = useUpdateProduct();
     const { restoreProduct, error: restoreError, loading: restoreLoading } = useRestoreProduct();
 
-    //LISTA DE PRODUCTOS
+    // LISTA DE PRODUCTOS
 
+    // Estado para ver si mostramos los productos activos o inactivos.
     const [showInactive, setShowInactive] = useState(false);
 
     // Guarda el texto ingresado en el buscador.
     const [productSearch, setProductSearch] = useState("");
 
-    // Filtra los productos según el texto del buscador.
+    // Filtra los productos según el texto del buscador y activos o inactivos.
     const filteredProducts = products.filter((product) =>
         product.name.toLowerCase().includes(productSearch.toLowerCase()) &&
         (showInactive ? !product.isActive : product.isActive)
     );
 
-    //ELIMINAR UN PRODUCTO
+    // OCULTAR UN PRODUCTO
 
-    //Guarda el código del producto que se quiere eliminar.
+    // Guarda el código del producto que se quiere eliminar.
     const [productToDelete, setProductToDelete] = useState<string | null>(null);
 
-    //Busca el producto seleccionado para mostrar su nombre.
+    // Busca el producto seleccionado para mostrar su nombre.
     const productPendingDelete = products.find(
         (p) => p.code === productToDelete
     );
 
-    //Selecciona el producto que se quiere eliminar.
+    // Selecciona el producto que se quiere eliminar.
     const handleDelete = (code: string) => {
         setProductToDelete(code);
     };
 
-    //Confirma la eliminación del producto seleccionado.
-    //También tengo que crear el hook y llamarlo acá.
+    // Confirma la eliminación del producto seleccionado.
     const confirmDelete = async () => {
         if (productToDelete !== null) {
             try {
@@ -80,15 +80,32 @@ export function Products() {
 
     //REACTIVAR UN PRODUCTO
 
-    //Selecciona y reactiva un producto previamente desactivado.
-    const handleActivate = async (code: string) => {
-        try {
-            await restoreProduct(code);
-            refreshProducts();
+    //Guarda el código del producto que se quiere restaurar.
+    const [productToRestore, setProductToRestore] = useState<string | null>(null);
 
-        } catch (error) {
-            console.error("Error al reactivar el producto:", error);
+    //Busca el producto seleccionado para mostrar su nombre.
+    const productPendingRestore = products.find(
+        (p) => p.code === productToRestore
+    );
+
+    //Selecciona el producto que se quiere restaurar.
+    const handleActivate = (code: string) => {
+        setProductToRestore(code);
+    };
+
+    //Confirma la restauración del producto seleccionado.
+    const confirmRestore = async () => {
+        if (productToRestore !== null) {
+            try {
+                await restoreProduct(productToRestore);
+                refreshProducts();
+
+            } catch (error) {
+                console.error("Error al reactivar el producto:", error);
+            }
         }
+
+        setProductToRestore(null);
     };
 
     //EDITAR UN PRODUCTO
@@ -212,12 +229,22 @@ export function Products() {
                     <Plus className="h-6 w-6" />
                 </button>
 
+                {/* Modal para confirmar si ocultar un producto */}
                 <ConfirmModal
                     open={!!productPendingDelete}
                     productName={productPendingDelete?.name ?? ""}
                     action="hide"
                     onConfirm={confirmDelete}
                     onCancel={() => setProductToDelete(null)}
+                />
+
+                {/* Modal para confirmar si editar un producto */}
+                <ConfirmModal
+                    open={!!productPendingRestore}
+                    productName={productPendingRestore?.name ?? ""}
+                    action="restore"
+                    onConfirm={confirmRestore}
+                    onCancel={() => setProductToRestore(null)}
                 />
 
                 {/* Modal de edición: solamente existe si hay un producto seleccionado */}

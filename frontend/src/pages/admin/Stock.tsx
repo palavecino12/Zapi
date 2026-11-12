@@ -5,14 +5,14 @@ import { useNavigate } from "react-router-dom";
 // Componentes
 import Header from "../../components/Header";
 import { Button } from "../../components/Button";
-import { ProductSearch } from "../../product/ProductSearch";
-import { StockItem } from "../../product/StockItem";
+import { ProductSearch } from "../../features/products/components/ProductSearch";
+import { StockItem } from "../../features/stock/components/StockItem";
 import { Spinner } from "../../components/feedback/Spinner";
 import { ErrorModal } from "../../components/feedback/ErrorModal";
 
 // Hooks
-import { useGetProducts } from "../../hooks/useGetProducts";
-import { getProducts } from "../../services/productServices";
+import { useGetProducts } from "../../features/products/hooks/useGetProducts";
+import { getProducts } from "../../features/products/services/productServices";
 
 export function Stock() {
     const [productSearch, setProductSearch] = useState("");
@@ -62,7 +62,7 @@ export function Stock() {
                 <main className="flex min-h-0 flex-1 flex-col">
 
                     {/* Buscador */}
-                    <div className="mx-auto w-full shrink-0 px-2">
+                    <div className="mx-auto w-full shrink-0 mb-2 px-2">
                         <ProductSearch setProductSearch={setProductSearch} />
                     </div>
 

@@ -1,12 +1,12 @@
-
+//Este es un modal que se usa para confirmar: ocular un producto, eliminarlo y recuperarlo
 import { createPortal } from "react-dom";
-import { TriangleAlert, EyeOff } from "lucide-react";
+import { TriangleAlert, EyeOff, RotateCcw } from "lucide-react";
 import { Button } from "../Button";
 
 interface ConfirmModalProps {
     open: boolean;
     productName: string;
-    action: "hide" | "delete";
+    action: "hide" | "delete" | "restore";
     onConfirm: () => void;
     onCancel: () => void;
 }
@@ -18,6 +18,7 @@ export const ConfirmModal = ({ open, productName, action, onConfirm, onCancel }:
     if (!open || !modalRoot) return null;
 
     const isDelete = action === "delete";
+    const isRestore = action === "restore";
 
     return createPortal(
         <div className="fixed inset-0 z-50 flex h-dvh items-center justify-center bg-black/50 px-4 backdrop-blur-sm">
@@ -25,18 +26,24 @@ export const ConfirmModal = ({ open, productName, action, onConfirm, onCancel }:
 
                 {/* Encabezado */}
                 <div className={`mb-3 flex h-14 w-14 items-center justify-center rounded-2xl ${isDelete
-                        ? "bg-amber-100 text-amber-600"
-                        : "bg-violet-100 text-violet-600"
+                    ? "bg-amber-100 text-amber-600"
+                    : "bg-violet-100 text-violet-600"
                     }`}>
                     {isDelete ? (
                         <TriangleAlert size={30} strokeWidth={1.8} />
+                    ) : isRestore ? (
+                        <RotateCcw size={30} strokeWidth={1.8} />
                     ) : (
                         <EyeOff size={30} strokeWidth={1.8} />
                     )}
                 </div>
 
                 <h2 className="text-xl font-bold tracking-tight text-gray-800">
-                    {isDelete ? "¿Eliminar producto?" : "¿Ocultar producto?"}
+                    {isDelete
+                        ? "¿Eliminar producto?"
+                        : isRestore
+                            ? "¿Restaurar producto?"
+                            : "¿Ocultar producto?"}
                 </h2>
 
                 {/* Mensaje dinámico */}
@@ -46,6 +53,11 @@ export const ConfirmModal = ({ open, productName, action, onConfirm, onCancel }:
                             ¿Estás seguro de que querés eliminar definitivamente
                             el producto <strong className="font-semibold text-gray-700">{productName}</strong>?
                             Esta acción no se puede deshacer.
+                        </>
+                    ) : isRestore ? (
+                        <>
+                            El producto <strong className="font-semibold text-gray-700">{productName}</strong> volverá
+                            a estar activo y visible para los clientes.
                         </>
                     ) : (
                         <>
@@ -70,7 +82,7 @@ export const ConfirmModal = ({ open, productName, action, onConfirm, onCancel }:
                         type="button"
                         onClick={onConfirm}
                     >
-                        {isDelete ? "Eliminar" : "Ocultar"}
+                        {isDelete ? "Eliminar" : isRestore ? "Restaurar" : "Ocultar"}
                     </Button>
                 </div>
             </div>

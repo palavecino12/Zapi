@@ -1,12 +1,12 @@
 import { useNavigate } from "react-router-dom";
-import CartList from "../../cart/CartList";
+import CartList from "../../features/cart/components/CartList";
 import { Button } from "../../components/Button";
 import { Barcode } from 'lucide-react';
 import { List } from 'lucide-react';
 import { CreditCard } from "lucide-react";
 import Header from "../../components/Header";
-import { useCart } from "../../cart/useCart";
-import { useCheckout } from "../../hooks/useCheckout";
+import { useCart } from "../../features/cart/hooks/useCart";
+import { useCheckout } from "../../features/sales/hooks/useCheckout";
 import { Loading } from "../../components/feedback/Loading";
 import { ErrorModal } from "../../components/feedback/ErrorModal";
 

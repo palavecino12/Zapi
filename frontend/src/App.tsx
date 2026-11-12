@@ -1,7 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom"
 
 import { ViewScan } from "./pages/client/ViewScan"
-import ViewInfo from "./pages/client/ViewInfo"
 import { ViewCart } from "./pages/client/ViewCart"
 import { useEffect } from "react";
 import { ViewProductList } from "./pages/client/ViewProductList";
@@ -37,12 +36,11 @@ function App() {
     return (
         <BrowserRouter>
             <Routes>
+                 {/* Client */}
                 <Route path="/" element={<Home />} />
                 <Route path="/cart" element={<ViewCart />} />
                 <Route path="/scan" element={<ViewScan />} />
-                <Route path="/product" element={<ViewInfo />} />
                 <Route path="/list" element={<ViewProductList />} />
-                <Route path="/statistics" element={<Statistics />} />
 
                 <Route path="/success" element={<SuccessFeedback />} />
                 <Route path="/error" element={<ErrorFeedback />} />
