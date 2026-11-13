@@ -11,14 +11,7 @@ type StockItemProps = {
     onConfirm: () => void;
 };
 
-export function StockItem({
-    product,
-    isEditing,
-    amount,
-    onAmountChange,
-    onAdd,
-    onConfirm,
-}: StockItemProps) {
+export function StockItem({ product, isEditing, amount, onAmountChange, onAdd, onConfirm, }: StockItemProps) {
     return (
         <li className="px-2 py-1">
             <div className="flex flex-row items-center gap-2 rounded-xl border border-gray-200 bg-white p-2 shadow-md">
@@ -30,9 +23,8 @@ export function StockItem({
 
                 {/* Stock */}
                 <div className="w-24 shrink-0 text-left">
-                    <p className={`text-base font-bold ${
-                        product.stock === 0 ? "text-red-500" : "text-violet-600"
-                    }`}>
+                    <p className={`text-base font-bold ${product.stock === 0 ? "text-red-500" : "text-violet-600"
+                        }`}>
                         Stock: {product.stock}
                     </p>
                 </div>

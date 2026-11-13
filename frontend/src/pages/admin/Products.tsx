@@ -197,30 +197,40 @@ export function Products() {
                             <Spinner />
                         </div>
 
-                    ) : (
+                    ) : productsError ? (
 
-                        <div className="min-h-0 flex-1 overflow-y-auto pb-35">
-
-                            <ProductList
-                                products={filteredProducts}
-                                renderItem={(product) => (
-                                    showInactive ? (
-                                        <InactiveProductItem
-                                            product={product}
-                                            onActivate={handleActivate}
-                                        />
-                                    ) : (
-                                        <AdminProductItem
-                                            product={product}
-                                            onEdit={handleEdit}
-                                            onDelete={handleHide}
-                                        />
-                                    )
-                                )}
-                            />
-
+                        // Mensaje de error.
+                        <div className="flex min-h-0 flex-1 items-center justify-center px-4">
+                            <p className="text-center text-gray-500">
+                                No se pudieron cargar los productos.
+                            </p>
                         </div>
-                    )}
+
+                    )
+                        : (
+
+                            <div className="min-h-0 flex-1 overflow-y-auto pb-35">
+
+                                <ProductList
+                                    products={filteredProducts}
+                                    renderItem={(product) => (
+                                        showInactive ? (
+                                            <InactiveProductItem
+                                                product={product}
+                                                onActivate={handleActivate}
+                                            />
+                                        ) : (
+                                            <AdminProductItem
+                                                product={product}
+                                                onEdit={handleEdit}
+                                                onDelete={handleHide}
+                                            />
+                                        )
+                                    )}
+                                />
+
+                            </div>
+                        )}
                 </main>
 
                 {/* Botón para agregar productos */}

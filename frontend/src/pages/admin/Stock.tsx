@@ -1,5 +1,4 @@
-
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 // Componentes
@@ -7,52 +6,78 @@ import Header from "../../components/Header";
 import { Button } from "../../components/Button";
 import { ProductSearch } from "../../features/products/components/ProductSearch";
 import { StockItem } from "../../features/stock/components/StockItem";
+import { ProductList } from "../../features/products/components/ProductList";
 import { Spinner } from "../../components/feedback/Spinner";
 import { ErrorModal } from "../../components/feedback/ErrorModal";
+import { Loading } from "../../components/feedback/Loading";
 
 // Hooks
 import { useGetProducts } from "../../features/products/hooks/useGetProducts";
 import { getProducts } from "../../features/products/services/productServices";
+import { useAddStock } from "../../features/stock/hooks/useAddStock";
 
 export function Stock() {
-    const [productSearch, setProductSearch] = useState("");
-    const [editingId, setEditingId] = useState<number | null>(null);
-    const [amount, setAmount] = useState("");
 
-    const { products, error, loading } = useGetProducts(getProducts);
     const navigate = useNavigate();
 
-    // Filtrar productos por nombre.
-    const filtered = useMemo(
-        () =>
-            products.filter((p) =>
-                p.name.toLowerCase().includes(productSearch.trim().toLowerCase())
-            ),
-        [products, productSearch]
+    // Custom hooks
+    const { products, error: productsError, loading: productsLoading, refreshProducts } = useGetProducts(getProducts);
+    const {addProductStock,error: addStockError,loading: addStockLoading} = useAddStock();
+
+    // LISTA DE PRODUCTOS
+
+    // Guarda el texto ingresado en el buscador.
+    const [productSearch, setProductSearch] = useState("");
+
+    // Filtra los productos por nombre.
+    const filtered = products.filter((product) =>
+        product.name.toLowerCase().includes(productSearch.trim().toLowerCase())
     );
 
+    // SUMA DE STOCK
+
+    // Guarda el código del producto al que queremos sumar stock.
+    const [editingCode, setEditingCode] = useState<string | null>(null);
+
+    // Guarda la cantidad que queremos agregar.
+    const [amount, setAmount] = useState("");
+
     // Iniciar edición de stock.
-    const handleAdd = (id: number) => {
-        setEditingId(id);
+    const handleAdd = (code: string) => {
+        setEditingCode(code);
         setAmount("");
     };
 
     // Confirmar cantidad a agregar.
-    const handleConfirmAdd = (id: number) => {
-        const value = Number(amount);
+    const handleConfirmAdd = async (code: string) => {
+        const quantity = Number(amount);
 
-        if (!value || value <= 0) return;
+        if (!Number.isInteger(quantity) || quantity <= 0) return;
 
-        console.log("Agregar stock a", id, value);
+        try {
+            const response = await addProductStock(code, quantity);
 
-        setEditingId(null);
-        setAmount("");
+            if (response) {
+                setEditingCode(null);
+                setAmount("");
+                refreshProducts();
+            }
+
+        } catch (error) {
+            // Solo mostramos el error real por consola
+            // ya que le estamos notificando al usuario por un modal.
+            console.error("Error al agregar stock:", error);
+        }
     };
 
     return (
         <>
-            {/* Modal de error */}
-            <ErrorModal error={error ? "Lo sentimos, no pudimos cargar los productos." : null} />
+            {/* Feedback de carga */}
+            {addStockLoading && <Loading />}
+
+            {/* Modales de error */}
+            <ErrorModal error={productsError ? "Lo sentimos, no pudimos cargar los productos." : null} />
+            <ErrorModal error={addStockError ? "Error al agregar stock al producto." : null} />
 
             <div className="relative flex h-full min-h-0 flex-col overflow-hidden bg-white">
 
@@ -62,19 +87,19 @@ export function Stock() {
                 <main className="flex min-h-0 flex-1 flex-col">
 
                     {/* Buscador */}
-                    <div className="mx-auto w-full shrink-0 mb-2 px-2">
+                    <div className="mx-auto mb-2 w-full shrink-0 px-2">
                         <ProductSearch setProductSearch={setProductSearch} />
                     </div>
 
                     {/* Contenido según el estado de la petición */}
-                    {loading ? (
+                    {productsLoading ? (
 
                         // Spinner de carga.
                         <div className="flex min-h-0 flex-1 items-center justify-center">
                             <Spinner />
                         </div>
 
-                    ) : error ? (
+                    ) : productsError ? (
 
                         // Mensaje de error.
                         <div className="flex min-h-0 flex-1 items-center justify-center px-4">
@@ -87,34 +112,27 @@ export function Stock() {
 
                         // Lista de productos.
                         <div className="min-h-0 flex-1 overflow-y-auto pb-35">
-                            <ul className="mx-auto flex w-full max-w-md flex-col">
-
-                                {filtered.map((prod) => (
-                                    <StockItem
-                                        key={prod.id}
-                                        product={prod}
-                                        isEditing={editingId === prod.id}
-                                        amount={amount}
-                                        onAmountChange={setAmount}
-                                        onAdd={() => handleAdd(prod.id)}
-                                        onConfirm={() => handleConfirmAdd(prod.id)}
-                                    />
-                                ))}
-
-                                {/* Sin resultados */}
-                                {filtered.length === 0 && (
-                                    <li className="py-8 text-center text-sm text-gray-500">
-                                        No se encontraron productos.
-                                    </li>
-                                )}
-
-                            </ul>
+                            <div className="mx-auto w-full max-w-md">
+                                <ProductList
+                                    products={filtered}
+                                    renderItem={(prod) => (
+                                        <StockItem
+                                            product={prod}
+                                            isEditing={editingCode === prod.code}
+                                            amount={amount}
+                                            onAmountChange={setAmount}
+                                            onAdd={() => handleAdd(prod.code)}
+                                            onConfirm={() => handleConfirmAdd(prod.code)}
+                                        />
+                                    )}
+                                />
+                            </div>
                         </div>
                     )}
                 </main>
 
                 {/* Botón Revisar Stock */}
-                {!loading && !error && (
+                {!productsLoading && !productsError && (
                     <div className="fixed bottom-20 left-0 z-40 w-full px-4">
                         <div className="mx-auto w-full max-w-md">
                             <Button
@@ -128,8 +146,6 @@ export function Stock() {
                 )}
 
             </div>
-
         </>
-
     );
 }

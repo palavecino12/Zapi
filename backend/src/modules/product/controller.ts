@@ -27,7 +27,7 @@ export const getProductByCodeController = async (req: Request<{ code: string }>,
 
 //CONTROLLERS PARA EL ADMINISTRADOR
 
-//PATCH/products/add-stock/:code
+//PATCH /products/:code/stock
 export const addStockController = async (req: Request<{ code: string }>, res: Response, next: NextFunction) => {
     try {
         const { code } = req.params;

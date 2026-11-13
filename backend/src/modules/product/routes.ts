@@ -5,6 +5,7 @@ import { validate } from "../../middlewares/validateZodSchema";
 import { productCodeSchema } from "../../schemas/productCodeSchema";
 import { createProductSchema } from "../../schemas/createProductSchema";
 import { updateProductSchema } from "../../schemas/updateProductSchema";
+import { addStockSchema } from "../../schemas/addStockSchema";
 
 const router = Router();
 
@@ -24,12 +25,15 @@ router.get("/:code", validate(productCodeSchema, "params"), productController.ge
 router.post("/", validate(createProductSchema, "body"), productController.createProductController);
 
 //PUT/products/:code (Edita el nombre y precio)
-router.put("/:code", validate(updateProductSchema), productController.updateProductController);
+router.put("/:code", validate(productCodeSchema, "params"), validate(updateProductSchema), productController.updateProductController);
 
 //PATCH /products/:code (Oculta un producto).
 router.patch("/:code", validate(productCodeSchema, "params"), productController.hideProductController);
 
 //PATCH/products/:code/restore (Recupera un producto)
 router.patch("/:code/restore", validate(productCodeSchema, "params"), productController.restoreProductController);
+
+//PATCH /products/:code/stock
+router.patch("/:code/stock", validate(productCodeSchema, "params"), validate(addStockSchema), productController.addStockController);
 
 export default router;
