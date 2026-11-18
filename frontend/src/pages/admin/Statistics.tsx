@@ -1,36 +1,68 @@
 
-import { ChartNoAxesCombined } from "lucide-react"
+import { useState } from "react"
+
 import Header from "../../components/Header"
+import SummaryCards from "../../features/statistics/components/SummaryCards"
+import RevenueChart from "../../features/statistics/components/RevenueChart"
+import PeriodFilter from "../../features/statistics/components/PeriodFilter"
+
+import { summary } from "../../features/statistics/moks/summary.mock"
+import { revenue } from "../../features/statistics/moks/revenue.mock"
+
+import TopProductsChart from "../../features/statistics/components/TopProductsChart"
+import { topProducts } from "../../features/statistics/moks/topProducts.mock"
+
+import SaleStatusChart from "../../features/statistics/components/SaleStatusChart"
+import { saleStatus } from "../../features/statistics/moks/saleStatus.mock"
+
+import CategoriesChart from "../../features/statistics/components/CategoriesChart"
+import { categories } from "../../features/statistics/moks/categories.mock"
+
+import StockChart from "../../features/statistics/components/StockOverview"
+import { stock } from "../../features/statistics/moks/stock.mock"
 
 export const Statistics = () => {
+    const [period, setPeriod] = useState("week")
+
     return (
-        <div className="min-h-dvh bg-gray-50">
+        <div className="min-h-screen h-auto bg-gray-50">
             <Header title="Estadísticas" />
 
-            <main className="flex min-h-[70dvh] items-center justify-center px-6">
-                <div className="w-full max-w-md rounded-2xl border border-gray-200 bg-white p-8 text-center shadow-sm">
-                    <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-violet-50">
-                        <ChartNoAxesCombined
-                            size={28}
-                            strokeWidth={1.7}
-                            className="text-violet-600"
-                        />
-                    </div>
+            <main className="px-4 py-6 sm:px-6 space-y-6">
 
-                    <h2 className="text-xl font-semibold tracking-tight text-gray-900">
-                        Estamos trabajando en las estadísticas
+                {/* Encabezado */}
+                <div>
+                    <h2 className="text-xl font-semibold text-gray-900">
+                        Resumen general
                     </h2>
 
-                    <p className="mt-3 text-sm leading-6 text-gray-500">
-                        Estamos preparando esta sección para que puedas
-                        consultar las ventas y el rendimiento de Zapi.
+                    <p className="mt-1 text-sm text-gray-500">
+                        Conocé el rendimiento de tu kiosco.
                     </p>
-
-                    <span className="mt-6 inline-flex items-center gap-2 rounded-full bg-gray-100 px-3 py-1.5 text-xs font-medium text-gray-600">
-                        <span className="h-1.5 w-1.5 rounded-full bg-violet-500" />
-                        Próximamente
-                    </span>
                 </div>
+
+                {/* Filtro de período */}
+                <PeriodFilter value={period} onChange={setPeriod} />
+
+                {/* Indicadores principales */}
+                <SummaryCards data={summary} />
+
+                {/* Productos más vendidos */}
+                <TopProductsChart data={topProducts} />
+
+                {/* Evolución de ingresos */}
+                <RevenueChart data={revenue} />
+
+                {/* Estado de las ventas */}
+                <SaleStatusChart data={saleStatus} />
+
+                {/* Ingresos por categoría */}
+                <CategoriesChart data={categories} />
+
+                {/* Estado del inventario */}
+                <StockChart data={stock} />
+
+
             </main>
         </div>
     )
