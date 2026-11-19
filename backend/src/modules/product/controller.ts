@@ -134,3 +134,17 @@ export const restoreProductController = async (req: Request<{ code: string }>, r
         next(error);
     }
 };
+
+//REVIEW STOCK
+
+// POST /products/review-stock
+export const reviewStockController = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const result = await productService.reviewStockService(req.body);
+
+        return res.status(200).json(result);
+
+    } catch (error) {
+        next(error);
+    }
+};

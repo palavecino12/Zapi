@@ -140,3 +140,42 @@ export const findProductByCodeAdmin = async (code: string): Promise<Product | nu
         }
     });
 };
+
+// REVIEW STOCK
+
+// Ejecuta operaciones dentro de una transacción.
+export const executeTransaction = async <T>(callback: (tx: Prisma.TransactionClient) => Promise<T>): Promise<T> => {
+    return await prisma.$transaction(callback);
+};
+
+// Busca productos por sus códigos.
+export const findProductsByCodes = async (codes: string[], tx: Prisma.TransactionClient): Promise<Product[]> => {
+    return await tx.product.findMany({
+        where: {
+            code: {
+                in: codes
+            },
+            isActive: true
+        }
+    });
+};
+
+// Actualiza el stock físico de varios productos en una sola consulta.
+export const updatePhysicalStocks = async (products: { code: string; physicalStock: number }[], tx: Prisma.TransactionClient): Promise<void> => {
+    const cases = products.map(
+        (product) => Prisma.sql`
+            WHEN ${product.code} THEN ${product.physicalStock}
+        `
+    );
+
+    const codes = products.map((product) => product.code);
+
+    await tx.$executeRaw`
+        UPDATE Product
+        SET stock = CASE code
+            ${Prisma.join(cases, " ")}
+            ELSE stock
+        END
+        WHERE code IN (${Prisma.join(codes)})
+    `;
+};

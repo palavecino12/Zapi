@@ -4,6 +4,7 @@ import { CartItemDTO } from "../../schemas/checkoutSchema";
 import { CreateProductDTO } from "../../schemas/createProductSchema";
 import * as productRepository from "./repository"
 import { Product } from "@prisma/client";//type del producto
+import { ReviewStockDTO, ReviewStockInputDTO, ReviewStockResult } from "./types";
 
 //FUNCIONES PARA EL CLIENTE
 
@@ -128,4 +129,100 @@ export const restoreProductService = async (code: string): Promise<Product> => {
     }
 
     return await productRepository.restoreProduct(code)
+};
+
+//REVIEW STOCK
+
+// Service para revisar y sincronizar el stock físico.
+export const reviewStockService = async (data: ReviewStockInputDTO): Promise<ReviewStockDTO> => {
+
+    const { products } = data;
+
+    // Validamos que se hayan enviado productos.
+    if (!Array.isArray(products) || products.length === 0) {
+        throw new AppError("Debes enviar al menos un producto para revisar.", 400);
+    }
+
+    // Validamos que los códigos no estén repetidos.
+    const codes = products.map(product => product.code);
+
+    if (new Set(codes).size !== codes.length) {
+        throw new AppError("No puedes enviar productos repetidos.", 400);
+    }
+
+    // Validamos el stock físico de cada producto.
+    for (const item of products) {
+
+        if (!item.code || typeof item.code !== "string") {
+            throw new AppError("El código del producto es inválido.", 400);
+        }
+
+        if (!Number.isInteger(item.physicalStock) || item.physicalStock < 0) {
+            throw new AppError("El stock físico debe ser un número entero mayor o igual a cero.", 400);
+        }
+    }
+
+    // Ejecutamos la revisión dentro de una transacción.
+    return await productRepository.executeTransaction(async (tx) => {
+
+        // Buscamos los productos en la base de datos.
+        const databaseProducts = await productRepository.findProductsByCodes(codes, tx);
+
+        // Verificamos que todos los productos existan y estén activos.
+        if (databaseProducts.length !== products.length) {
+            throw new AppError("Uno o más productos no existen o están inactivos.", 404);
+        }
+
+        // Creamos un mapa para encontrar rápidamente cada producto por su código.
+        const productsMap = new Map(
+            databaseProducts.map(product => [product.code, product])
+        );
+
+        // Array donde guardaremos los resultados de la revisión.
+        const results: ReviewStockResult[] = [];
+
+        // Recorremos los productos enviados por el frontend.
+        for (const item of products) {
+
+            const product = productsMap.get(item.code)!;
+
+            // Guardamos el stock original de la base de datos.
+            const databaseStock = product.stock;
+
+            // Calculamos la diferencia entre ambos stocks.
+            const difference = Math.abs(item.physicalStock - databaseStock);
+
+            // Determinamos el estado del producto.
+            let status: ReviewStockResult["status"];
+
+            if (item.physicalStock === databaseStock) {
+                status = "correct";
+            } else if (item.physicalStock < databaseStock) {
+                status = "missing";
+            } else {
+                status = "surplus";
+            }
+
+            // Guardamos el resultado de la revisión.
+            results.push({
+                product: {
+                    code: product.code,
+                    name: product.name
+                },
+                databaseStock,
+                physicalStock: item.physicalStock,
+                difference,
+                status
+            });
+        }
+
+        // Actualizamos todos los stocks en una sola consulta.
+        await productRepository.updatePhysicalStocks(products, tx);
+
+        // Retornamos todos los resultados.
+        return {
+            message: "Revisión de stock completada.",
+            results
+        };
+    });
 };

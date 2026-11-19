@@ -6,6 +6,7 @@ import { productCodeSchema } from "../../schemas/productCodeSchema";
 import { createProductSchema } from "../../schemas/createProductSchema";
 import { updateProductSchema } from "../../schemas/updateProductSchema";
 import { addStockSchema } from "../../schemas/addStockSchema";
+import { reviewStockSchema } from "../../schemas/reviewStockSchema";
 
 const router = Router();
 
@@ -33,7 +34,10 @@ router.patch("/:code", validate(productCodeSchema, "params"), productController.
 //PATCH/products/:code/restore (Recupera un producto)
 router.patch("/:code/restore", validate(productCodeSchema, "params"), productController.restoreProductController);
 
-//PATCH /products/:code/stock
+//PATCH /products/:code/stock (Repone stock)
 router.patch("/:code/stock", validate(productCodeSchema, "params"), validate(addStockSchema), productController.addStockController);
+
+// POST /products/review-stock (Revisa y sincroniza el stock físico)
+router.post("/review-stock", validate(reviewStockSchema, "body"), productController.reviewStockController);
 
 export default router;
