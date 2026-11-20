@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 // Componentes
-import Header from "../../components/Header";
 import { Button } from "../../components/Button";
 import { ProductSearch } from "../../features/products/components/ProductSearch";
 import { StockItem } from "../../features/stock/components/StockItem";
@@ -22,7 +21,7 @@ export function Stock() {
 
     // Custom hooks
     const { products, error: productsError, loading: productsLoading, refreshProducts } = useGetProducts(getProducts);
-    const {addProductStock,error: addStockError,loading: addStockLoading} = useAddStock();
+    const { addProductStock, error: addStockError, loading: addStockLoading } = useAddStock();
 
     // LISTA DE PRODUCTOS
 
@@ -79,15 +78,12 @@ export function Stock() {
             <ErrorModal error={productsError ? "Lo sentimos, no pudimos cargar los productos." : null} />
             <ErrorModal error={addStockError ? "Error al agregar stock al producto." : null} />
 
-            <div className="relative flex h-full min-h-0 flex-col overflow-hidden bg-white">
-
-                {/* Encabezado */}
-                <Header title="Stocks" />
+            <div className="relative flex min-h-full flex-col bg-white">
 
                 <main className="flex min-h-0 flex-1 flex-col">
 
                     {/* Buscador */}
-                    <div className="mx-auto mb-2 w-full shrink-0 px-2">
+                    <div className="mx-auto mb-2 w-full shrink-0 bg-white px-2">
                         <ProductSearch setProductSearch={setProductSearch} />
                     </div>
 
@@ -111,7 +107,7 @@ export function Stock() {
                     ) : (
 
                         // Lista de productos.
-                        <div className="min-h-0 flex-1 overflow-y-auto pb-35">
+                        <div className="pb-35">
                             <div className="mx-auto w-full max-w-md">
                                 <ProductList
                                     products={filtered}

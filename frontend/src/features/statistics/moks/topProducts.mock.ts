@@ -2,7 +2,7 @@
 import type { TopProduct } from "../components/TopProductsChart"
 
 export const topProducts: TopProduct[] = [
-    { name: "Coca Cola", quantity: 45 },
+    { name: "coca cola", quantity: 100 },
     { name: "Alfajor", quantity: 38 },
     { name: "Agua mineral", quantity: 32 },
     { name: "Papas fritas", quantity: 27 },

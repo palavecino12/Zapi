@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { EyeOff, Plus } from "lucide-react";
 
 // Componentes
-import Header from "../../components/Header";
 import { ProductSearch } from "../../features/products/components/ProductSearch";
 import { AdminProductItem } from "../../features/products/components/AdminProductItem";
 import { ConfirmModal } from "../../components/feedback/ConfirmModal";
@@ -161,10 +160,8 @@ export function Products() {
             <ErrorModal error={hideError ? "Error al ocultar el producto." : null} />
             <ErrorModal error={restoreError ? "Error al reactivar el producto." : null} />
 
-            <div className="relative flex h-full min-h-0 flex-col overflow-hidden">
+            <div className="relative flex min-h-full flex-col bg-white">
 
-                {/* Encabezado */}
-                <Header title="Mis Productos" />
 
                 <main className="flex min-h-0 flex-1 flex-col">
 
@@ -209,7 +206,7 @@ export function Products() {
                     )
                         : (
 
-                            <div className="min-h-0 flex-1 overflow-y-auto pb-35">
+                            <div className="pb-35">
 
                                 <ProductList
                                     products={filteredProducts}

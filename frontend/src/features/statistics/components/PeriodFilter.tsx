@@ -1,9 +1,11 @@
 
 import { CalendarDays } from "lucide-react"
 
+export type Period = "day" | "week" | "month" | "year"
+
 interface PeriodFilterProps {
-    value: string
-    onChange: (period: string) => void
+    value: Period
+    onChange: (period: Period) => void
 }
 
 const periods = [
@@ -23,7 +25,7 @@ const PeriodFilter = ({ value, onChange }: PeriodFilterProps) => {
 
             <select
                 value={value}
-                onChange={(e) => onChange(e.target.value)}
+                onChange={(e) => onChange(e.target.value as Period)}
                 className="rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-700 outline-none transition focus:border-violet-500 focus:ring-2 focus:ring-violet-100"
             >
                 {periods.map((period) => (
