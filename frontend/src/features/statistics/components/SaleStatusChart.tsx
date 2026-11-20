@@ -21,19 +21,19 @@ interface SaleStatusChartProps {
 const STATUS_CONFIG = {
     PAID: {
         label: "Pagadas",
-        color: "#16a34a",
+        color: "var(--color-success)",
     },
     PENDING: {
         label: "Pendientes",
-        color: "#eab308",
+        color: "var(--color-warning-chart)",
     },
     CANCELLED: {
         label: "Canceladas",
-        color: "#ef4444",
+        color: "var(--color-error-bright)",
     },
     EXPIRED: {
         label: "Expiradas",
-        color: "#9ca3af",
+        color: "var(--color-text-muted)",
     },
 }
 

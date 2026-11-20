@@ -92,12 +92,12 @@ const RevenueChart = ({
                                 >
                                     <stop
                                         offset="0%"
-                                        stopColor="#7c3aed"
+                                        stopColor="var(--color-primary)"
                                         stopOpacity={0.25}
                                     />
                                     <stop
                                         offset="95%"
-                                        stopColor="#7c3aed"
+                                        stopColor="var(--color-primary)"
                                         stopOpacity={0}
                                     />
                                 </linearGradient>
@@ -106,21 +106,21 @@ const RevenueChart = ({
                             <CartesianGrid
                                 strokeDasharray="3 3"
                                 vertical={false}
-                                stroke="#e5e7eb"
+                                stroke="var(--color-border)"
                             />
 
                             <XAxis
                                 dataKey="date"
                                 axisLine={false}
                                 tickLine={false}
-                                tick={{ fontSize: 11, fill: "#9ca3af" }}
+                                tick={{ fontSize: 11, fill: "var(--color-text-muted)" }}
                                 tickMargin={10}
                             />
 
                             <YAxis
                                 axisLine={false}
                                 tickLine={false}
-                                tick={{ fontSize: 11, fill: "#9ca3af" }}
+                                tick={{ fontSize: 11, fill: "var(--color-text-muted)" }}
                                 tickFormatter={(value) =>
                                     `$${value >= 1000 ? `${value / 1000}k` : value}`
                                 }
@@ -135,7 +135,7 @@ const RevenueChart = ({
                                 labelFormatter={(label) => `Fecha: ${label}`}
                                 contentStyle={{
                                     borderRadius: "10px",
-                                    border: "1px solid #e5e7eb",
+                                    border: "1px solid var(--color-border)",
                                     fontSize: "12px",
                                 }}
                             />
@@ -143,13 +143,13 @@ const RevenueChart = ({
                             <Area
                                 type="monotone"
                                 dataKey="revenue"
-                                stroke="#7c3aed"
+                                stroke="var(--color-primary)"
                                 strokeWidth={2.5}
                                 fill="url(#revenueGradient)"
                                 activeDot={{
                                     r: 5,
-                                    fill: "#7c3aed",
-                                    stroke: "#ffffff",
+                                    fill: "var(--color-primary)",
+                                    stroke: "var(--color-surface)",
                                     strokeWidth: 2,
                                 }}
                             />

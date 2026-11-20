@@ -88,14 +88,14 @@ const TopProductsChart = ({
                                 ]}
                                 contentStyle={{
                                     borderRadius: "10px",
-                                    border: "1px solid #e5e7eb",
+                                    border: "1px solid var(--color-border)",
                                     fontSize: "12px",
                                 }}
                             />
 
                             <Bar
                                 dataKey="quantity"
-                                fill="#7c3aed"
+                                fill="var(--color-primary)"
                                 radius={[0, 5, 5, 0]}
                                 barSize={22}
                             />

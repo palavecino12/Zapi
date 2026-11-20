@@ -22,17 +22,16 @@ export function Stock() {
 
     // Custom hooks
     const { products, error: productsError, loading: productsLoading, refreshProducts } = useGetProducts(getProducts);
-    const {addProductStock,error: addStockError,loading: addStockLoading} = useAddStock();
+    const { addProductStock, error: addStockError, loading: addStockLoading } = useAddStock();
 
     // LISTA DE PRODUCTOS
 
     // Guarda el texto ingresado en el buscador.
     const [productSearch, setProductSearch] = useState("");
 
-    // Filtra los productos por nombre.
+    // Filtra los productos por nombre y los ordena de menor a mayor stock.
     const filtered = products.filter((product) =>
-        product.name.toLowerCase().includes(productSearch.trim().toLowerCase())
-    );
+        product.name.toLowerCase().includes(productSearch.trim().toLowerCase())).sort((a, b) => a.stock - b.stock);
 
     // SUMA DE STOCK
 

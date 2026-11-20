@@ -14,14 +14,11 @@ export function Login() {
       <div className="relative z-10 w-full max-w-sm">
 
         {/* Logo */}
-        <header className="mb-10 text-center">
+        <header className="mb-5 text-center">
           <div className="mb-2 flex flex-col items-center">
-            <span className="font-[Poppins] text-6xl font-bold leading-none text-white">
-              Z
-            </span>
-
-            <span className="mt-2 font-[Poppins] text-3xl font-bold text-white">
-              Zapi
+            <img src="/logo.png" alt="Logo de Zapi" className="h-30 w-30 object-contain" />
+            <span className="font-[Poppins] text-3xl font-bold text-white">
+              ZAPI
             </span>
           </div>
         </header>
@@ -62,16 +59,6 @@ export function Login() {
             >
               Entrar
             </Button>
-
-            <button
-              type="button"
-              className="mt-1 text-center text-xs font-medium text-gray-500 transition-colors hover:text-violet-600"
-            >
-              ¿Olvidaste tu{" "}
-              <span className="text-violet-600 underline underline-offset-2">
-                contraseña?
-              </span>
-            </button>
           </form>
         </div>
 

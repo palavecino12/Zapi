@@ -31,7 +31,7 @@ export const AdminProductItem = ({ product, onEdit, onDelete }: AdminProductItem
                     <button
                         onClick={() => onEdit(product.code, { name: product.name, price: product.price })}
                         aria-label="Editar producto"
-                        className="rounded-xl bg-violet-100 p-2 text-violet-700 shadow-sm transition-all duration-200 active:bg-violet-600 active:text-white active:shadow-inner"
+                        className="rounded-xl bg-violet-100 p-2 text-violet-600 shadow-sm transition-all duration-200 active:bg-violet-600 active:text-white active:shadow-inner"
                     >
                         <Pencil size={22} strokeWidth={1.8} />
                     </button>

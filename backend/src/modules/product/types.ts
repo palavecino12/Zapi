@@ -15,7 +15,7 @@ export interface ReviewStockDTO {
     results: ReviewStockResult[];
 }
 
-//Esto eslo que recibimos del front
+//Esto es lo que recibimos del front
 export interface ReviewStockInputDTO {
     products: {
         code: string;

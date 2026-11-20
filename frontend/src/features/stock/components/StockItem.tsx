@@ -23,8 +23,7 @@ export function StockItem({ product, isEditing, amount, onAmountChange, onAdd, o
 
                 {/* Stock */}
                 <div className="w-24 shrink-0 text-left">
-                    <p className={`text-base font-bold ${product.stock === 0 ? "text-red-500" : "text-violet-600"
-                        }`}>
+                    <p className={`text-base font-bold ${product.stock <= 3 ? "text-red-600" : "text-violet-600"}`}>
                         Stock: {product.stock}
                     </p>
                 </div>
@@ -43,7 +42,7 @@ export function StockItem({ product, isEditing, amount, onAmountChange, onAdd, o
                                 value={amount}
                                 onChange={(e) => onAmountChange(e.target.value)}
                                 aria-label={`Cantidad a agregar a ${product.name}`}
-                                className="h-10 w-16 rounded-xl border border-violet-300 bg-violet-50 px-2 text-center text-base font-semibold text-violet-700 outline-none focus:border-violet-600"
+                                className="h-10 w-16 rounded-xl border border-violet-600 bg-violet-50 px-2 text-center text-base font-semibold text-violet-700 outline-none focus:border-violet-600"
                             />
 
                             {/* Confirmar */}
@@ -62,7 +61,7 @@ export function StockItem({ product, isEditing, amount, onAmountChange, onAdd, o
                             type="button"
                             onClick={onAdd}
                             aria-label={`Agregar stock a ${product.name}`}
-                            className="touch-manipulation rounded-xl bg-violet-100 p-2 text-violet-700 shadow-base transition-all duration-200 active:bg-violet-600 active:text-white active:shadow-inner"
+                            className="touch-manipulation rounded-xl bg-violet-100 p-2 text-violet-600 shadow-base transition-all duration-200 active:bg-violet-600 active:text-white active:shadow-inner"
                         >
                             <Plus size={22} strokeWidth={1.8} />
                         </button>

@@ -34,7 +34,7 @@ export const ViewScan = () => {
 
         {/* Cámara */}
         <div className="w-full flex justify-center p-4">
-          <div className="w-full max-w-md rounded-2xl overflow-hidden border-white/10 shadow-[0_0_40px_rgba(249,115,22,0.08)]">
+          <div className="w-full max-w-md rounded-2xl overflow-hidden border-white/10 shadow-[0_0_40px_color-mix(in_srgb,var(--color-orange)_8%,transparent)]">
             <CameraView mode="client" onScanProduct={addItem}/>
           </div>
         </div>

@@ -98,14 +98,14 @@ const CategoriesChart = ({
                                 ]}
                                 contentStyle={{
                                     borderRadius: "10px",
-                                    border: "1px solid #e5e7eb",
+                                    border: "1px solid var(--color-border)",
                                     fontSize: "12px",
                                 }}
                             />
 
                             <Bar
                                 dataKey="revenue"
-                                fill="#7c3aed"
+                                fill="var(--color-primary)"
                                 radius={[5, 5, 0, 0]}
                                 barSize={40}
                             />

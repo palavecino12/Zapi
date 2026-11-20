@@ -183,7 +183,7 @@ export function Products() {
                             aria-pressed={showInactive}
                             className={`flex h-12 w-12 shrink-0 self-center items-center justify-center rounded-xl shadow-sm transition-colors ${showInactive
                                 ? "bg-violet-600 text-white"
-                                : "bg-violet-100 text-violet-700 hover:bg-violet-200"
+                                : "bg-violet-100 text-violet-600 hover:bg-violet-200"
                                 }`}
                         >
                             <EyeOff size={21} />

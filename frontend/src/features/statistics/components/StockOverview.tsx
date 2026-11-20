@@ -21,15 +21,15 @@ interface StockChartProps {
 const STOCK_CONFIG = {
     AVAILABLE: {
         label: "Stock disponible",
-        color: "#16a34a",
+        color: "var(--color-success)",
     },
     LOW: {
         label: "Stock bajo",
-        color: "#eab308",
+        color: "var(--color-warning-chart)",
     },
     OUT_OF_STOCK: {
         label: "Agotados",
-        color: "#ef4444",
+        color: "var(--color-error-bright)",
     },
 }
 

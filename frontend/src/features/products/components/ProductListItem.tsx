@@ -40,7 +40,7 @@ export const ProductListItem = ({
                     className={`flex h-10 w-[76px] shrink-0 touch-manipulation items-center justify-center rounded-xl p-2 text-sm font-semibold shadow-sm transition-all duration-200 active:shadow-inner ${
                         selected
                             ? "bg-red-200 text-red-700 active:bg-red-600 active:text-white"
-                            : "bg-violet-100 text-violet-700 active:bg-violet-600 active:text-white"
+                            : "bg-violet-100 text-violet-600 active:bg-violet-600 active:text-white"
                     }`}
                 >
                     {selected ? "Quitar" : "Añadir"}

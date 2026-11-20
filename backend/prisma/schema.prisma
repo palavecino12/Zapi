@@ -63,3 +63,21 @@ model Payment {
   sale      Sale     @relation(fields: [saleId], references: [id])
   createdAt DateTime @default(now())
 }
+
+//Roles que va a tener las personas dueñas del kiosco.
+//Admin para una persona que puede hacer cambios en los productos
+//Employe para una persona que solo puede ver (esto estoy en duda)
+enum Role {
+  ADMIN
+  EMPLOYEE
+}
+
+model User {
+  id           Int      @id @default(autoincrement())
+  username     String   @unique
+  passwordHash String
+  role         Role     @default(EMPLOYEE)
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}

@@ -1,1 +1,94 @@
-@import "tailwindcss"
+@import "tailwindcss";
+
+/* Fuente única de verdad para la identidad visual de la aplicación. */
+:root {
+  /* Marca */
+  --color-primary: #7C3AED;
+  --color-primary-hover: #6D28D9;
+  --color-primary-soft: #EDE9FE;
+
+  /* Fondos y superficies */
+  --color-background: #F9FAFB;
+  --color-surface: #FFFFFF;
+
+  /* Texto y bordes */
+  --color-text-primary: #111827;
+  --color-text-default: #374151;
+  --color-text-secondary: #6B7280;
+  --color-text-muted: #9CA3AF;
+  --color-text-black: #000000;
+  --color-border: #E5E7EB;
+
+  /* Estados semánticos */
+  --color-success: #1e8845;
+  --color-success-muted: #a7daaa;
+  --color-error: #DC2626;
+  --color-error-bright: #EF4444;
+  --color-error-muted: #ffc0c0;
+  --color-warning: #D97706;
+  --color-warning-muted: #FEF3C7;
+  --color-warning-chart: #EAB308;
+
+  /* Acentos presentes en indicadores y tarjetas */
+  --color-info: #2563EB;
+  --color-info-soft: #DBEAFE;
+  --color-accent: #9333EA;
+  --color-accent-soft: #F3E8FF;
+  --color-orange: #EA580C;
+  --color-orange-soft: #FFEDD5;
+}
+
+/* Las utilidades Tailwind consumen los tokens globales anteriores. */
+@theme inline {
+  --color-white: var(--color-surface);
+  --color-black: var(--color-text-black);
+
+  --color-gray-50: var(--color-background);
+  --color-gray-100: var(--color-background);
+  --color-gray-200: var(--color-border);
+  --color-gray-300: var(--color-border);
+  --color-gray-400: var(--color-text-muted);
+  --color-gray-500: var(--color-text-secondary);
+  --color-gray-700: var(--color-text-default);
+  --color-gray-800: var(--color-text-primary);
+  --color-gray-900: var(--color-text-primary);
+
+  --color-violet-50: var(--color-primary-soft);
+  --color-violet-100: var(--color-primary-soft);
+  --color-violet-200: var(--color-primary-soft);
+  --color-violet-400: var(--color-primary);
+  --color-violet-500: var(--color-primary);
+  --color-violet-600: var(--color-primary);
+  --color-violet-700: var(--color-primary-hover);
+  --color-violet-800: var(--color-primary-hover);
+  --color-violet-950: var(--color-primary-hover);
+  --color-brand: var(--color-primary);
+
+  --color-green-50: var(--color-success-muted);
+  --color-green-100: var(--color-success-muted);
+  --color-green-200: var(--color-success-muted);
+  --color-green-500: var(--color-success);
+  --color-green-600: var(--color-success);
+  --color-green-700: var(--color-success);
+
+  --color-red-50: var(--color-error-muted);
+  --color-red-100: var(--color-error-muted);
+  --color-red-200: var(--color-error-muted);
+  --color-red-500: var(--color-error-bright);
+  --color-red-600: var(--color-error);
+  --color-red-700: var(--color-error);
+
+  --color-amber-50: var(--color-warning-muted);
+  --color-amber-100: var(--color-warning-muted);
+  --color-amber-200: var(--color-warning-muted);
+  --color-amber-600: var(--color-warning);
+  --color-amber-700: var(--color-warning);
+  --color-amber-800: var(--color-warning);
+
+  --color-blue-100: var(--color-info-soft);
+  --color-blue-600: var(--color-info);
+  --color-purple-100: var(--color-accent-soft);
+  --color-purple-600: var(--color-accent);
+  --color-orange-100: var(--color-orange-soft);
+  --color-orange-600: var(--color-orange);
+}
