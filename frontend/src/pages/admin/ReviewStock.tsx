@@ -2,7 +2,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import Header from "../../components/Header";
 import { Button } from "../../components/Button";
 import { Spinner } from "../../components/feedback/Spinner";
 import { ErrorModal } from "../../components/feedback/ErrorModal";
@@ -13,6 +12,7 @@ import { ReviewStockItem } from "../../features/stock/components/ReviewStockItem
 import { ProductList } from "../../features/products/components/ProductList";
 import { getProducts } from "../../features/products/services/productServices";
 import { useReviewStock } from "../../features/stock/hooks/useReviewStock";
+import AdminHeader from "../../components/AdminHeader";
 
 export function ReviewStock() {
 
@@ -103,7 +103,7 @@ export function ReviewStock() {
 
         {/* Encabezado */}
         <div className="shrink-0">
-          <Header title="Control de stock" />
+          <AdminHeader title="Control de stock" />
         </div>
 
         <main className="flex min-h-0 flex-1 flex-col">

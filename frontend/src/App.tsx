@@ -32,6 +32,7 @@ import { Loading } from "./components/feedback/Loading";
 // Other
 import Navbar from "./components/Navbar";
 import { NotFound } from "./components/NotFound";
+import { ProtectedRoute } from "./features/auth/components/ProtectedRoute";
 
 function App() {
     useEffect(() => {
@@ -45,7 +46,7 @@ function App() {
         <BrowserRouter>
             <Routes>
 
-                {/* Client */}
+                {/* Cliente */}
                 <Route path="/" element={<Home />} />
                 <Route path="/cart" element={<ViewCart />} />
                 <Route path="/scan" element={<ViewScan />} />
@@ -56,31 +57,34 @@ function App() {
                 <Route path="/error" element={<ErrorFeedback />} />
                 <Route path="/loading" element={<Loading />} />
 
+
                 {/* Admin */}
                 <Route path="/admin">
 
                     {/* Redirect */}
                     <Route index element={<Navigate to="login" replace />} />
 
-                    {/* Login */}
+                    {/* Login público */}
                     <Route path="login" element={<Login />} />
 
-                    {/* Admin pages with layout */}
-                    <Route element={<AppLayout />}>
-                        <Route path="products" element={<Products />} />
-                        <Route path="statistics" element={<Statistics />} />
-                        <Route path="stock" element={<Stock />} />
+                    {/* Todas las rutas siguientes requieren ADMIN */}
+                    <Route element={<ProtectedRoute />}>
+
+                        {/* Admin pages with layout */}
+                        <Route element={<AppLayout />}>
+                            <Route path="products" element={<Products />} />
+                            <Route path="statistics" element={<Statistics />} />
+                            <Route path="stock" element={<Stock />} />
+                        </Route>
+
+                        {/* Admin pages without layout */}
+                        <Route path="add-product" element={<AddProduct />} />
+                        <Route path="review-stock" element={<ReviewStock />} />
+                        <Route path="review-stock-result" element={<ReviewStockResultPage />} />
+
                     </Route>
-
-                    {/* Admin pages without layout */}
-                    <Route path="add-product" element={<AddProduct />} />
-                    <Route path="review-stock" element={<ReviewStock />} />
-                    <Route
-                        path="review-stock-result"
-                        element={<ReviewStockResultPage />}
-                    />
-
                 </Route>
+
 
                 {/* Test */}
                 <Route path="/test" element={<Navbar />} />

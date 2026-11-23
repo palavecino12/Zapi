@@ -3,7 +3,7 @@ import bcrypt from "bcryptjs";
 import jwt, { SignOptions } from "jsonwebtoken";
 
 import { AppError } from "../../errors/AppError";
-import { findUserByUsername } from "./repository";
+import { findUserById, findUserByUsername } from "./repository";
 
 export const loginService = async (username: string, password: string) => {
 
@@ -59,5 +59,24 @@ export const loginService = async (username: string, password: string) => {
             username: user.username,
             role: user.role
         }
+    };
+};
+
+// Recuperar los datos del usuario autenticado
+export const getCurrentUserService = async (userId: number) => {
+
+    // Busca al usuario por su ID
+    const user = await findUserById(userId);
+
+    // Comprueba que exista y esté activo
+    if (!user || !user.isActive) {
+        throw new AppError("Sesión inválida o usuario inactivo", 401);
+    }
+
+    // Devuelve únicamente información pública
+    return {
+        id: user.id,
+        username: user.username,
+        role: user.role
     };
 };

@@ -8,3 +8,15 @@ export const findUserByUsername = async (username: string) => {
     });
 };
 
+//Buscamos un usuario por su ID
+export const findUserById = async (id: number) => {
+    return await prisma.user.findUnique({
+        where: { id },
+        select: {
+            id: true,
+            username: true,
+            role: true,
+            isActive: true
+        }
+    });
+};

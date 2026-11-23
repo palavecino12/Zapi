@@ -3,7 +3,6 @@ import { useForm, useWatch } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigate } from 'react-router-dom';
 
-import Header from '../../components/Header';
 import { CameraView } from '../../features/scanner/components/CameraView';
 import { Button } from '../../components/Button';
 import { Imput } from '../../components/Imput';
@@ -12,6 +11,7 @@ import { createProductSchema } from '../../features/products/schemas/product.sch
 import { useCreateProduct } from '../../features/products/hooks/useCreateProduct';
 import { Loading } from '../../components/feedback/Loading';
 import { ErrorModal } from '../../components/feedback/ErrorModal';
+import AdminHeader from '../../components/AdminHeader';
 
 export function AddProduct() {
 
@@ -63,7 +63,7 @@ export function AddProduct() {
       {loading && <Loading />}
 
       <div className="flex flex-col h-screen bg-white">
-        <Header title="Carga de producto" />
+        <AdminHeader title="Carga de producto" />
 
         <form
           onSubmit={handleSubmit(onSubmit)}

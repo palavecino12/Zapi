@@ -1,6 +1,8 @@
 //Servicios de los productos encargados de comunicarse con la API del backend
 import type { CreateProductDTO, updateProductDTO, Product } from "../types/productType";
 import type { ProductApiResponse } from "../types/apiResponseType";
+import { authFetch } from "../../auth/services/authFetch";
+
 
 const apiUrl = import.meta.env.VITE_API_URL;
 if (!apiUrl) {
@@ -59,7 +61,7 @@ export const getAllProducts = async (): Promise<Product[]> => {
 
     const url = `${productsUrl}/all`;
 
-    const response = await fetch(url);
+    const response = await authFetch(url);
 
     if (!response.ok) {
         const errorResponse = await response.json();
@@ -78,7 +80,7 @@ export const getInactiveProducts = async (): Promise<Product[]> => {
 
     const url = `${productsUrl}/inactive`;
 
-    const response = await fetch(url);
+    const response = await authFetch(url);
 
     if (!response.ok) {
         const errorResponse = await response.json();
@@ -95,7 +97,7 @@ export const getInactiveProducts = async (): Promise<Product[]> => {
 //Service para crear un producto
 export const createProduct = async (product: CreateProductDTO): Promise<ProductApiResponse> => {
 
-    const response = await fetch(productsUrl, {
+    const response = await authFetch(productsUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ product })
@@ -118,7 +120,7 @@ export const updateProduct = async (code: string, product: updateProductDTO): Pr
 
     const url = `${productsUrl}/${encodeURIComponent(code)}`;
 
-    const response = await fetch(url, {
+    const response = await authFetch(url, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(product)
@@ -141,7 +143,7 @@ export const hideProductByCode = async (code: string): Promise<ProductApiRespons
 
     const url = `${productsUrl}/${encodeURIComponent(code)}`;
 
-    const response = await fetch(url, {
+    const response = await authFetch(url, {
         method: "PATCH"
     });
 
@@ -162,7 +164,7 @@ export const restoreProductByCode = async (code: string): Promise<ProductApiResp
 
     const url = `${productsUrl}/${encodeURIComponent(code)}/restore`;
 
-    const response = await fetch(url, {
+    const response = await authFetch(url, {
         method: "PATCH"
     });
 

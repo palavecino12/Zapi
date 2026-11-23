@@ -1,7 +1,6 @@
 
 import { useState } from "react"
 
-import Header from "../../components/Header"
 import SummaryCards from "../../features/statistics/components/SummaryCards"
 import RevenueChart from "../../features/statistics/components/RevenueChart"
 import PeriodFilter from "../../features/statistics/components/PeriodFilter"
@@ -20,13 +19,14 @@ import { categories } from "../../features/statistics/moks/categories.mock"
 
 import StockChart from "../../features/statistics/components/StockOverview"
 import { stock } from "../../features/statistics/moks/stock.mock"
+import AdminHeader from "../../components/AdminHeader"
 
 export const Statistics = () => {
     const [period, setPeriod] = useState("week")
 
     return (
         <div className="min-h-screen h-auto bg-gray-50">
-            <Header title="Estadísticas" />
+            <AdminHeader title="Estadísticas" />
 
             <main className="px-4 py-6 sm:px-6 space-y-6">
 

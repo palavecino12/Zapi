@@ -1,3 +1,4 @@
+import { authFetch } from "../../auth/services/authFetch";
 import type { ProductApiResponse } from "../../products/types/apiResponseType";
 import type { ReviewStockDTO, ReviewStockInputDTO } from "../types/reviewStockTypes";
 
@@ -13,7 +14,7 @@ export const addStock = async (code: string, quantity: number): Promise<ProductA
 
     const url = `${productsUrl}/${encodeURIComponent(code)}/stock`;
 
-    const response = await fetch(url, {
+    const response = await authFetch(url, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ quantity })
@@ -34,7 +35,7 @@ export const reviewStock = async (data: ReviewStockInputDTO): Promise<ReviewStoc
 
     const url = `${productsUrl}/review-stock`;
 
-    const response = await fetch(url, {
+    const response = await authFetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data)

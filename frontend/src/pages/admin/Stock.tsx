@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 // Componentes
-import Header from "../../components/Header";
 import { Button } from "../../components/Button";
 import { ProductSearch } from "../../features/products/components/ProductSearch";
 import { StockItem } from "../../features/stock/components/StockItem";
@@ -15,6 +14,7 @@ import { Loading } from "../../components/feedback/Loading";
 import { useGetProducts } from "../../features/products/hooks/useGetProducts";
 import { getProducts } from "../../features/products/services/productServices";
 import { useAddStock } from "../../features/stock/hooks/useAddStock";
+import AdminHeader from "../../components/AdminHeader";
 
 export function Stock() {
 
@@ -81,7 +81,7 @@ export function Stock() {
             <div className="relative flex h-full min-h-0 flex-col overflow-hidden bg-white">
 
                 {/* Encabezado */}
-                <Header title="Stocks" />
+                <AdminHeader title="Stocks" />
 
                 <main className="flex min-h-0 flex-1 flex-col">
 

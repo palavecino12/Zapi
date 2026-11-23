@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { EyeOff, Plus } from "lucide-react";
 
 // Componentes
-import Header from "../../components/Header";
 import { ProductSearch } from "../../features/products/components/ProductSearch";
 import { AdminProductItem } from "../../features/products/components/AdminProductItem";
 import { ConfirmModal } from "../../components/feedback/ConfirmModal";
@@ -12,6 +11,7 @@ import { EditProductModal } from "../../features/products/components/EditProduct
 import { Spinner } from "../../components/feedback/Spinner";
 import { ErrorModal } from "../../components/feedback/ErrorModal";
 import { Loading } from "../../components/feedback/Loading";
+import AdminHeader from "../../components/AdminHeader";
 
 // Hooks y tipos
 import { useGetProducts } from "../../features/products/hooks/useGetProducts";
@@ -164,7 +164,7 @@ export function Products() {
             <div className="relative flex h-full min-h-0 flex-col overflow-hidden">
 
                 {/* Encabezado */}
-                <Header title="Mis Productos" />
+                <AdminHeader title="Mis Productos" />
 
                 <main className="flex min-h-0 flex-1 flex-col">
 
