@@ -62,12 +62,12 @@ function AdminHeader({ title = "Administración" }: Props) {
                     </button>
 
                     {menuOpen && (
-                        <div className="absolute right-0 top-12 z-50 w-48 overflow-hidden rounded-xl border border-violet-100 bg-white shadow-lg">
-                            <div className="border-b border-gray-100 px-4 py-3">
-                                <p className="text-sm font-semibold text-gray-800">
+                        <div className="absolute right-0 top-12 z-50 w-56 overflow-hidden rounded-xl border border-violet-100 bg-white shadow-lg">
+                            <div className="border-b border-gray-200 px-5 py-4">
+                                <p className="text-base font-semibold text-gray-800">
                                     {user?.username}
                                 </p>
-                                <p className="text-xs text-gray-500">
+                                <p className="mt-1 text-sm text-gray-500">
                                     Administrador
                                 </p>
                             </div>
@@ -75,9 +75,9 @@ function AdminHeader({ title = "Administración" }: Props) {
                             <button
                                 type="button"
                                 onClick={handleLogout}
-                                className="flex w-full items-center gap-3 px-4 py-3 text-sm font-medium text-red-600 transition hover:bg-red-50"
+                                className="flex w-full items-center gap-1 px-5 py-4 text-base font-medium text-red-600 transition hover:bg-red-50"
                             >
-                                <LogOut size={18} />
+                                <LogOut size={20} />
                                 Cerrar sesión
                             </button>
                         </div>
