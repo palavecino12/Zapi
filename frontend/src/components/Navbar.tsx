@@ -1,13 +1,13 @@
-
 import { NavLink } from "react-router-dom";
 import {
   ChartNoAxesCombined,
   Package,
   Boxes,
+  Receipt,
   type LucideIcon,
 } from "lucide-react";
 
-type Tab = "Estadisticas" | "Productos" | "Stocks";
+type Tab = "Estadisticas" | "Productos" | "Stocks" | "Historial";
 
 const TABS: {
   key: Tab;
@@ -32,6 +32,12 @@ const TABS: {
     label: "Stocks",
     icon: Boxes,
     path: "/admin/stock",
+  },
+  {
+    key: "Historial",
+    label: "Historial",
+    icon: Receipt,
+    path: "/admin/sales-history",
   },
 ];
 

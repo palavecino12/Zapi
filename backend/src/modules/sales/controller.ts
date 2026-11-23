@@ -20,3 +20,12 @@ export const getStatistics = async (req: Request, res: Response, next: NextFunct
         next(error)
     }
 };
+
+export const getSalesHistory = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const history = await saleService.getSalesHistory();
+        return res.json(history);
+    } catch (error) {
+        next(error);
+    }
+};

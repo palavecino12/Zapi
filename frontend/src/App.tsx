@@ -33,6 +33,7 @@ import { Loading } from "./components/feedback/Loading";
 import Navbar from "./components/Navbar";
 import { NotFound } from "./components/NotFound";
 import { ProtectedRoute } from "./features/auth/components/ProtectedRoute";
+import { SalesHistory } from "./pages/admin/SalesHistory";
 
 function App() {
     useEffect(() => {
@@ -75,6 +76,7 @@ function App() {
                             <Route path="products" element={<Products />} />
                             <Route path="statistics" element={<Statistics />} />
                             <Route path="stock" element={<Stock />} />
+                            <Route path="sales-history" element={<SalesHistory />} />
                         </Route>
 
                         {/* Admin pages without layout */}

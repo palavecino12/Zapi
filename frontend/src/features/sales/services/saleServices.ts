@@ -1,5 +1,6 @@
 //Servicios de los pagos encargados de comunicarse con la API del backend
-import type { PaymentItem } from "../types/salesType";
+import { authFetch } from "../../auth/services/authFetch";
+import type { PaymentItem, SalesHistoryResponse } from "../types/salesType";
 
 const apiUrl = import.meta.env.VITE_API_URL
 if (!apiUrl) {
@@ -8,20 +9,37 @@ if (!apiUrl) {
 
 //Service para pasar los productos del carrito al back
 export const createCheckout = async (cart: PaymentItem[]) => {
-        const url = `${apiUrl}/sales/checkout`
+    const url = `${apiUrl}/sales/checkout`
 
-        const response = await fetch(url, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ cart })
-        });
+    const response = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ cart })
+    });
 
-        if (!response.ok) {
-            const errorResponse = await response.json()
-            throw new Error(errorResponse.message || "Error desconocido al crear pago")//retornamos el mensaje de error que creo el back
-        }
+    if (!response.ok) {
+        const errorResponse = await response.json()
+        throw new Error(errorResponse.message || "Error desconocido al crear pago")//retornamos el mensaje de error que creo el back
+    }
 
-        const data: { url: string } = await response.json();
+    const data: { url: string } = await response.json();
 
-        return data
+    return data
 }
+
+
+// Service para obtener el historial de ventas.
+export const getSalesHistory = async (): Promise<SalesHistoryResponse> => {
+    const url = `${apiUrl}/sales/history`;
+
+    const response = await authFetch(url);
+
+    if (!response.ok) {
+        const errorResponse = await response.json();
+        throw new Error(errorResponse.message || "Error al obtener el historial de ventas");
+    }
+
+    const data: SalesHistoryResponse = await response.json();
+
+    return data;
+};

@@ -143,3 +143,57 @@ export const getStatistics = async () => {
         topProducts
     };
 }
+
+//Funcion para obtener el historial de ventas.
+export const getSalesHistory = async () => {
+
+    const sales = await saleRepository.findSalesHistory();
+
+    //Agrupar ventas por fecha de pago.
+    const historyMap = new Map<string, {
+        date: string;
+        totalSales: number;
+        totalAmount: number;
+        sales: typeof sales;
+    }>();
+
+    sales.forEach(sale => {
+
+        if (!sale.payment) return;
+
+        //Obtener la fecha correspondiente a Argentina.
+        const dateParts = new Intl.DateTimeFormat("en-US", {
+            timeZone: "America/Argentina/Mendoza",
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit"
+        }).formatToParts(sale.payment.createdAt);
+
+        const year = dateParts.find(part => part.type === "year")!.value;
+        const month = dateParts.find(part => part.type === "month")!.value;
+        const day = dateParts.find(part => part.type === "day")!.value;
+
+        const date = `${year}-${month}-${day}`;
+
+        //Crear el grupo si todavía no existe.
+        if (!historyMap.has(date)) {
+            historyMap.set(date, {
+                date,
+                totalSales: 0,
+                totalAmount: 0,
+                sales: []
+            });
+        }
+
+        const dayHistory = historyMap.get(date)!;
+
+        //Agregar la venta al grupo.
+        dayHistory.sales.push(sale);
+        dayHistory.totalSales++;
+        dayHistory.totalAmount += sale.total.toNumber();
+    });
+
+    return {
+        history: Array.from(historyMap.values())
+    };
+};

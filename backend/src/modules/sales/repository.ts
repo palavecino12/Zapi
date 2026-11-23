@@ -45,3 +45,28 @@ export const findPaidSales = () => {
         orderBy: { createdAt: "asc" }
     });
 };
+
+//Trae todas las ventas pagadas para el historial.
+export const findSalesHistory = () => {
+    return prisma.sale.findMany({
+        where: {
+            status: SaleStatus.PAID,
+            payment: {
+                isNot: null
+            }
+        },
+        include: {
+            items: {
+                include: {
+                    product: true
+                }
+            },
+            payment: true
+        },
+        orderBy: {
+            payment: {
+                createdAt: "desc"
+            }
+        }
+    });
+};
